@@ -32,6 +32,7 @@ clean:
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	python fix_underscores.py
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
