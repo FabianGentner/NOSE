@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>util — Contains assorted utility functions &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="index.html" />
+    <link rel="up" title="Root Package" href="root.html" />
+    <link rel="next" title="gui" href="gui/index.html" />
+    <link rel="prev" title="Root Package" href="root.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="gui/index.html" title="gui"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="root.html" title="Root Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="root.html" accesskey="U">Root Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-util">
+<h1><tt class="xref docutils literal"><span class="pre">util</span></tt> &#8212; Contains assorted utility functions<a class="headerlink" href="#module-util" title="Permalink to this headline">¶</a></h1>
+<p>Contains a number of assorted utility functions used by the application.</p>
+<div class="section" id="string-formatting">
+<h2>String Formatting<a class="headerlink" href="#string-formatting" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="util.stringFromFloat">
+<tt class="descclassname">util.</tt><tt class="descname">stringFromFloat</tt><big>(</big><em>n</em>, <em>fractionalDigits=2</em>, <em>trimTrailingZeros=False</em><big>)</big><a class="headerlink" href="#util.stringFromFloat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string that shows <cite>n</cite> with <cite>fractionalDigits</cite> fractional digits,
+optionally with any trailing zeros removed. If the string would end with
+a <tt class="docutils literal"><span class="pre">.</span></tt>, that is removed as well.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">stringFromFloat</span><span class="p">(</span><span class="mf">1.001</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="go">&#39;1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stringFromFloat</span><span class="p">(</span><span class="mf">1.001</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="go">&#39;1.00&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stringFromFloat</span><span class="p">(</span><span class="mf">1.101</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="go">&#39;1.1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stringFromFloat</span><span class="p">(</span><span class="mf">1.101</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="go">&#39;1.10&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="util.stringFromTimePeriod">
+<tt class="descclassname">util.</tt><tt class="descname">stringFromTimePeriod</tt><big>(</big><em>seconds</em><big>)</big><a class="headerlink" href="#util.stringFromTimePeriod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string that expresses a period of <cite>seconds</cite> seconds in the form
+<tt class="docutils literal"><span class="pre">&quot;</span><em><span class="pre">H</span></em> <span class="pre">hours,</span> <em><span class="pre">M</span></em> <span class="pre">minutes,</span> <em><span class="pre">S</span></em> <span class="pre">seconds&quot;</span></tt>, or a localized equivalent,
+with unneeded elements omitted and correct pluralization. Fractions of a
+second are rounded up.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">stringFromTimePeriod</span><span class="p">(</span><span class="mi">83</span><span class="p">)</span>
+<span class="go">&#39;1 minute, 23 seconds&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="math">
+<h2>Math<a class="headerlink" href="#math" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="util.limit">
+<tt class="descclassname">util.</tt><tt class="descname">limit</tt><big>(</big><em>value</em>, <em>minValue</em>, <em>maxValue</em><big>)</big><a class="headerlink" href="#util.limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value in the interval [<cite>minValue</cite>, <cite>maxValue</cite>] that is closest
+to <cite>value</cite>. <tt class="xref docutils literal"><span class="pre">None</span></tt> may be passed for <cite>minValue</cite> or <cite>maxValue</cite> to signify
+negative infinity and positive infinty, respectively.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">limit</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="go">0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">limit</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="go">0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">limit</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="go">1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">limit</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="go">1.5</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="util.roundToMultiple">
+<tt class="descclassname">util.</tt><tt class="descname">roundToMultiple</tt><big>(</big><em>n</em>, <em>m</em><big>)</big><a class="headerlink" href="#util.roundToMultiple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the multiple of <cite>m</cite> that is closest to <cite>n</cite>. If two multiples are
+equally close, the function rounds away from zero. If both arguments are
+integers, the return value is an integer as well.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">roundToMultiple</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="go">30</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="weak-references">
+<h2>Weak References<a class="headerlink" href="#weak-references" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="util.WeakMethod">
+<em class="property">class </em><tt class="descclassname">util.</tt><tt class="descname">WeakMethod</tt><big>(</big><em>method</em>, <em>callback=None</em><big>)</big><a class="headerlink" href="#util.WeakMethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>A weak reference to an instance method. Keeping a reference to
+<tt class="docutils literal"><span class="pre">WeakMethod(object.method)</span></tt> does not prevent <tt class="docutils literal"><span class="pre">object</span></tt> from
+being reclaimed as garbage.</p>
+<p>When a <a title="util.WeakMethod" class="reference internal" href="#util.WeakMethod"><tt class="xref docutils literal"><span class="pre">WeakMethod</span></tt></a> is called, it forwards the call to
+the method it wraps if the object it is bound to is still alive.
+Otherwise, it raises a <tt class="xref docutils literal"><span class="pre">ReferenceError</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Object</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="s">&#39;Success!&#39;</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">weakMethod</span> <span class="o">=</span> <span class="n">WeakMethod</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">method</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">weakMethod</span><span class="p">()</span>
+<span class="go">&#39;Success!&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">weakMethod</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="nc">ReferenceError</span>: <span class="n-Identifier">weakly-referenced object no longer exists</span>
+</pre></div>
+</div>
+<p>If <cite>callback</cite> is given, it will be called when the object the method
+is bound to is about to be finalized, using the <a title="util.WeakMethod" class="reference internal" href="#util.WeakMethod"><tt class="xref docutils literal"><span class="pre">WeakMethod</span></tt></a>
+instance as the only parameter, but calling the <a title="util.WeakMethod" class="reference internal" href="#util.WeakMethod"><tt class="xref docutils literal"><span class="pre">WeakMethod</span></tt></a>
+at that point will raise a <tt class="xref docutils literal"><span class="pre">RefernceError</span></tt>.</p>
+<p>This class does <em>not</em> duplicate functionality already provided by
+<tt class="xref docutils literal"><span class="pre">weakref.proxy()</span></tt>. An <tt class="xref docutils literal"><span class="pre">instancemethod</span></tt> referenced only
+by a regular weak reference can be reclaimed even if the object
+it is bound to is still alive:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">weakref</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Object</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="s">&#39;Success!&#39;</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">o</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">proxy</span><span class="p">(</span><span class="n">o</span><span class="o">.</span><span class="n">method</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="nc">ReferenceError</span>: <span class="n-Identifier">weakly-referenced object no longer exists</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="util.WeakMethod.isSameMethod">
+<tt class="descclassname">WeakMethod.</tt><tt class="descname">isSameMethod</tt><big>(</big><em>method</em><big>)</big><a class="headerlink" href="#util.WeakMethod.isSameMethod" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether <cite>method</cite> is the same method, bound to the same
+object, as the method wrapped by the instance.</dd></dl>
+
+</div>
+<div class="section" id="internationalization">
+<h2>Internationalization<a class="headerlink" href="#internationalization" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="util.TRANSLATIONS">
+<tt class="descclassname">util.</tt><tt class="descname">TRANSLATIONS</tt><a class="headerlink" href="#util.TRANSLATIONS" title="Permalink to this definition">¶</a></dt>
+<dd>The <tt class="xref docutils literal"><span class="pre">gettext</span></tt> translations class used for localization.
+See the documentation of the <tt class="xref docutils literal"><span class="pre">gettext</span></tt> module for details.
+Used by <a title="util.gettext" class="reference internal" href="#util.gettext"><tt class="xref docutils literal"><span class="pre">gettext()</span></tt></a> and <a title="util.ngettext" class="reference internal" href="#util.ngettext"><tt class="xref docutils literal"><span class="pre">ngettext()</span></tt></a>.</dd></dl>
+
+<dl class="function">
+<dt id="util.gettext">
+<tt class="descclassname">util.</tt><tt class="descname">gettext</tt><big>(</big><em>string</em><big>)</big><a class="headerlink" href="#util.gettext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the localized equivalent of <cite>string</cite>, using <a title="util.TRANSLATIONS" class="reference internal" href="#util.TRANSLATIONS"><tt class="xref docutils literal"><span class="pre">TRANSLATIONS</span></tt></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In order for the automatic extraction of translatable strings to work,
+<cite>string</cite> must be a string literal: <tt class="docutils literal"><span class="pre">gettext('foo')</span></tt> can be extracted;
+<tt class="docutils literal"><span class="pre">foo</span> <span class="pre">=</span> <span class="pre">'foo'</span></tt>, <tt class="docutils literal"><span class="pre">gettext(foo)</span></tt> cannot.</p>
+</div>
+<p>See the documentation of the <tt class="xref docutils literal"><span class="pre">gettext</span></tt> module for details.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="util.ngettext">
+<tt class="descclassname">util.</tt><tt class="descname">ngettext</tt><big>(</big><em>singular</em>, <em>plural</em>, <em>number</em><big>)</big><a class="headerlink" href="#util.ngettext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the localized equivalent of what is expressed using <cite>singular</cite>
+or <cite>plural</cite> in English, pluralized according to <cite>number</cite>, and using
+<a title="util.TRANSLATIONS" class="reference internal" href="#util.TRANSLATIONS"><tt class="xref docutils literal"><span class="pre">TRANSLATIONS</span></tt></a>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">text</span> <span class="o">=</span> <span class="n">ngettext</span><span class="p">(</span><span class="s">&#39;bar&#39;</span><span class="p">,</span> <span class="s">&#39;bars&#39;</span><span class="p">,</span> <span class="n">barCount</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>is <em>not</em> simply a more convenient way for writing</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">barCount</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">gettext</span><span class="p">(</span><span class="s">&#39;bar&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">gettext</span><span class="p">(</span><span class="s">&#39;bars&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>since the target language may have more complex pluralization rules.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In order for the automatic extraction of translatable strings to work,
+<cite>singular</cite> and <cite>plural</cite> must be a string literals:
+<tt class="docutils literal"><span class="pre">ngettext('bar',</span> <span class="pre">'bars',</span> <span class="pre">barCount)</span></tt> can be extracted;
+<tt class="docutils literal"><span class="pre">bar,</span> <span class="pre">bars</span> <span class="pre">=</span> <span class="pre">'bar',</span> <span class="pre">'bars'</span></tt>, <tt class="docutils literal"><span class="pre">ngettext(bar,</span> <span class="pre">bars,</span> <span class="pre">barCount)</span></tt>
+cannot.</p>
+</div>
+<p>See the documentation of the <tt class="xref docutils literal"><span class="pre">gettext</span></tt> module for details.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="exception-classes">
+<h2>Exception Classes<a class="headerlink" href="#exception-classes" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="util.ApplicationError">
+<em class="property">class </em><tt class="descclassname">util.</tt><tt class="descname">ApplicationError</tt><a class="headerlink" href="#util.ApplicationError" title="Permalink to this definition">¶</a></dt>
+<dd>The base class for all exceptions specific to <em>NOSE</em>.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">util</span></tt> &#8212; Contains assorted utility functions</a><ul>
+<li><a class="reference external" href="#string-formatting">String Formatting</a></li>
+<li><a class="reference external" href="#math">Math</a></li>
+<li><a class="reference external" href="#weak-references">Weak References</a></li>
+<li><a class="reference external" href="#internationalization">Internationalization</a></li>
+<li><a class="reference external" href="#exception-classes">Exception Classes</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="root.html"
+                                  title="previous chapter">Root Package</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="gui/index.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui</span></tt></a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="gui/index.html" title="gui"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="root.html" title="Root Package"
+             >previous</a> |</li>
+        <li><a href="index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="root.html" >Root Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ops.calibration.manager — Runs the calibration procedure &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="ops.calibration" href="index.html" />
+    <link rel="next" title="ops.calibration.data — Encapsulates data collected during calibration" href="data.html" />
+    <link rel="prev" title="ops.calibration" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="data.html" title="ops.calibration.data — Encapsulates data collected during calibration"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="ops.calibration"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-ops.calibration.manager">
+<h1><tt class="xref docutils literal"><span class="pre">ops.calibration.manager</span></tt> &#8212; Runs the calibration procedure<a class="headerlink" href="#module-ops.calibration.manager" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="ops.calibration.manager.CalibrationManager" class="reference internal" href="#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a> class, which is
+responsible for <a class="reference external" href="../../glossary.html#term-calibration"><em class="xref">calibrating</em></a> the production system.</p>
+<p>To start the calibration procedure, it is sufficient to create a calibration
+manager instance and call its <a title="ops.calibration.manager.CalibrationManager.startCalibration" class="reference internal" href="#ops.calibration.manager.CalibrationManager.startCalibration"><tt class="xref docutils literal"><span class="pre">startCalibration()</span></tt></a>
+method. The <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that is to be calibrated
+and a list of <a class="reference external" href="../../glossary.html#term-heating-current"><em class="xref">heating currents</em></a> that are to be used
+are passed to the constructor.</p>
+<p>The calibration manager sends a
+<a title="ops.calibration.event.CalibrationStarted" class="reference external" href="event.html#ops.calibration.event.CalibrationStarted"><tt class="xref docutils literal"><span class="pre">CalibrationStarted</span></tt></a> event when the procedure is
+started, and a <a title="ops.calibration.event.CalibrationOver" class="reference external" href="event.html#ops.calibration.event.CalibrationOver"><tt class="xref docutils literal"><span class="pre">CalibrationOver</span></tt></a> event when it
+terminates. The production system is locked for the duration of the procedure.</p>
+<p>The calibration procedure itself consists of a number of <em>calibration stages</em>.
+During the first stage, the system&#8217;s <a class="reference external" href="../../glossary.html#term-heater"><em class="xref">heater</em></a> is moved to its foremost
+position. Subsequent stages are <em>heating stages</em>, which each use one of the
+heating currents that are passed to the calibration manager&#8217;s constructor.
+At the end of each heating stage, when the temperature sensor voltage has
+become reasonably stable, the user needs to take a <a class="reference external" href="../../glossary.html#term-temperature-measurement"><em class="xref">temperature
+measurement</em></a>. When a measurement is needed, the calibration manager sends a
+<a title="ops.calibration.event.TemperatureRequested" class="reference external" href="event.html#ops.calibration.event.TemperatureRequested"><tt class="xref docutils literal"><span class="pre">TemperatureRequested</span></tt></a> event.</p>
+<p>The client is responsible for ensuring that some GUI component (most likely
+a <a title="gui.calibration.entry.TemperatureEntryHandler" class="reference external" href="../../gui/calibration/entry.html#gui.calibration.entry.TemperatureEntryHandler"><tt class="xref docutils literal"><span class="pre">TemperatureEntryHandler</span></tt></a>) is listening for
+these events, asks the user to take a measurement, and reports the result using
+the callback function that is sent along with the event. When a measurement has
+been reported, a <a title="ops.calibration.event.TemperatureRequestOver" class="reference external" href="event.html#ops.calibration.event.TemperatureRequestOver"><tt class="xref docutils literal"><span class="pre">TemperatureRequestOver</span></tt></a> event
+is sent.</p>
+<p>The data that is collected during calibration is automatically added to the
+<a title="ops.calibration.data.CalibrationData" class="reference external" href="data.html#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> object of the production
+system that is being calibrated. If the object already has data for a
+given heating current, they are replaced with the new data gathered for that
+current, but data for heating currents that are not used during the ongoing
+calibration are retained, so that the calibration of a system can be refined
+with subsequent calibration procedures.</p>
+<p>The calibration data object uses the data to fit a number of <em>estimation
+functions</em>, which are used to estimate the <a class="reference external" href="../../glossary.html#term-heating-temperature"><em class="xref">heating temperature</em></a>
+that corresponds to a given <a class="reference external" href="../../glossary.html#term-temperature-sensor-voltage"><em class="xref">temperature sensor voltage</em></a>, and the
+heating current that results in the heating temperature reaching, but not
+exceeding, a given <em>target temperature</em>. About twelve heating currents should
+be used during calibration so that these functions can be properly fitted.</p>
+<p>If a reasonable number of heating stages are used, the calibration procedure
+may take several hours. The calibration manager provides a number of methods
+(most notably <a title="ops.calibration.manager.CalibrationManager.getExtendedProgress" class="reference internal" href="#ops.calibration.manager.CalibrationManager.getExtendedProgress"><tt class="xref docutils literal"><span class="pre">getExtendedProgress()</span></tt></a>) that estimate
+the procedure&#8217;s progress and remaining duration, so that the user can receive
+some feedback about the state of the procure while it is running. The classes
+in the <a title="" class="reference external" href="../../gui/calibration/progress.html#module-gui.calibration.progress"><tt class="xref docutils literal"><span class="pre">gui.calibration.progress</span></tt></a> module can be used to present this
+information to the user.</p>
+<p>The calibration procedure may end prematurely if it is aborted by a client,
+or if the production system&#8217;s <a class="reference external" href="../../glossary.html#term-safe-mode"><em class="xref">safe mode</em></a> is triggered. The data that
+have already been collected are used nevertheless.</p>
+<div class="section" id="the-calibrationmanager-class">
+<h2>The <a title="ops.calibration.manager.CalibrationManager" class="reference internal" href="#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a> Class<a class="headerlink" href="#the-calibrationmanager-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.calibration.manager.CalibrationManager">
+<em class="property">class </em><tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">CalibrationManager</tt><big>(</big><em>system</em>, <em>currents</em><big>)</big><a class="headerlink" href="#ops.calibration.manager.CalibrationManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new instance of this class, using the arguments to set
+<a title="ops.calibration.manager.CalibrationManager.system" class="reference internal" href="#ops.calibration.manager.CalibrationManager.system"><tt class="xref docutils literal"><span class="pre">system</span></tt></a> and <a title="ops.calibration.manager.CalibrationManager.currents" class="reference internal" href="#ops.calibration.manager.CalibrationManager.currents"><tt class="xref docutils literal"><span class="pre">currents</span></tt></a>. <cite>currents</cite> is sorted first, and
+duplicate heating currents are removed.</p>
+<p>Heating currents in <cite>currents</cite> that exceed the <a title="ops.calibration.manager.CalibrationManager.system" class="reference internal" href="#ops.calibration.manager.CalibrationManager.system"><tt class="xref docutils literal"><span class="pre">system</span></tt></a>&#8216;s
+<a title="ops.system.ProductionSystem.maxHeatingCurrent" class="reference external" href="../system.html#ops.system.ProductionSystem.maxHeatingCurrent"><tt class="xref docutils literal"><span class="pre">maxHeatingCurrent</span></tt></a> are skipped
+during calibration. In that case, the calibration procedure&#8217;s exit
+status will be <a title="ops.calibration.manager.STATUS_INVALID_CURRENT" class="reference internal" href="#ops.calibration.manager.STATUS_INVALID_CURRENT"><tt class="xref docutils literal"><span class="pre">STATUS_INVALID_CURRENT</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.system">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">system</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.system" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that is being calibrated.
+Immutable.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.currents">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">currents</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.currents" title="Permalink to this definition">¶</a></dt>
+<dd>A sorted tuple of the heating currents for which measurements are to
+be taken, in mA. Immutable.</dd></dl>
+
+<dl class="method">
+<dt id="ops.calibration.manager.CalibrationManager.startCalibration">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">startCalibration</tt><big>(</big><big>)</big><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.startCalibration" title="Permalink to this definition">¶</a></dt>
+<dd>Starts the calibration procedure. Instances cannot be reused for a
+second calibration procedure, so this method may only be called once
+on any given object.</dd></dl>
+
+<dl class="method">
+<dt id="ops.calibration.manager.CalibrationManager.abortCalibration">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">abortCalibration</tt><big>(</big><big>)</big><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.abortCalibration" title="Permalink to this definition">¶</a></dt>
+<dd>Aborts the calibration procedure. The data that have already been
+collected are still used.</dd></dl>
+
+<div class="section" id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.precision">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">precision</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.precision" title="Permalink to this definition">¶</a></dt>
+<dd>The greatest difference between the estimated heating temperature and
+and the estimated final heating temperature that is small enough for a
+temperature measurement to be requested, in °C. This is a class
+attribute, but it can be set on an instance to override the default
+value.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.tickInterval">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">tickInterval</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.tickInterval" title="Permalink to this definition">¶</a></dt>
+<dd>The interval in which the instance records temperature sensor voltages,
+in milliseconds. This is a class attribute, but it can be set on an
+instance before <a title="ops.calibration.manager.CalibrationManager.startCalibration" class="reference internal" href="#ops.calibration.manager.CalibrationManager.startCalibration"><tt class="xref docutils literal"><span class="pre">startCalibration()</span></tt></a> is called to override the
+default value.</dd></dl>
+
+</div>
+<div class="section" id="progress-information">
+<h3>Progress Information<a class="headerlink" href="#progress-information" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.isRunning">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">isRunning</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.isRunning" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether the calibration procedure is running. It starts
+running as soon as <a title="ops.calibration.manager.CalibrationManager.startCalibration" class="reference internal" href="#ops.calibration.manager.CalibrationManager.startCalibration"><tt class="xref docutils literal"><span class="pre">startCalibration()</span></tt></a> is called, and terminates
+when a client calls <a title="ops.calibration.manager.CalibrationManager.abortCalibration" class="reference internal" href="#ops.calibration.manager.CalibrationManager.abortCalibration"><tt class="xref docutils literal"><span class="pre">abortCalibration()</span></tt></a>, the production system&#8217;s
+<a class="reference external" href="../../glossary.html#term-safe-mode"><em class="xref">safe mode</em></a> is triggered, or a <a class="reference external" href="../../glossary.html#term-temperature-measurement"><em class="xref">temperature measurement</em></a>
+for the last valid heating current is reported. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.state">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">state</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.state" title="Permalink to this definition">¶</a></dt>
+<dd>The state the calibration procedure is in. Must be one of
+<a title="ops.calibration.manager.STATE_NOT_YET_STARTED" class="reference internal" href="#ops.calibration.manager.STATE_NOT_YET_STARTED"><tt class="xref docutils literal"><span class="pre">STATE_NOT_YET_STARTED</span></tt></a>, <a title="ops.calibration.manager.STATE_MOVING_HEATER" class="reference internal" href="#ops.calibration.manager.STATE_MOVING_HEATER"><tt class="xref docutils literal"><span class="pre">STATE_MOVING_HEATER</span></tt></a>,
+<a title="ops.calibration.manager.STATE_HEATING" class="reference internal" href="#ops.calibration.manager.STATE_HEATING"><tt class="xref docutils literal"><span class="pre">STATE_HEATING</span></tt></a>, <a title="ops.calibration.manager.STATE_WAITING_FOR_TEMPERATURE" class="reference internal" href="#ops.calibration.manager.STATE_WAITING_FOR_TEMPERATURE"><tt class="xref docutils literal"><span class="pre">STATE_WAITING_FOR_TEMPERATURE</span></tt></a>,
+and <a title="ops.calibration.manager.STATE_DONE" class="reference internal" href="#ops.calibration.manager.STATE_DONE"><tt class="xref docutils literal"><span class="pre">STATE_DONE</span></tt></a>. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.hasMoreHeatingStages">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">hasMoreHeatingStages</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.hasMoreHeatingStages" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether there will be another heating stage after the
+current one (if any) is finished. This will be <tt class="xref docutils literal"><span class="pre">False</span></tt> if all
+heating currents in <a title="ops.calibration.manager.CalibrationManager.currents" class="reference internal" href="#ops.calibration.manager.CalibrationManager.currents"><tt class="xref docutils literal"><span class="pre">currents</span></tt></a> have been used, or if the
+next current in <a title="ops.calibration.manager.CalibrationManager.currents" class="reference internal" href="#ops.calibration.manager.CalibrationManager.currents"><tt class="xref docutils literal"><span class="pre">currents</span></tt></a> exceeds the <a title="ops.calibration.manager.CalibrationManager.system" class="reference internal" href="#ops.calibration.manager.CalibrationManager.system"><tt class="xref docutils literal"><span class="pre">system</span></tt></a>&#8216;s
+<a title="ops.system.ProductionSystem.maxHeatingCurrent" class="reference external" href="../system.html#ops.system.ProductionSystem.maxHeatingCurrent"><tt class="xref docutils literal"><span class="pre">maxHeatingCurrent</span></tt></a>. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.heatingStageIndex">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">heatingStageIndex</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.heatingStageIndex" title="Permalink to this definition">¶</a></dt>
+<dd>The index of the ongoing heating stage, or <tt class="docutils literal"><span class="pre">-1</span></tt> if the procedure
+hasn&#8217;t yet reached the first heating stage. In heating stage <em>n</em>,
+the heating current <tt class="docutils literal"><span class="pre">currents[</span><em><span class="pre">n</span></em><span class="pre">]</span></tt> is used. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.heatingStageCount">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">heatingStageCount</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.heatingStageCount" title="Permalink to this definition">¶</a></dt>
+<dd>The number of heating stages the calibration procedure will have if
+it isn&#8217;t terminated prematurely. May be less than <tt class="docutils literal"><span class="pre">len(currents)</span></tt>,
+since some currents in <a title="ops.calibration.manager.CalibrationManager.currents" class="reference internal" href="#ops.calibration.manager.CalibrationManager.currents"><tt class="xref docutils literal"><span class="pre">currents</span></tt></a> may exceed the <a title="ops.calibration.manager.CalibrationManager.system" class="reference internal" href="#ops.calibration.manager.CalibrationManager.system"><tt class="xref docutils literal"><span class="pre">system</span></tt></a>&#8216;s
+<a title="ops.system.ProductionSystem.maxHeatingCurrent" class="reference external" href="../system.html#ops.system.ProductionSystem.maxHeatingCurrent"><tt class="xref docutils literal"><span class="pre">maxHeatingCurrent</span></tt></a>. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.manager.CalibrationManager.remainingHeatingStageCount">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">remainingHeatingStageCount</tt><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.remainingHeatingStageCount" title="Permalink to this definition">¶</a></dt>
+<dd>The number of heating stages left after the ongoing one (if any) is
+finished. May be less than <tt class="docutils literal"><span class="pre">len(currents)</span> <span class="pre">-</span> <span class="pre">heatingStageIndex</span> <span class="pre">-</span> <span class="pre">1</span></tt>,
+since some currents in <a title="ops.calibration.manager.CalibrationManager.currents" class="reference internal" href="#ops.calibration.manager.CalibrationManager.currents"><tt class="xref docutils literal"><span class="pre">currents</span></tt></a> may exceed the <a title="ops.calibration.manager.CalibrationManager.system" class="reference internal" href="#ops.calibration.manager.CalibrationManager.system"><tt class="xref docutils literal"><span class="pre">system</span></tt></a>&#8216;s
+<a title="ops.system.ProductionSystem.maxHeatingCurrent" class="reference external" href="../system.html#ops.system.ProductionSystem.maxHeatingCurrent"><tt class="xref docutils literal"><span class="pre">maxHeatingCurrent</span></tt></a>. Read-only.</dd></dl>
+
+<dl class="method">
+<dt id="ops.calibration.manager.CalibrationManager.getProgress">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">getProgress</tt><big>(</big><big>)</big><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.getProgress" title="Permalink to this definition">¶</a></dt>
+<dd>Estimates what fraction of the time required to finish the ongoing
+calibration stage has already passed. The estimate returned is in
+the range [<tt class="docutils literal"><span class="pre">0.0</span></tt>, <tt class="docutils literal"><span class="pre">1.0</span></tt>]. If the calibration procedure&#8217;s state
+is <a title="ops.calibration.manager.STATE_NOT_YET_STARTED" class="reference internal" href="#ops.calibration.manager.STATE_NOT_YET_STARTED"><tt class="xref docutils literal"><span class="pre">STATE_NOT_YET_STARTED</span></tt></a> or <a title="ops.calibration.manager.STATE_DONE" class="reference internal" href="#ops.calibration.manager.STATE_DONE"><tt class="xref docutils literal"><span class="pre">STATE_DONE</span></tt></a>, <tt class="docutils literal"><span class="pre">0.0</span></tt> and
+<tt class="docutils literal"><span class="pre">1.0</span></tt> are returned, respectively.</dd></dl>
+
+<dl class="method">
+<dt id="ops.calibration.manager.CalibrationManager.getExtendedProgress">
+<tt class="descclassname">CalibrationManager.</tt><tt class="descname">getExtendedProgress</tt><big>(</big><big>)</big><a class="headerlink" href="#ops.calibration.manager.CalibrationManager.getExtendedProgress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a named tuple with the following attributes:</p>
+<ul class="simple">
+<li><em>stageProgress</em>, the estimated progress of the ongoing calibration
+stage, as a number in the range [<tt class="docutils literal"><span class="pre">0.0</span></tt>, <tt class="docutils literal"><span class="pre">1.0</span></tt>] (equal to the
+return value of <a title="ops.calibration.manager.CalibrationManager.getProgress" class="reference internal" href="#ops.calibration.manager.CalibrationManager.getProgress"><tt class="xref docutils literal"><span class="pre">getProgress()</span></tt></a>);</li>
+<li><em>stageTimeLeft</em>, the estimated amount of time remaining until the
+ongoing calibration stage is finished, in seconds, or <tt class="xref docutils literal"><span class="pre">None</span></tt> if
+no estimation is possible;</li>
+<li><em>totalProgress</em>, the estimated progress of the calibration procedure
+as a whole, as a number in the range [<tt class="docutils literal"><span class="pre">0.0</span></tt>, <tt class="docutils literal"><span class="pre">1.0</span></tt>];</li>
+<li><em>totalTimeLeft</em>, the estimated amount of time remaining until the
+calibration procedure as a whole is finished, in seconds, or
+<tt class="xref docutils literal"><span class="pre">None</span></tt> if no estimation is possible.</li>
+</ul>
+<p>If the calibration procedure&#8217;s state is <a title="ops.calibration.manager.STATE_NOT_YET_STARTED" class="reference internal" href="#ops.calibration.manager.STATE_NOT_YET_STARTED"><tt class="xref docutils literal"><span class="pre">STATE_NOT_YET_STARTED</span></tt></a>
+or <a title="ops.calibration.manager.STATE_DONE" class="reference internal" href="#ops.calibration.manager.STATE_DONE"><tt class="xref docutils literal"><span class="pre">STATE_DONE</span></tt></a>, the tuples <tt class="docutils literal"><span class="pre">(0.0,</span> <span class="pre">None,</span> <span class="pre">0.0,</span> <span class="pre">None)</span></tt> and
+<tt class="docutils literal"><span class="pre">(1.0,</span> <span class="pre">None,</span> <span class="pre">1.0,</span> <span class="pre">None)</span></tt> are returned, respectively.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="calibration-states">
+<h2>Calibration States<a class="headerlink" href="#calibration-states" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="ops.calibration.manager.STATE_NOT_YET_STARTED">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATE_NOT_YET_STARTED</tt><a class="headerlink" href="#ops.calibration.manager.STATE_NOT_YET_STARTED" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration procedure has not yet started.</dd></dl>
+
+<dl class="data">
+<dt id="ops.calibration.manager.STATE_MOVING_HEATER">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATE_MOVING_HEATER</tt><a class="headerlink" href="#ops.calibration.manager.STATE_MOVING_HEATER" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration manager is waiting for the heater
+to reach its foremost position.</dd></dl>
+
+<dl class="data">
+<dt id="ops.calibration.manager.STATE_HEATING">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATE_HEATING</tt><a class="headerlink" href="#ops.calibration.manager.STATE_HEATING" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration manager is waiting for the heating
+temperature to get sufficiently close to its final value for a
+measurement to be taken.</dd></dl>
+
+<dl class="data">
+<dt id="ops.calibration.manager.STATE_WAITING_FOR_TEMPERATURE">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATE_WAITING_FOR_TEMPERATURE</tt><a class="headerlink" href="#ops.calibration.manager.STATE_WAITING_FOR_TEMPERATURE" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration manager is waiting for the user
+to take a temperature measurement.</dd></dl>
+
+<dl class="data">
+<dt id="ops.calibration.manager.STATE_DONE">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATE_DONE</tt><a class="headerlink" href="#ops.calibration.manager.STATE_DONE" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration procedure has ended.</dd></dl>
+
+</div>
+<div class="section" id="status-codes">
+<h2>Status Codes<a class="headerlink" href="#status-codes" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="ops.calibration.manager.STATUS_ABORTED">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATUS_ABORTED</tt><a class="headerlink" href="#ops.calibration.manager.STATUS_ABORTED" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration procedure was aborted by the user.</dd></dl>
+
+<dl class="data">
+<dt id="ops.calibration.manager.STATUS_SAFE_MODE_TRIGGERED">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATUS_SAFE_MODE_TRIGGERED</tt><a class="headerlink" href="#ops.calibration.manager.STATUS_SAFE_MODE_TRIGGERED" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration procedure was terminated when the
+<a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>&#8216;s safe mode was triggered.</dd></dl>
+
+<dl class="data">
+<dt id="ops.calibration.manager.STATUS_INVALID_CURRENT">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATUS_INVALID_CURRENT</tt><a class="headerlink" href="#ops.calibration.manager.STATUS_INVALID_CURRENT" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration procedure was terminated because the next
+heating current would exceed the <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>&#8216;s
+<a title="ops.system.ProductionSystem.maxHeatingCurrent" class="reference external" href="../system.html#ops.system.ProductionSystem.maxHeatingCurrent"><tt class="xref docutils literal"><span class="pre">maxHeatingCurrent</span></tt></a>.</dd></dl>
+
+<dl class="data">
+<dt id="ops.calibration.manager.STATUS_FINISHED">
+<tt class="descclassname">ops.calibration.manager.</tt><tt class="descname">STATUS_FINISHED</tt><a class="headerlink" href="#ops.calibration.manager.STATUS_FINISHED" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates that the calibration procedure sucessfully aquired temperatures
+for all passed heating currents.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">ops.calibration.manager</span></tt> &#8212; Runs the calibration procedure</a><ul>
+<li><a class="reference external" href="#the-calibrationmanager-class">The <tt class="docutils literal"><span class="pre">CalibrationManager</span></tt> Class</a><ul>
+<li><a class="reference external" href="#parameters">Parameters</a></li>
+<li><a class="reference external" href="#progress-information">Progress Information</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#calibration-states">Calibration States</a></li>
+<li><a class="reference external" href="#status-codes">Status Codes</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops.calibration</span></tt></a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="data.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">ops.calibration.data</span></tt> &#8212; Encapsulates data collected during calibration</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="data.html" title="ops.calibration.data — Encapsulates data collected during calibration"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="ops.calibration"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

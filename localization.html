@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Localizing the Application &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="index.html" />
+    <link rel="next" title="Glossary" href="glossary.html" />
+    <link rel="prev" title="ops.calibration.leastsquare — Estimates the heating parameters" href="ops/calibration/leastsquare.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="glossary.html" title="Glossary"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ops/calibration/leastsquare.html" title="ops.calibration.leastsquare — Estimates the heating parameters"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">NOSE v0.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="localizing-the-application">
+<h1>Localizing the Application<a class="headerlink" href="#localizing-the-application" title="Permalink to this headline">¶</a></h1>
+<p>The following steps are required to localize the application:</p>
+<ol class="arabic simple">
+<li>Run <tt class="docutils literal"><span class="pre">find</span> <span class="pre">nose</span> <span class="pre">-name</span> <span class="pre">&quot;*.py&quot;</span> <span class="pre">|</span> <span class="pre">xgettext</span> <span class="pre">-f</span> <span class="pre">-</span></tt> in the application&#8217;s main
+directory. A file named <tt class="docutils literal"><span class="pre">messages.po</span></tt> should be created.</li>
+<li>Run <tt class="docutils literal"><span class="pre">msginit</span> <span class="pre">-l</span> <em><span class="pre">LL</span></em> <span class="pre">-i</span> <span class="pre">messages.po</span></tt>, where <tt class="docutils literal"><em><span class="pre">LL</span></em></tt> is the target
+locale (e.g. <tt class="docutils literal"><span class="pre">de</span></tt> or <tt class="docutils literal"><span class="pre">de_DE</span></tt> for German). Answer the questions. A file
+named <tt class="docutils literal"><em><span class="pre">LL</span></em><span class="pre">.po</span></tt> should be created.</li>
+<li>Translate the messages in <tt class="docutils literal"><em><span class="pre">LL</span></em><span class="pre">.po</span></tt>.</li>
+<li>Run <tt class="docutils literal"><span class="pre">msgfmt</span> <span class="pre">-cv</span> <em><span class="pre">LL</span></em><span class="pre">.po</span> <span class="pre">-o</span> <span class="pre">nose.mo</span></tt>. A file named <tt class="docutils literal"><span class="pre">nose.mo</span></tt> should
+be created.</li>
+<li>Move <tt class="docutils literal"><span class="pre">nose.mo</span></tt> to <tt class="docutils literal"><span class="pre">resources/messages/</span><em><span class="pre">LL</span></em><span class="pre">/LC_MESSAGES/</span></tt>.</li>
+<li>Rejoice.</li>
+</ol>
+<p>The contents of some translatable messages require special handling:</p>
+<ul class="simple">
+<li>Some messages contain <a class="reference external" href="http://docs.python.org/library/stdtypes.html#string-formatting-operations">formatting specifiers</a> such as <tt class="docutils literal"><span class="pre">%s</span></tt> or
+<tt class="docutils literal"><span class="pre">%(totalTimeLeft)s</span></tt>. These will be replaced by appropriate parameters
+when the application uses the string. Their respective functions should be
+discernible from context. Note that keywords such as the <tt class="docutils literal"><span class="pre">totalTimeLeft</span></tt>
+above must not be translated. <tt class="docutils literal"><span class="pre">msgfmt</span></tt> will check that these specifiers
+aren&#8217;t broken during translation, and will terminate with an error message
+if they are.</li>
+<li>Some messages contain tags that may look like HTML (<tt class="docutils literal"><span class="pre">&lt;i&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;sup&gt;</span></tt>).
+These are actually <a class="reference external" href="http://www.pygtk.org/docs/pygtk/pango-markup-language.html">Pango Markup Language</a> tags. Breaking them will trigger a
+<tt class="xref docutils literal"><span class="pre">PangoWarning</span></tt> when the application uses them. The message in question
+will not be shown at all, or will be replaced with another message used
+nearby. In messages that don&#8217;t already have such tags, added tags almost
+certainly won&#8217;t be interpreted.</li>
+<li>Some messages define keyboard accelerators (e.g. <tt class="docutils literal"><span class="pre">&lt;Shift&gt;&lt;Ctrl&gt;C</span></tt>). These
+can safely be changed to whatever accelerator makes sense in the target
+language. Breaking them will trigger a <tt class="xref docutils literal"><span class="pre">GtkWarning</span></tt> when the
+application uses them. The message containing the text of the menu item they
+are used on should immediately precede the message defining the accelerator.</li>
+<li>Some messages contain underscores. These define the next character as a
+mnemonic. These mnemonics can safely be shifted to other letters. Mnemonics
+defined significant distances from each other may be used in the same window,
+however, so special care must be taken to ensure that no character is used
+as a mnemonic more than once in any single window. If a mnemonic is used
+on several widgets in the same window, using it will select each of the
+widgets in sequence.</li>
+<li>One message, <tt class="docutils literal"><span class="pre">{{MIN_CAPTION_LINES}}</span></tt>, is an abuse of <tt class="docutils literal"><span class="pre">gettext</span></tt> that
+allows the value of <a title="gui.calibration.charts.MIN_CAPTION_LINES" class="reference external" href="gui/calibration/charts.html#gui.calibration.charts.MIN_CAPTION_LINES"><tt class="xref docutils literal"><span class="pre">gui.calibration.charts.MIN_CAPTION_LINES</span></tt></a> to be
+set as part of the localization procedure. The application ties to parse the
+localized message as an integer and uses the result to set the constant if
+successful.</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="ops/calibration/leastsquare.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">ops.calibration.leastsquare</span></tt> &#8212; Estimates the heating parameters</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="glossary.html"
+                                  title="next chapter">Glossary</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="glossary.html" title="Glossary"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ops/calibration/leastsquare.html" title="ops.calibration.leastsquare — Estimates the heating parameters"
+             >previous</a> |</li>
+        <li><a href="index.html">NOSE v0.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The gui.charting Package &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Package Tree" href="../../tree.html" />
+    <link rel="next" title="gui.charting.chart — Provides a gtk.Widget for simple charts" href="chart.html" />
+    <link rel="prev" title="gui.calibration.entry — Allows the entry of temperature measurements" href="../calibration/entry.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="chart.html" title="gui.charting.chart — Provides a gtk.Widget for simple charts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../calibration/entry.html" title="gui.calibration.entry — Allows the entry of temperature measurements"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" accesskey="U">Package Tree</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.charting">
+<h1>The <tt class="xref docutils literal"><span class="pre">gui.charting</span></tt> Package<a class="headerlink" href="#module-gui.charting" title="Permalink to this headline">¶</a></h1>
+<p>This package contains a simple chart-drawing library for GTK, which provides
+the following features:</p>
+<ul class="simple">
+<li>multiple graphs on a single chart</li>
+<li>graphs drawn as continuous lines (<em>function graphs</em>) or a series of points
+(<em>point graphs</em>)</li>
+<li>ticks and tick labels whose intervals are automatically chosen based on
+an axis&#8217; length and maximum value</li>
+<li><em>dimension labels</em> on the axes, which show the dimension of the values on
+that axis, optionally as a proper fraction</li>
+<li><em>secondary ordinates</em>, which are shown on the right side of the charts and
+allow a single chart to show graphs using two different dimensions</li>
+<li>chart captions, which are omitted for charts without graphs</li>
+</ul>
+<p>The package contains three modules: <a title="" class="reference external" href="chart.html#module-gui.charting.chart"><tt class="xref docutils literal"><span class="pre">gui.charting.chart</span></tt></a>,
+<a title="" class="reference external" href="axis.html#module-gui.charting.axis"><tt class="xref docutils literal"><span class="pre">gui.charting.axis</span></tt></a>, and <a title="" class="reference external" href="graph.html#module-gui.charting.graph"><tt class="xref docutils literal"><span class="pre">gui.charting.graph</span></tt></a>.</p>
+<p>A simple GUI using a <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> might be constructed
+as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">gtk</span>
+<span class="kn">from</span> <span class="nn">gui.charting.chart</span> <span class="kn">import</span> <span class="n">Chart</span>
+<span class="kn">from</span> <span class="nn">gui.charting.graph</span> <span class="kn">import</span> <span class="n">FunctionGraph</span><span class="p">,</span> <span class="n">PointGraph</span>
+
+<span class="n">function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">l</span><span class="p">:</span> <span class="p">(</span><span class="n">l</span> <span class="o">/</span> <span class="mi">33</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">points</span> <span class="o">=</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">22</span><span class="p">))</span>
+
+<span class="n">chart</span> <span class="o">=</span> <span class="n">Chart</span><span class="p">()</span>
+
+<span class="n">chart</span><span class="o">.</span><span class="n">minCaptionLines</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">showSecondaryOrdinate</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">chart</span><span class="o">.</span><span class="n">abscissa</span><span class="o">.</span><span class="n">maxValue</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">ordinate</span><span class="o">.</span><span class="n">maxValue</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">secondaryOrdinate</span><span class="o">.</span><span class="n">maxValue</span> <span class="o">=</span> <span class="mi">25</span>
+
+<span class="n">chart</span><span class="o">.</span><span class="n">abscissa</span><span class="o">.</span><span class="n">dimensionLabelText</span> <span class="o">=</span> <span class="s">&#39;&lt;i&gt;l&lt;/i&gt; / m&#39;</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">ordinate</span><span class="o">.</span><span class="n">dimensionLabelText</span> <span class="o">=</span> <span class="s">&#39;&lt;i&gt;t&lt;/i&gt; / s&#39;</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">secondaryOrdinate</span><span class="o">.</span><span class="n">dimensionLabelText</span> <span class="o">=</span> <span class="s">&#39;&lt;i&gt;A&lt;/i&gt; / m&lt;sup&gt;2&lt;/sup&gt;&#39;</span>
+
+<span class="n">chart</span><span class="o">.</span><span class="n">addGraph</span><span class="p">(</span><span class="n">FunctionGraph</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="s">&#39;red&#39;</span><span class="p">))</span>
+<span class="n">chart</span><span class="o">.</span><span class="n">addSecondaryGraph</span><span class="p">(</span><span class="n">PointGraph</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="s">&#39;blue&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s">&#39;diamonds&#39;</span><span class="p">))</span>
+
+<span class="n">chart</span><span class="o">.</span><span class="n">captionText</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;Shown are some nonsense data (red curve) &#39;</span>
+    <span class="s">&#39;and some more nonsense data (blue diamonds).&#39;</span><span class="p">)</span>
+
+<span class="n">window</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Window</span><span class="p">()</span>
+<span class="n">window</span><span class="o">.</span><span class="n">set_default_size</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">window</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;destroy&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">widget</span><span class="p">:</span> <span class="n">gtk</span><span class="o">.</span><span class="n">main_quit</span><span class="p">())</span>
+<span class="n">window</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">chart</span><span class="p">)</span>
+<span class="n">window</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+
+<span class="n">gtk</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The resulting chart looks like this:</p>
+<div align="center" class="align-center"><img alt="../../_images/samplechart.png" class="align-center" src="../../_images/samplechart.png" /></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../calibration/entry.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.calibration.entry</span></tt> &#8212; Allows the entry of temperature measurements</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="chart.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.charting.chart</span></tt> &#8212; Provides a <tt class="docutils literal docutils literal docutils literal"><span class="pre">gtk.Widget</span></tt> for simple charts</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="chart.html" title="gui.charting.chart — Provides a gtk.Widget for simple charts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../calibration/entry.html" title="gui.calibration.entry — Allows the entry of temperature measurements"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

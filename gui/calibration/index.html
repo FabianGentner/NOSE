@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.calibration &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Package Tree" href="../../tree.html" />
+    <link rel="next" title="gui.calibration.dialog — Presents the widgets in this package" href="dialog.html" />
+    <link rel="prev" title="gui.widgets — Contains GUI-related utility functions" href="../widgets.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="dialog.html" title="gui.calibration.dialog — Presents the widgets in this package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../widgets.html" title="gui.widgets — Contains GUI-related utility functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" accesskey="U">Package Tree</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.calibration">
+<h1><tt class="xref docutils literal"><span class="pre">gui.calibration</span></tt><a class="headerlink" href="#module-gui.calibration" title="Permalink to this headline">¶</a></h1>
+<p>This package consists of a number of modules that contain calibration-related
+widgets. The main widget, and the only one clients will normally need to deal
+with, is the <em>calibration dialog</em>, which is the responsibility of
+<a title="gui.calibration.dialog.CalibrationDialogHandler" class="reference external" href="dialog.html#gui.calibration.dialog.CalibrationDialogHandler"><tt class="xref docutils literal"><span class="pre">gui.calibration.dialog.CalibrationDialogHandler</span></tt></a>.</p>
+<p>No special setup is necessary to use the calibration dialog as is. Clients need
+only instantiate it and call its
+<tt class="xref docutils literal"><span class="pre">gui.calibration.dialog.CalibrationDialogHandler.present()</span></tt> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">calibrationDialogHandler</span> <span class="o">=</span> <span class="n">CalibrationDialogHandler</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+<span class="n">calibrationDialogHandler</span><span class="o">.</span><span class="n">present</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If the dialog is closed, it is just hidden, not destroyed. The client can reuse
+it by calling <tt class="xref docutils literal"><span class="pre">gui.calibration.dialog.CalibrationDialogHandler.present()</span></tt>
+again.</p>
+<p>Clients need to keep a reference to the dialog handler alive for as long
+as they are using it, however, since it will otherwise be prematurely
+reclaimed by the garbage collector.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Components of the Calibration Dialog</strong></p>
+<p>Most of the widgets that make up the calibration dialog are the responsibility
+of subordinate handler classes. The right side of the calibration dialog
+contains a number of widgets the user can switch between:</p>
+<ul class="simple">
+<li>the <em>measurement table</em>
+(see <a title="gui.calibration.table.MeasurementTableHandler" class="reference external" href="table.html#gui.calibration.table.MeasurementTableHandler"><tt class="xref docutils literal"><span class="pre">gui.calibration.table.MeasurementTableHandler</span></tt></a>),</li>
+<li>the <em>summary chart</em>, <em>temperature chart</em>, and <em>current chart</em>
+(see <a title="gui.calibration.charts.ChartHandler" class="reference external" href="charts.html#gui.calibration.charts.ChartHandler"><tt class="xref docutils literal"><span class="pre">gui.calibration.charts.ChartHandler</span></tt></a>),</li>
+<li>the <em>calibration parameter widget</em>
+(see <a title="gui.calibration.parameters.ParameterWidgetHandler" class="reference external" href="parameters.html#gui.calibration.parameters.ParameterWidgetHandler"><tt class="xref docutils literal"><span class="pre">gui.calibration.parameters.ParameterWidgetHandler</span></tt></a>), and</li>
+<li>the <em>calibration progress widget</em>
+(see <a title="gui.calibration.progress.ProgressWidgetHandler" class="reference external" href="progress.html#gui.calibration.progress.ProgressWidgetHandler"><tt class="xref docutils literal"><span class="pre">gui.calibration.progress.ProgressWidgetHandler</span></tt></a>).</li>
+</ul>
+<p>At the bottom of the dialog is the <em>temperature entry widget</em>
+(see <a title="gui.calibration.entry.TemperatureEntryHandler" class="reference external" href="entry.html#gui.calibration.entry.TemperatureEntryHandler"><tt class="xref docutils literal"><span class="pre">gui.calibration.entry.TemperatureEntryHandler</span></tt></a>).</p>
+<p>These modules have been designed to be usable independently of the calibration
+dialog, so that other configurations are easily possible.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Modules in this Package</strong></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="dialog.html"><tt class="docutils literal"><span class="pre">gui.calibration.dialog</span></tt> &#8212; Presents the widgets in this package</a></li>
+<li class="toctree-l1"><a class="reference external" href="table.html"><tt class="docutils literal"><span class="pre">gui.calibration.table</span></tt> &#8212; Tabulates the calibration measurements</a></li>
+<li class="toctree-l1"><a class="reference external" href="functions.html"><tt class="docutils literal"><span class="pre">gui.calibration.functions</span></tt> &#8212; Shows the estimation functions</a></li>
+<li class="toctree-l1"><a class="reference external" href="charts.html"><tt class="docutils literal"><span class="pre">gui.calibration.charts</span></tt> &#8212; Visualizes the calibration data</a></li>
+<li class="toctree-l1"><a class="reference external" href="parameters.html"><tt class="docutils literal"><span class="pre">gui.calibration.parameters</span></tt> &#8212; Allows setting calibration parameters</a></li>
+<li class="toctree-l1"><a class="reference external" href="progress.html"><tt class="docutils literal"><span class="pre">gui.calibration.progress</span></tt> &#8212; Shows the calibration procedure&#8217;s progress</a></li>
+<li class="toctree-l1"><a class="reference external" href="entry.html"><tt class="docutils literal"><span class="pre">gui.calibration.entry</span></tt> &#8212; Allows the entry of temperature measurements</a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../widgets.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">gui.widgets</span></tt> &#8212; Contains GUI-related utility functions</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="dialog.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">gui.calibration.dialog</span></tt> &#8212; Presents the widgets in this package</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="dialog.html" title="gui.calibration.dialog — Presents the widgets in this package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../widgets.html" title="gui.widgets — Contains GUI-related utility functions"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.calibration.entry — Allows the entry of temperature measurements &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="gui.calibration" href="index.html" />
+    <link rel="next" title="The gui.charting Package" href="../charting/index.html" />
+    <link rel="prev" title="gui.calibration.progress — Shows the calibration procedure’s progress" href="progress.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../charting/index.html" title="The gui.charting Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="progress.html" title="gui.calibration.progress — Shows the calibration procedure’s progress"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.calibration.entry">
+<h1><tt class="xref docutils literal"><span class="pre">gui.calibration.entry</span></tt> &#8212; Allows the entry of temperature measurements<a class="headerlink" href="#module-gui.calibration.entry" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.calibration.entry.TemperatureEntryHandler" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler"><tt class="xref docutils literal"><span class="pre">TemperatureEntryHandler</span></tt></a> class, which
+manages a number of widgets that allow the user to enter <a class="reference external" href="../../glossary.html#term-temperature-measurement"><em class="xref">temperature
+measurements</em></a> when they are requested during the
+<a class="reference external" href="../../glossary.html#term-calibration-procedure"><em class="xref">calibration procedure</em></a>.</p>
+<p>These widgets are</p>
+<ul class="simple">
+<li>a <tt class="xref docutils literal"><span class="pre">gtk.HBox</span></tt> (<a title="gui.calibration.entry.TemperatureEntryHandler.box" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler.box"><tt class="xref docutils literal"><span class="pre">box</span></tt></a>) that contains the
+<tt class="xref docutils literal"><span class="pre">gtk.Entry</span></tt> used to enter temperature measurements, a label that
+indicates that the measurement is in °C, and optionally a label that
+identifies the entry; and</li>
+<li>a <tt class="xref docutils literal"><span class="pre">gtk.Button</span></tt> (<a title="gui.calibration.entry.TemperatureEntryHandler.button" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler.button"><tt class="xref docutils literal"><span class="pre">button</span></tt></a>) that can be
+pressed to finalize the temperature input.</li>
+</ul>
+<p>Since the ideal positioning of these widgets greatly depends on the context in
+which they are used, the <a title="gui.calibration.entry.TemperatureEntryHandler" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler"><tt class="xref docutils literal"><span class="pre">TemperatureEntryHandler</span></tt></a> does not provide a
+container that contains both widgets. Instead, the client needs to add them
+separately to the GUI.</p>
+<p>Clients also need to keep a reference to the handler itself to prevent it from
+being reclaimed as garbage.</p>
+<p>The handler listens to <a title="ops.calibration.event.TemperatureRequested" class="reference external" href="../../ops/calibration/event.html#ops.calibration.event.TemperatureRequested"><tt class="xref docutils literal"><span class="pre">TemperatureRequested</span></tt></a>
+and <a title="ops.calibration.event.TemperatureRequestOver" class="reference external" href="../../ops/calibration/event.html#ops.calibration.event.TemperatureRequestOver"><tt class="xref docutils literal"><span class="pre">TemperatureRequestOver</span></tt></a> events to ensure
+that the widgets in the <a title="gui.calibration.entry.TemperatureEntryHandler.box" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler.box"><tt class="xref docutils literal"><span class="pre">box</span></tt></a> are only
+sensitive while there is an unanswered temperature request, and that the
+<a title="gui.calibration.entry.TemperatureEntryHandler.button" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler.button"><tt class="xref docutils literal"><span class="pre">button</span></tt></a> is only sensitive while there is an
+unanswered temperature request and the entered temperature measurement is an
+integer.</p>
+<p>Using several <a title="gui.calibration.entry.TemperatureEntryHandler" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler"><tt class="xref docutils literal"><span class="pre">TemperatureEntryHandler</span></tt></a> instances simultaneously is
+possible.</p>
+<div class="section" id="the-temperatureentryhandler-class">
+<h2>The <a title="gui.calibration.entry.TemperatureEntryHandler" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler"><tt class="xref docutils literal"><span class="pre">TemperatureEntryHandler</span></tt></a> Class<a class="headerlink" href="#the-temperatureentryhandler-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.calibration.entry.TemperatureEntryHandler">
+<em class="property">class </em><tt class="descclassname">gui.calibration.entry.</tt><tt class="descname">TemperatureEntryHandler</tt><big>(</big><em>system</em>, <em>buttonStock='gtk-apply'</em>, <em>useLabel=True</em><big>)</big><a class="headerlink" href="#gui.calibration.entry.TemperatureEntryHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new instance of this class, which accepts temperature
+measurements for the given <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</p>
+<p><cite>buttonStock</cite> is the GTK stock item used for the <a title="gui.calibration.entry.TemperatureEntryHandler.button" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler.button"><tt class="xref docutils literal"><span class="pre">button</span></tt></a> (the
+default is <tt class="xref docutils literal"><span class="pre">gtk.STOCK_APPLY</span></tt>, but clients may want to use
+<tt class="xref docutils literal"><span class="pre">gtk.STOCK_OK</span></tt> instead); <cite>useLabel</cite> determines whether <a title="gui.calibration.entry.TemperatureEntryHandler.box" class="reference internal" href="#gui.calibration.entry.TemperatureEntryHandler.box"><tt class="xref docutils literal"><span class="pre">box</span></tt></a>
+contains a label that identifies the <tt class="xref docutils literal"><span class="pre">gtk.Entry</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.entry.TemperatureEntryHandler.box">
+<tt class="descclassname">TemperatureEntryHandler.</tt><tt class="descname">box</tt><a class="headerlink" href="#gui.calibration.entry.TemperatureEntryHandler.box" title="Permalink to this definition">¶</a></dt>
+<dd>A <tt class="xref docutils literal"><span class="pre">gtk.HBox</span></tt> that contains the <tt class="xref docutils literal"><span class="pre">gtk.Entry</span></tt> used to enter
+temperature measurements, a label that indicates that the measurement
+is in °C, and optionally a label that identifies the entry. Immutable.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.entry.TemperatureEntryHandler.button">
+<tt class="descclassname">TemperatureEntryHandler.</tt><tt class="descname">button</tt><a class="headerlink" href="#gui.calibration.entry.TemperatureEntryHandler.button" title="Permalink to this definition">¶</a></dt>
+<dd>A <tt class="xref docutils literal"><span class="pre">gtk.Button</span></tt> that can be pressed to finalize the temperature
+input. Immutable.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.calibration.entry</span></tt> &#8212; Allows the entry of temperature measurements</a><ul>
+<li><a class="reference external" href="#the-temperatureentryhandler-class">The <tt class="docutils literal"><span class="pre">TemperatureEntryHandler</span></tt> Class</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="progress.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">gui.calibration.progress</span></tt> &#8212; Shows the calibration procedure&#8217;s progress</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../charting/index.html"
+                                  title="next chapter">The <tt class="docutils literal"><span class="pre">gui.charting</span></tt> Package</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../charting/index.html" title="The gui.charting Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="progress.html" title="gui.calibration.progress — Shows the calibration procedure’s progress"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

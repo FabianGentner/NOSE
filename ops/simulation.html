@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ops.simulation — Simulates communication with the production system &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../index.html" />
+    <link rel="up" title="The ops Package" href="index.html" />
+    <link rel="next" title="ops.interface — Handles communication with the production system" href="interface.html" />
+    <link rel="prev" title="ops.system — Provides high-level control over the production system" href="system.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="interface.html" title="ops.interface — Handles communication with the production system"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="system.html" title="ops.system — Provides high-level control over the production system"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-ops.simulation">
+<h1><tt class="xref docutils literal"><span class="pre">ops.simulation</span></tt> &#8212; Simulates communication with the production system<a class="headerlink" href="#module-ops.simulation" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="ops.simulation.SimulatedDeviceInterface" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface"><tt class="xref docutils literal"><span class="pre">SimulatedDeviceInterface</span></tt></a> class.</p>
+<div class="section" id="the-simulateddeviceinterface-class">
+<h2>The <a title="ops.simulation.SimulatedDeviceInterface" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface"><tt class="xref docutils literal"><span class="pre">SimulatedDeviceInterface</span></tt></a> Class<a class="headerlink" href="#the-simulateddeviceinterface-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.simulation.SimulatedDeviceInterface">
+<em class="property">class </em><tt class="descclassname">ops.simulation.</tt><tt class="descname">SimulatedDeviceInterface</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface" title="Permalink to this definition">¶</a></dt>
+<dd>A drop-in replacement for <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a> that
+simulates communication with an FCI-7011 fiber coupler production system,
+so that the application can be tested without access to an actual system.</dd></dl>
+
+<div class="section" id="simulation-parameters">
+<h3>Simulation Parameters<a class="headerlink" href="#simulation-parameters" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.finalTemperatureFromCurrent">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">finalTemperatureFromCurrent</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.finalTemperatureFromCurrent" title="Permalink to this definition">¶</a></dt>
+<dd>An instance of <tt class="xref docutils literal"><span class="pre">numpy.poly1d</span></tt> that determines the temperature
+(in °C) the simulated device&#8217;s heater will reach, but not exceed,
+for a given heating current (in mA).</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.voltageFromTemperature">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">voltageFromTemperature</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.voltageFromTemperature" title="Permalink to this definition">¶</a></dt>
+<dd>An instance of <tt class="xref docutils literal"><span class="pre">numpy.poly1d</span></tt> that determines the simulated
+device&#8217;s temperature sensor voltage (in V) for the given heating
+temperature (in °C).</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.tau">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">tau</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.tau" title="Permalink to this definition">¶</a></dt>
+<dd>A time constant used to control the speed the simulated device&#8217;s heating
+temperature changes. Inversely proportional to that speed.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.heaterMovementRate">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">heaterMovementRate</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.heaterMovementRate" title="Permalink to this definition">¶</a></dt>
+<dd><p>The speed the simulated device&#8217;s heater can move at, expressed as the
+fraction of the distance from its rearmost position to its foremost
+position it covers in one second. (Values greater than <tt class="docutils literal"><span class="pre">1.0</span></tt> are
+possible if the heater can cover that distance in less than one second.)</p>
+<p>This assumes that the heater can accelerate and decelerate instantly,
+which is unrealistic but should suffice for simulation purposes.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="heating">
+<h3>Heating<a class="headerlink" href="#heating" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.heatingCurrent">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">heatingCurrent</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.heatingCurrent" title="Permalink to this definition">¶</a></dt>
+<dd>The simulated device&#8217;s heating current, in mA. Read-only. To change the
+heating current, use the <a title="ops.simulation.SimulatedDeviceInterface.startHeatingWithCurrent" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface.startHeatingWithCurrent"><tt class="xref docutils literal"><span class="pre">startHeatingWithCurrent()</span></tt></a> method.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.temperatureSensorVoltage">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">temperatureSensorVoltage</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.temperatureSensorVoltage" title="Permalink to this definition">¶</a></dt>
+<dd><p>The simulated system&#8217;s temperature sensor&#8217;s voltage, in V. Read-only.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The value of this property assumes that the temperature sensor is
+able to get an accurate temperature reading, which will not always
+be the case for an actual device.</p>
+</div>
+<p>The temperature sensor voltage is calculated from <a title="ops.simulation.SimulatedDeviceInterface.temperature" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface.temperature"><tt class="xref docutils literal"><span class="pre">temperature</span></tt></a>
+each time this property is accessed. As a result, it may be distorted
+by changes to the system clock and by leap seconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.temperature">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">temperature</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.temperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>The simulated system&#8217;s heating temperature temperature, in °C.
+Read-only.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This property exists for testing purposes only. It is not provided
+by the real <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a> class, since
+an actual device&#8217;s heating temperature is not readily available
+(but see the <a title="ops.system.ProductionSystem.temperature" class="reference external" href="system.html#ops.system.ProductionSystem.temperature"><tt class="xref docutils literal"><span class="pre">temperature</span></tt></a>
+property of <a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.)</p>
+</div>
+<p>The temperature is calculated from the time the heating current was
+last changed and the temperature at that time each time this property
+is accessed. As a result, it may be distorted by changes to the system
+clock and by leap seconds.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.simulation.SimulatedDeviceInterface.startHeatingWithCurrent">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">startHeatingWithCurrent</tt><big>(</big><em>current</em><big>)</big><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.startHeatingWithCurrent" title="Permalink to this definition">¶</a></dt>
+<dd>Sets the simulated device&#8217;s heating current to <cite>current</cite>, in mA.</dd></dl>
+
+</div>
+<div class="section" id="heater-movement">
+<h3>Heater Movement<a class="headerlink" href="#heater-movement" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.heaterPosition">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">heaterPosition</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.heaterPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position of the simulated device&#8217;s heater, as a fraction of the
+distance between rearmost position (<tt class="docutils literal"><span class="pre">0.0</span></tt>) and foremost position
+(<tt class="docutils literal"><span class="pre">1.0</span></tt>). Read-only. To move the heater to another position, use the
+<a title="ops.simulation.SimulatedDeviceInterface.startHeaterMovement" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface.startHeaterMovement"><tt class="xref docutils literal"><span class="pre">startHeaterMovement()</span></tt></a> method.</p>
+<p>The position is calculated from the time the last movement command was
+issued and the position of the heater at that time each time this
+property is accessed. As a result, it may be distorted by changes to
+the system clock and by leap seconds.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.heaterTargetPosition">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">heaterTargetPosition</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.heaterTargetPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position the heater is supposed to be at, as a fraction of the
+distance between rearmost position (<tt class="docutils literal"><span class="pre">0.0</span></tt>) and foremost position
+(<tt class="docutils literal"><span class="pre">1.0</span></tt>).</p>
+<p>If <a title="ops.simulation.SimulatedDeviceInterface.heaterTargetPosition" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface.heaterTargetPosition"><tt class="xref docutils literal"><span class="pre">heaterTargetPosition</span></tt></a> is not equal to <a title="ops.simulation.SimulatedDeviceInterface.heaterPosition" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface.heaterPosition"><tt class="xref docutils literal"><span class="pre">heaterPosition</span></tt></a>,
+the heater is still moving to its target position.</p>
+<p>Read-only. To change the heater&#8217;s target position, use the
+<a title="ops.simulation.SimulatedDeviceInterface.startHeaterMovement" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface.startHeaterMovement"><tt class="xref docutils literal"><span class="pre">startHeaterMovement()</span></tt></a> method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.simulation.SimulatedDeviceInterface.startHeaterMovement">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">startHeaterMovement</tt><big>(</big><em>targetPosition</em><big>)</big><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.startHeaterMovement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the heater to the given position, expressed as a fraction of the
+distance between rearmost position (<tt class="docutils literal"><span class="pre">0.0</span></tt>) and foremost position
+(<tt class="docutils literal"><span class="pre">1.0</span></tt>).</p>
+<p><em>This method is asynchronous.</em> Moving the heater can take several
+seconds, but this method returns immediately.</p>
+<p>To check which position the heater is currently moving to, use
+<a title="ops.simulation.SimulatedDeviceInterface.heaterTargetPosition" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface.heaterTargetPosition"><tt class="xref docutils literal"><span class="pre">heaterTargetPosition</span></tt></a>; to get its actual position use
+<a title="ops.simulation.SimulatedDeviceInterface.heaterPosition" class="reference internal" href="#ops.simulation.SimulatedDeviceInterface.heaterPosition"><tt class="xref docutils literal"><span class="pre">heaterPosition</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.isSimulation">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">isSimulation</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.isSimulation" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether this class just simulates communication with a
+device. (It does.) Immutable.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.simulation.SimulatedDeviceInterface.speedFactor">
+<tt class="descclassname">SimulatedDeviceInterface.</tt><tt class="descname">speedFactor</tt><a class="headerlink" href="#ops.simulation.SimulatedDeviceInterface.speedFactor" title="Permalink to this definition">¶</a></dt>
+<dd>The factor by which the simulation is sped up. Setting this property
+to, say, <tt class="docutils literal"><span class="pre">5.0</span></tt> greatly reduces the time required to test the
+application. Needless to say, the property is not provided by the
+real <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a> class. Mutable.</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">ops.simulation</span></tt> &#8212; Simulates communication with the production system</a><ul>
+<li><a class="reference external" href="#the-simulateddeviceinterface-class">The <tt class="docutils literal"><span class="pre">SimulatedDeviceInterface</span></tt> Class</a><ul>
+<li><a class="reference external" href="#simulation-parameters">Simulation Parameters</a></li>
+<li><a class="reference external" href="#heating">Heating</a></li>
+<li><a class="reference external" href="#heater-movement">Heater Movement</a></li>
+<li><a class="reference external" href="#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="system.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">ops.system</span></tt> &#8212; Provides high-level control over the production system</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="interface.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">ops.interface</span></tt> &#8212; Handles communication with the production system</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="interface.html" title="ops.interface — Handles communication with the production system"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="system.html" title="ops.system — Provides high-level control over the production system"
+             >previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" >The <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

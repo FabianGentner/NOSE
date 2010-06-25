@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.calibration.dialog — Presents the widgets in this package &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="gui.calibration" href="index.html" />
+    <link rel="next" title="gui.calibration.table — Tabulates the calibration measurements" href="table.html" />
+    <link rel="prev" title="gui.calibration" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="table.html" title="gui.calibration.table — Tabulates the calibration measurements"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="gui.calibration"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.calibration.dialog">
+<h1><tt class="xref docutils literal"><span class="pre">gui.calibration.dialog</span></tt> &#8212; Presents the widgets in this package<a class="headerlink" href="#module-gui.calibration.dialog" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.calibration.dialog.CalibrationDialogHandler" class="reference internal" href="#gui.calibration.dialog.CalibrationDialogHandler"><tt class="xref docutils literal"><span class="pre">CalibrationDialogHandler</span></tt></a> class, which manages
+a dialog that allows the user to start the calibration procedure, and to review
+the data collected during previous calibration procedures. It uses widgets
+implemented in <tt class="xref docutils literal"><span class="pre">gui.listbox</span></tt>, <a title="" class="reference external" href="table.html#module-gui.calibration.table"><tt class="xref docutils literal"><span class="pre">gui.calibration.table</span></tt></a>,
+<a title="" class="reference external" href="functions.html#module-gui.calibration.functions"><tt class="xref docutils literal"><span class="pre">gui.calibration.functions</span></tt></a>, <a title="" class="reference external" href="charts.html#module-gui.calibration.charts"><tt class="xref docutils literal"><span class="pre">gui.calibration.charts</span></tt></a>,
+<a title="" class="reference external" href="parameters.html#module-gui.calibration.parameters"><tt class="xref docutils literal"><span class="pre">gui.calibration.parameters</span></tt></a>, <a title="" class="reference external" href="progress.html#module-gui.calibration.progress"><tt class="xref docutils literal"><span class="pre">gui.calibration.progress</span></tt></a>, and
+<a title="" class="reference external" href="entry.html#module-gui.calibration.entry"><tt class="xref docutils literal"><span class="pre">gui.calibration.entry</span></tt></a>.</p>
+<p>To show the dialog, it is sufficient to create a new instance of the class and
+call its <tt class="xref docutils literal"><span class="pre">present()</span></tt> method. Clients also need
+to keep a reference to the handler itself to prevent it from being reclaimed
+as garbage, but need not otherwise deal with it. The dialog and its components
+listen for the events in the <a title="" class="reference external" href="../../ops/calibration/event.html#module-ops.calibration.event"><tt class="xref docutils literal"><span class="pre">ops.calibration.event</span></tt></a> module to perform
+their functions.</p>
+<p>If the dialog is closed, it is just hidden, not destroyed. The client can
+reuse it by calling <tt class="xref docutils literal"><span class="pre">present()</span></tt> again.</p>
+<div class="section" id="the-calibrationdialoghandler-class">
+<h2>The <a title="gui.calibration.dialog.CalibrationDialogHandler" class="reference internal" href="#gui.calibration.dialog.CalibrationDialogHandler"><tt class="xref docutils literal"><span class="pre">CalibrationDialogHandler</span></tt></a> Class<a class="headerlink" href="#the-calibrationdialoghandler-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.calibration.dialog.CalibrationDialogHandler">
+<em class="property">class </em><tt class="descclassname">gui.calibration.dialog.</tt><tt class="descname">CalibrationDialogHandler</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.dialog.CalibrationDialogHandler" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new instance of this class, which allows the user to start the
+calibration procedure for the given <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ops.system.ProductionSystem</span></tt></a>,
+and to review the data collected during its previous calibration
+procedures.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.calibration.dialog</span></tt> &#8212; Presents the widgets in this package</a><ul>
+<li><a class="reference external" href="#the-calibrationdialoghandler-class">The <tt class="docutils literal"><span class="pre">CalibrationDialogHandler</span></tt> Class</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="table.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">gui.calibration.table</span></tt> &#8212; Tabulates the calibration measurements</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="table.html" title="gui.calibration.table — Tabulates the calibration measurements"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="gui.calibration"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

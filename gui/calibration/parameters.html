@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.calibration.parameters — Allows setting calibration parameters &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="gui.calibration" href="index.html" />
+    <link rel="next" title="gui.calibration.progress — Shows the calibration procedure’s progress" href="progress.html" />
+    <link rel="prev" title="gui.calibration.charts — Visualizes the calibration data" href="charts.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="progress.html" title="gui.calibration.progress — Shows the calibration procedure’s progress"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="charts.html" title="gui.calibration.charts — Visualizes the calibration data"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.calibration.parameters">
+<h1><tt class="xref docutils literal"><span class="pre">gui.calibration.parameters</span></tt> &#8212; Allows setting calibration parameters<a class="headerlink" href="#module-gui.calibration.parameters" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.calibration.parameters.ParameterWidgetHandler" class="reference internal" href="#gui.calibration.parameters.ParameterWidgetHandler"><tt class="xref docutils literal"><span class="pre">ParameterWidgetHandler</span></tt></a> class, which manages
+a group of widgets that allow the user to specify the <a class="reference external" href="../../glossary.html#term-heating-current"><em class="xref">heating currents</em></a> that are to be used for the <a class="reference external" href="../../glossary.html#term-calibration-procedure"><em class="xref">calibration procedure</em></a>.</p>
+<p>The top-level container of these widgets can be accessed using the handler’s
+<a title="gui.calibration.parameters.ParameterWidgetHandler.widget" class="reference internal" href="#gui.calibration.parameters.ParameterWidgetHandler.widget"><tt class="xref docutils literal"><span class="pre">widget</span></tt></a> property, and a tuple of the currents
+the user has specified can be retrieved using its
+<a title="gui.calibration.parameters.ParameterWidgetHandler.getCurrents" class="reference internal" href="#gui.calibration.parameters.ParameterWidgetHandler.getCurrents"><tt class="xref docutils literal"><span class="pre">getCurrents()</span></tt></a> method.</p>
+<div class="section" id="the-parameterwidgethandler-class">
+<h2>The <a title="gui.calibration.parameters.ParameterWidgetHandler" class="reference internal" href="#gui.calibration.parameters.ParameterWidgetHandler"><tt class="xref docutils literal"><span class="pre">ParameterWidgetHandler</span></tt></a> Class<a class="headerlink" href="#the-parameterwidgethandler-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.calibration.parameters.ParameterWidgetHandler">
+<em class="property">class </em><tt class="descclassname">gui.calibration.parameters.</tt><tt class="descname">ParameterWidgetHandler</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.parameters.ParameterWidgetHandler" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new instance of this class, which allows the user to enter
+parameters for calibrating the given <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.parameters.ParameterWidgetHandler.widget">
+<tt class="descclassname">ParameterWidgetHandler.</tt><tt class="descname">widget</tt><a class="headerlink" href="#gui.calibration.parameters.ParameterWidgetHandler.widget" title="Permalink to this definition">¶</a></dt>
+<dd>The top-level container of the widgets used to enter the calibration
+parameters. Immutable.</dd></dl>
+
+<dl class="method">
+<dt id="gui.calibration.parameters.ParameterWidgetHandler.getCurrents">
+<tt class="descclassname">ParameterWidgetHandler.</tt><tt class="descname">getCurrents</tt><big>(</big><big>)</big><a class="headerlink" href="#gui.calibration.parameters.ParameterWidgetHandler.getCurrents" title="Permalink to this definition">¶</a></dt>
+<dd>Returns a tuple of the heating currents (in mA) for which measurements
+are to be taken during the calibration procedure.</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.calibration.parameters.BEEP">
+<tt class="descclassname">gui.calibration.parameters.</tt><tt class="descname">BEEP</tt><a class="headerlink" href="#gui.calibration.parameters.BEEP" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether the <a title="gui.calibration.parameters.ParameterWidgetHandler" class="reference internal" href="#gui.calibration.parameters.ParameterWidgetHandler"><tt class="xref docutils literal"><span class="pre">ParameterWidgetHandler</span></tt></a> should emit a beep
+the user enters an invalid value.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.parameters.MIN_CURRENT">
+<tt class="descclassname">gui.calibration.parameters.</tt><tt class="descname">MIN_CURRENT</tt><a class="headerlink" href="#gui.calibration.parameters.MIN_CURRENT" title="Permalink to this definition">¶</a></dt>
+<dd>The smallest legal input value for the single heating current and the
+starting current, in mA.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.parameters.MIN_CURRENT_INCREMENT">
+<tt class="descclassname">gui.calibration.parameters.</tt><tt class="descname">MIN_CURRENT_INCREMENT</tt><a class="headerlink" href="#gui.calibration.parameters.MIN_CURRENT_INCREMENT" title="Permalink to this definition">¶</a></dt>
+<dd>The smallest input legal value for the current increment, in mA.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.parameters.DEFAULT_CURRENT_INCREMENT">
+<tt class="descclassname">gui.calibration.parameters.</tt><tt class="descname">DEFAULT_CURRENT_INCREMENT</tt><a class="headerlink" href="#gui.calibration.parameters.DEFAULT_CURRENT_INCREMENT" title="Permalink to this definition">¶</a></dt>
+<dd>The default current increment between heating stages, in mA.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.parameters.MAX_FRACTIONAL_DIGITS">
+<tt class="descclassname">gui.calibration.parameters.</tt><tt class="descname">MAX_FRACTIONAL_DIGITS</tt><a class="headerlink" href="#gui.calibration.parameters.MAX_FRACTIONAL_DIGITS" title="Permalink to this definition">¶</a></dt>
+<dd>The maximum number of fractional digits parameters are allowed to have.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.calibration.parameters</span></tt> &#8212; Allows setting calibration parameters</a><ul>
+<li><a class="reference external" href="#the-parameterwidgethandler-class">The <tt class="docutils literal"><span class="pre">ParameterWidgetHandler</span></tt> Class</a></li>
+<li><a class="reference external" href="#constants">Constants</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="charts.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.calibration.charts</span></tt> &#8212; Visualizes the calibration data</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="progress.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">gui.calibration.progress</span></tt> &#8212; Shows the calibration procedure&#8217;s progress</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="progress.html" title="gui.calibration.progress — Shows the calibration procedure’s progress"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="charts.html" title="gui.calibration.charts — Visualizes the calibration data"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

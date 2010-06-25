@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.actions &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../index.html" />
+    <link rel="up" title="gui" href="index.html" />
+    <link rel="next" title="gui.io" href="io.html" />
+    <link rel="prev" title="gui" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="io.html" title="gui.io"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="gui"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal"><span class="pre">gui</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.actions">
+<h1><tt class="xref docutils literal"><span class="pre">gui.actions</span></tt><a class="headerlink" href="#module-gui.actions" title="Permalink to this headline">¶</a></h1>
+<p>Creates a series of <tt class="xref docutils literal"><span class="pre">gtk.Action</span></tt> objects that encapsulate the operations
+the user can start from the main window&#8217;s menu. (For the actions in the Debug
+menu, see <tt class="xref docutils literal"><span class="pre">gui.debug</span></tt>.)</p>
+<p>Clients normally only need to call <a title="gui.actions.createActionGroup" class="reference internal" href="#gui.actions.createActionGroup"><tt class="xref docutils literal"><span class="pre">createActionGroup()</span></tt></a> to receive a
+<tt class="xref docutils literal"><span class="pre">gtk.ActionGroup</span></tt> consisting of all the actions.</p>
+<p>To create a new action, you need to:</p>
+<ul class="simple">
+<li>subclass <a title="gui.actions.NoseAction" class="reference internal" href="#gui.actions.NoseAction"><tt class="xref docutils literal"><span class="pre">NoseAction</span></tt></a> and set the subclass&#8217;s <a title="gui.actions.NoseAction.name" class="reference internal" href="#gui.actions.NoseAction.name"><tt class="xref docutils literal"><span class="pre">NoseAction.name</span></tt></a>
+and <a title="gui.actions.NoseAction.text" class="reference internal" href="#gui.actions.NoseAction.text"><tt class="xref docutils literal"><span class="pre">NoseAction.text</span></tt></a> attributes, optionally set some of the other
+attributes, and override the <a title="gui.actions.NoseAction.run" class="reference internal" href="#gui.actions.NoseAction.run"><tt class="xref docutils literal"><span class="pre">gui.actions.NoseAction.run()</span></tt></a> method;</li>
+<li>add the action to the action group created in <a title="gui.actions.createActionGroup" class="reference internal" href="#gui.actions.createActionGroup"><tt class="xref docutils literal"><span class="pre">createActionGroup()</span></tt></a>; and</li>
+<li>add an entry to <tt class="docutils literal"><span class="pre">gui/resources/menu.xml</span></tt>.</li>
+</ul>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gui.actions.createActionGroup">
+<tt class="descclassname">gui.actions.</tt><tt class="descname">createActionGroup</tt><big>(</big><em>mainWindowHandler</em><big>)</big><a class="headerlink" href="#gui.actions.createActionGroup" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a <tt class="xref docutils literal"><span class="pre">gtk.ActionGroup</span></tt> object with the actions that are
+required to create the main window&#8217;s menu. The actions that are created
+are added to <tt class="docutils literal"><span class="pre">mainWindowHandler._actions</span></tt>.</dd></dl>
+
+<dl class="function">
+<dt id="gui.actions._makeMenuAction">
+<tt class="descclassname">gui.actions.</tt><tt class="descname">_makeMenuAction</tt><big>(</big><em>name</em>, <em>text</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions._makeMenuAction" title="Permalink to this definition">¶</a></dt>
+<dd>For some reason, GTK wants actions associated with menu items that
+have a submenu. This function creates them.</dd></dl>
+
+</div>
+<div class="section" id="error-messages">
+<h2>Error Messages<a class="headerlink" href="#error-messages" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.actions.NOT_CALIBRATED_ERROR_MESSAGE">
+<tt class="descclassname">gui.actions.</tt><tt class="descname">NOT_CALIBRATED_ERROR_MESSAGE</tt><a class="headerlink" href="#gui.actions.NOT_CALIBRATED_ERROR_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd>An error message that is displayed if the user activates an action when the
+system isn&#8217;t calibrated even though that is not supposed to be possible
+for that action. Should only be needed if something goes very, very wrong.</dd></dl>
+
+<dl class="data">
+<dt id="gui.actions.NO_CALIBRATION_DATA_ERROR_MESSAGE">
+<tt class="descclassname">gui.actions.</tt><tt class="descname">NO_CALIBRATION_DATA_ERROR_MESSAGE</tt><a class="headerlink" href="#gui.actions.NO_CALIBRATION_DATA_ERROR_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd>An error message that is displayed if the user activates an action when the
+system&#8217;s calibration data has no measurements even though that is not
+supposed to be possible for that action. Should only be needed if something
+goes very, very wrong.</dd></dl>
+
+<dl class="data">
+<dt id="gui.actions.NO_SIMULATION_ERROR_MESSAGE">
+<tt class="descclassname">gui.actions.</tt><tt class="descname">NO_SIMULATION_ERROR_MESSAGE</tt><a class="headerlink" href="#gui.actions.NO_SIMULATION_ERROR_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd>An error message that is displayed if the user activates an action when the
+system isn&#8217;t simulated even though that is not supposed to be possible for
+that action. Should only be needed if something goes very, very wrong.</dd></dl>
+
+</div>
+<div class="section" id="noseaction">
+<h2><a title="gui.actions.NoseAction" class="reference internal" href="#gui.actions.NoseAction"><tt class="xref docutils literal"><span class="pre">NoseAction</span></tt></a><a class="headerlink" href="#noseaction" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.actions.NoseAction">
+<em class="property">class </em><tt class="descclassname">gui.actions.</tt><tt class="descname">NoseAction</tt><big>(</big><em>mainWindowHandler</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions.NoseAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>An abstract base class for actions the user can perform in <em>NOSE</em>.
+Simplifies the creation of <tt class="xref docutils literal"><span class="pre">gtk.Action</span></tt> and <tt class="xref docutils literal"><span class="pre">gtk.RadioAction</span></tt>
+instances, and keeps a <tt class="xref docutils literal"><span class="pre">gui.main.MainWindowHandler</span></tt> around that
+might be required by many actual actions.</p>
+<p><strong>Instance Attributes</strong></p>
+<dl class="docutils">
+<dt>mainWindowHandler:</dt>
+<dd>The <tt class="xref docutils literal"><span class="pre">gui.main.MainWindowHandler</span></tt> this action is associated with.</dd>
+<dt>system:</dt>
+<dd>A property that provides convenient access to the
+<tt class="xref docutils literal"><span class="pre">mainWindowHandler</span></tt>&#8216;s system.</dd>
+<dt>gtkAction:</dt>
+<dd>The <tt class="xref docutils literal"><span class="pre">gtk.Action</span></tt> or <tt class="xref docutils literal"><span class="pre">gtk.RadioAcition</span></tt> associated with
+this <a title="gui.actions.NoseAction" class="reference internal" href="#gui.actions.NoseAction"><tt class="xref docutils literal"><span class="pre">NoseAction</span></tt></a>.</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Class Attributes</strong></p>
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.name">
+<tt class="descname">name</tt><a class="headerlink" href="#gui.actions.NoseAction.name" title="Permalink to this definition">¶</a></dt>
+<dd>The action&#8217;s unique internal name, as used in <tt class="docutils literal"><span class="pre">menu.xml</span></tt>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.text">
+<tt class="descname">text</tt><a class="headerlink" href="#gui.actions.NoseAction.text" title="Permalink to this definition">¶</a></dt>
+<dd>The text shown in menu items associated with the action. Underscores can
+be used to create shortcuts.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.stock">
+<tt class="descname">stock</tt><a class="headerlink" href="#gui.actions.NoseAction.stock" title="Permalink to this definition">¶</a></dt>
+<dd>An optional stock ID (<tt class="xref docutils literal"><span class="pre">gtk.STOCK_FOO</span></tt>) that is used by the action.
+Determines the icon (except for radio actions) and maybe the
+accelerator.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.accelerator">
+<tt class="descname">accelerator</tt><a class="headerlink" href="#gui.actions.NoseAction.accelerator" title="Permalink to this definition">¶</a></dt>
+<dd>An optional accelerator, such as <tt class="docutils literal"><span class="pre">'&lt;Ctrl&gt;&lt;Alt&gt;X'</span></tt>. When in doubt,
+check <tt class="xref docutils literal"><span class="pre">gtk.accelerator_parse()</span></tt>. Should be internationalized.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.radioGroupName">
+<tt class="descname">radioGroupName</tt><a class="headerlink" href="#gui.actions.NoseAction.radioGroupName" title="Permalink to this definition">¶</a></dt>
+<dd>If set, the action becomes a radio action, that is, it can be toggled
+between an active and an inactive state, and only one action with the
+given <a title="gui.actions.NoseAction.radioGroupName" class="reference internal" href="#gui.actions.NoseAction.radioGroupName"><tt class="xref docutils literal"><span class="pre">radioGroupName</span></tt></a> can be active at any time.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.radioValue">
+<tt class="descname">radioValue</tt><a class="headerlink" href="#gui.actions.NoseAction.radioValue" title="Permalink to this definition">¶</a></dt>
+<dd>An arbitrary integer that is used as the value for radio actions. See
+<tt class="xref docutils literal"><span class="pre">gtk.RadioAction</span></tt>. Can be safely ignored.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.radioActive">
+<tt class="descname">radioActive</tt><a class="headerlink" href="#gui.actions.NoseAction.radioActive" title="Permalink to this definition">¶</a></dt>
+<dd>Determines whether a radio action should be set to be initially active.
+Should only be set to <tt class="xref docutils literal"><span class="pre">True</span></tt> for one action in a given action group.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.requiresCalibrationData">
+<tt class="descname">requiresCalibrationData</tt><a class="headerlink" href="#gui.actions.NoseAction.requiresCalibrationData" title="Permalink to this definition">¶</a></dt>
+<dd>If set to <tt class="xref docutils literal"><span class="pre">True</span></tt>, the action can only be activated if the system
+has at least one calibration measurement. If it isn&#8217;t, the action is
+automatically set insensitive.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.actions.NoseAction.requiresSimulation">
+<tt class="descname">requiresSimulation</tt><a class="headerlink" href="#gui.actions.NoseAction.requiresSimulation" title="Permalink to this definition">¶</a></dt>
+<dd>If set to <tt class="xref docutils literal"><span class="pre">True</span></tt>, the action an only be activated if the system
+is simulated.</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Instance Methods</strong></p>
+<dl class="method">
+<dt id="gui.actions.NoseAction.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>mainWindowHandler</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions.NoseAction.__init__" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new instance of this class that is associated with
+the given <tt class="xref docutils literal"><span class="pre">gui.main.MainWindowHandler</span></tt>, and creates a
+<tt class="xref docutils literal"><span class="pre">gtk.Action</span></tt> or <tt class="xref docutils literal"><span class="pre">gtk.RadioAction</span></tt> that belongs
+to the given <tt class="xref docutils literal"><span class="pre">gtk.ActionGroup</span></tt>.</dd></dl>
+
+<dl class="method">
+<dt id="gui.actions.NoseAction.activate">
+<tt class="descname">activate</tt><big>(</big><em>*parameters</em><big>)</big><a class="headerlink" href="#gui.actions.NoseAction.activate" title="Permalink to this definition">¶</a></dt>
+<dd>Called when the action is activated. Calls <a title="gui.actions.NoseAction.run" class="reference internal" href="#gui.actions.NoseAction.run"><tt class="xref docutils literal"><span class="pre">run()</span></tt></a>, unless its not
+supposed to be possible to activate the action right now.</dd></dl>
+
+<dl class="method">
+<dt id="gui.actions.NoseAction.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#gui.actions.NoseAction.run" title="Permalink to this definition">¶</a></dt>
+<dd>Called when the action is activated. Subclasses need to be override
+this method.</dd></dl>
+
+<dl class="method">
+<dt id="gui.actions.NoseAction._handleCalibrationDataChange">
+<tt class="descname">_handleCalibrationDataChange</tt><big>(</big><em>event</em><big>)</big><a class="headerlink" href="#gui.actions.NoseAction._handleCalibrationDataChange" title="Permalink to this definition">¶</a></dt>
+<dd>Receives calibration data change events if <tt class="xref docutils literal"><span class="pre">requiresCalibration</span></tt>
+is set to <tt class="xref docutils literal"><span class="pre">True</span></tt>, and sets the action&#8217;s sensitivity depending on
+whether the system is calibrated.</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="the-actual-actions">
+<h2>The Actual Actions<a class="headerlink" href="#the-actual-actions" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.actions.QuitAction">
+<em class="property">class </em><tt class="descclassname">gui.actions.</tt><tt class="descname">QuitAction</tt><big>(</big><em>mainWindowHandler</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions.QuitAction" title="Permalink to this definition">¶</a></dt>
+<dd>Quits the program.</dd></dl>
+
+<dl class="class">
+<dt id="gui.actions.ShowCalibrationDialogAction">
+<em class="property">class </em><tt class="descclassname">gui.actions.</tt><tt class="descname">ShowCalibrationDialogAction</tt><big>(</big><em>mainWindowHandler</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions.ShowCalibrationDialogAction" title="Permalink to this definition">¶</a></dt>
+<dd>Shows the calibration dialog.</dd></dl>
+
+<dl class="class">
+<dt id="gui.actions.LoadCalibrationDataAction">
+<em class="property">class </em><tt class="descclassname">gui.actions.</tt><tt class="descname">LoadCalibrationDataAction</tt><big>(</big><em>mainWindowHandler</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions.LoadCalibrationDataAction" title="Permalink to this definition">¶</a></dt>
+<dd>Loads the calibration data from a file.</dd></dl>
+
+<dl class="class">
+<dt id="gui.actions.SaveCalibrationDataAction">
+<em class="property">class </em><tt class="descclassname">gui.actions.</tt><tt class="descname">SaveCalibrationDataAction</tt><big>(</big><em>mainWindowHandler</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions.SaveCalibrationDataAction" title="Permalink to this definition">¶</a></dt>
+<dd>Saves the calibration data to a file.</dd></dl>
+
+<dl class="class">
+<dt id="gui.actions.SaveCalibrationDataAsAction">
+<em class="property">class </em><tt class="descclassname">gui.actions.</tt><tt class="descname">SaveCalibrationDataAsAction</tt><big>(</big><em>mainWindowHandler</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions.SaveCalibrationDataAsAction" title="Permalink to this definition">¶</a></dt>
+<dd>Saves the calibration data to a new file.</dd></dl>
+
+<dl class="class">
+<dt id="gui.actions.ClearCalibrationDataAction">
+<em class="property">class </em><tt class="descclassname">gui.actions.</tt><tt class="descname">ClearCalibrationDataAction</tt><big>(</big><em>mainWindowHandler</em>, <em>actionGroup</em><big>)</big><a class="headerlink" href="#gui.actions.ClearCalibrationDataAction" title="Permalink to this definition">¶</a></dt>
+<dd>Clears the calibration data.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.actions</span></tt></a><ul>
+<li><a class="reference external" href="#functions">Functions</a></li>
+<li><a class="reference external" href="#error-messages">Error Messages</a></li>
+<li><a class="reference external" href="#noseaction"><tt class="docutils literal"><span class="pre">NoseAction</span></tt></a></li>
+<li><a class="reference external" href="#the-actual-actions">The Actual Actions</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">gui</span></tt></a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="io.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">gui.io</span></tt></a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="io.html" title="gui.io"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="gui"
+             >previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal"><span class="pre">gui</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

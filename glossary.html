@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Glossary &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '#',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="index.html" />
+    <link rel="prev" title="Localizing the Application" href="localization.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="localization.html" title="Localizing the Application"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">NOSE v0.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="glossary">
+<h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
+<dl class="glossary docutils">
+<dt id="term-calibration">calibration</dt>
+<dd><p class="first">To calibrate the production system, a number of functions have to be
+found that can be used to estimate the <a class="reference internal" href="#term-heating-temperature"><em class="xref">heating temperature</em></a>
+that corresponds to a given <a class="reference internal" href="#term-temperature-sensor-voltage"><em class="xref">temperature sensor voltage</em></a>, and
+the <a class="reference internal" href="#term-heating-current"><em class="xref">heating current</em></a> that results in the heating temperature
+reaching, but not exceeding, a given <em>target temperature</em>.</p>
+<p class="last">These <em>estimation functions</em> are found during the <em>calibration
+procedure</em>, which consists of a number of <em>heating stages</em> that
+use different heating currents. At the end of a stage, when the
+temperature sensor voltage has become reasonably stable, the user
+is asked to take a <em>temperature measurement</em>, which is recorded
+along with the heating current used and the temperature sensor
+voltage at the time of the measurement. After a reasonable number
+of heating stages, which may take several hours to complete, the
+estimation functions are fitted to these data.</p>
+</dd>
+<dt id="term-calibration-procedure">calibration procedure</dt>
+<dd>The operation that is performed to calibrate the production system.
+See <a class="reference internal" href="#term-calibration"><em class="xref">calibration</em></a>.</dd>
+<dt id="term-calibration-stage">calibration stage</dt>
+<dd>TODO</dd>
+<dt id="term-client">client</dt>
+<dd>The clients of a class or function are the classes or functions that
+use the functionality it provides. A sapient entity that uses the
+application is a <em>user</em>, not a client.</dd>
+<dt id="term-device">device</dt>
+<dd>The FCI-7011 fiber coupler production system controlled by the
+application. Used when that term <a class="reference internal" href="#term-production-system"><em class="xref">production system</em></a>
+could be misunderstood as referring to an instance of
+<a title="ops.system.ProductionSystem" class="reference external" href="ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ops.system.ProductionSystem</span></tt></a>.</dd>
+<dt id="term-estimation-function">estimation function</dt>
+<dd>One of the functions that need to be fitted for the production system
+to be calibrated. See <a class="reference internal" href="#term-calibration"><em class="xref">calibration</em></a>.</dd>
+<dt id="term-heater">heater</dt>
+<dd>The part of the production system used to heat the fiber. The heater
+can be moved forewards and backwards, and can be operated with a range
+of <a class="reference internal" href="#term-heating-current"><em class="xref">heating currents</em></a>. It&#8217;s <a class="reference internal" href="#term-heating-temperature"><em class="xref">heating
+temperature</em></a> is measured by the <a class="reference internal" href="#term-temperature-sensor"><em class="xref">temperature sensor</em></a>.</dd>
+<dt id="term-heating-current">heating current</dt>
+<dd>The current, always expressed in mA, that is used to operate the
+production system&#8217;s <a class="reference internal" href="#term-heater"><em class="xref">heater</em></a>. In most cases, heating the system
+to a given <a class="reference internal" href="#term-target-temperature"><em class="xref">target temperature</em></a> will be more convenient than
+explicitly setting a heating current.</dd>
+<dt id="term-heating-stage">heating stage</dt>
+<dd>TODO</dd>
+<dt id="term-heating-temperature">heating temperature</dt>
+<dd><p class="first">The temperature, always expressed in °C, that the production system&#8217;s
+<a class="reference internal" href="#term-heater"><em class="xref">heater</em></a> is heating with. The system does not directly report
+its heating temperature, however. Instead, its <a class="reference internal" href="#term-temperature-sensor"><em class="xref">temperature
+sensor</em></a> reports its voltage, which can be linked to an estimated
+temperature if the system is <a class="reference internal" href="#term-calibration"><em class="xref">calibrated</em></a>.</p>
+<p>Under some circumstances, the temperature sensor voltage &#8211; and
+consequently the reported heating temperature &#8211; may not be an accurate
+reflection of the actual heating temperature. See <a class="reference internal" href="#term-temperature-sensor"><em class="xref">temperature
+sensor</em></a>.</p>
+<p class="last">If the system is calibrated, it is also possible to heat the system
+to a given temperature. See <a class="reference internal" href="#term-target-temperature"><em class="xref">target temperature</em></a>.</p>
+</dd>
+<dt id="term-heating-unit">heating unit</dt>
+<dd>The <a class="reference internal" href="#term-heater"><em class="xref">heater</em></a>.</dd>
+<dt id="term-production-system">production system</dt>
+<dd>The FCI-7011 fiber coupler production system controlled by the
+application, or an instance of <a title="ops.system.ProductionSystem" class="reference external" href="ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ops.system.ProductionSystem</span></tt></a>.
+In contexts where it might be ambiguous which one is meant, the term
+<a class="reference internal" href="#term-device"><em class="xref">device</em></a> is used to refer to the physical production system,
+and the term <em>production system instance</em> is used to refer to an
+instance of the class.</dd>
+<dt id="term-safe-mode">safe mode</dt>
+<dd>In order to prevent damage to the production system, the application
+monitors its <a class="reference internal" href="#term-heating-temperature"><em class="xref">heating temperature</em></a> and <a class="reference internal" href="#term-temperature-sensor-voltage"><em class="xref">temperature sensor
+voltage</em></a>. If either exceeds its safe limits, the system is switched
+into its safe mode, where its <a class="reference internal" href="#term-heating-current"><em class="xref">heating current</em></a> is lowered to
+a value that is known to be safe. The current may then be changed
+again, at which point the system leaves its safe mode.</dd>
+<dt id="term-system">system</dt>
+<dd>Short for <a class="reference internal" href="#term-production-system"><em class="xref">production system</em></a>.</dd>
+<dt id="term-target-temperature">target temperature</dt>
+<dd>A temprature, always expressed in °C, the production system&#8217;s
+<a class="reference internal" href="#term-heater"><em class="xref">heater</em></a> is supposed to reach, but not exceed. In order to set
+a target temperature, the system needs to be <a class="reference internal" href="#term-calibration"><em class="xref">calibrated</em></a>.</dd>
+<dt id="term-temperature-measurement">temperature measurement</dt>
+<dd>A measurement of the <a class="reference internal" href="#term-heating-temperature"><em class="xref">heating temperature</em></a> that has been taken
+by the user. A number of temperature measurements are necessary to
+<a class="reference internal" href="#term-calibration"><em class="xref">calibrate</em></a> the production system.</dd>
+<dt id="term-temperature-sensor">temperature sensor</dt>
+<dd><p class="first">A sensor that measures the temperature of production system&#8217;s
+<a class="reference internal" href="#term-heater"><em class="xref">heater</em></a>. The application receives its measurements in the
+form of the <em>temperature sensor voltage</em>, however, and in order
+to determine which heating temperature a given voltage corresponds
+to, the system needs to be <a class="reference internal" href="#term-calibration"><em class="xref">calibrated</em></a>.</p>
+<p class="last">If the heater is not in its foremost position, the reported voltage
+will not be an accurate reflection of the heater’s temperature. Also,
+the temperature sensor can be moved aside by the user for easier
+access to the production system. If it is, the temperature sensor
+voltage will be unrelated to the actual heating temperature.</p>
+</dd>
+<dt id="term-temperature-sensor-voltage">temperature sensor voltage</dt>
+<dd>The voltage, always expressed in V, the application receives from
+the production system&#8217;s <a class="reference internal" href="#term-temperature-sensor"><em class="xref">temperature sensor</em></a>. Used to estimate
+the <a class="reference internal" href="#term-heating-temperature"><em class="xref">heating temperature</em></a> if the system is <a class="reference internal" href="#term-calibration"><em class="xref">calibrated</em></a>.</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="localization.html"
+                                  title="previous chapter">Localizing the Application</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="localization.html" title="Localizing the Application"
+             >previous</a> |</li>
+        <li><a href="index.html">NOSE v0.0.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

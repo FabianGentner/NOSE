@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ops.calibration.data — Encapsulates data collected during calibration &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="ops.calibration" href="index.html" />
+    <link rel="next" title="ops.calibration.event — Contains calibration-related event classes" href="event.html" />
+    <link rel="prev" title="ops.calibration.manager — Runs the calibration procedure" href="manager.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="event.html" title="ops.calibration.event — Contains calibration-related event classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="manager.html" title="ops.calibration.manager — Runs the calibration procedure"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal"><span class="pre">ops.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-ops.calibration.data">
+<h1><tt class="xref docutils literal"><span class="pre">ops.calibration.data</span></tt> &#8212; Encapsulates data collected during calibration<a class="headerlink" href="#module-ops.calibration.data" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="ops.calibration.data.CalibrationData" class="reference internal" href="#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> class, which encapsulates
+the data collected during calibration, and a set of functions used to save
+and load instances of this class.</p>
+<div class="section" id="the-calibrationdata-class">
+<h2>The <a title="ops.calibration.data.CalibrationData" class="reference internal" href="#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> Class<a class="headerlink" href="#the-calibrationdata-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.calibration.data.CalibrationData">
+<em class="property">class </em><tt class="descclassname">ops.calibration.data.</tt><tt class="descname">CalibrationData</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encapsulates the data collected during calibration. The calibration
+data consists of a list of the measurements (accessible using the
+<a title="ops.calibration.data.CalibrationData.measurements" class="reference internal" href="#ops.calibration.data.CalibrationData.measurements"><tt class="xref docutils literal"><span class="pre">measurements</span></tt></a> property) and a set of three estimation functions:
+<a title="ops.calibration.data.CalibrationData.getCurrentFromTargetTemperature" class="reference internal" href="#ops.calibration.data.CalibrationData.getCurrentFromTargetTemperature"><tt class="xref docutils literal"><span class="pre">getCurrentFromTargetTemperature()</span></tt></a>,
+<a title="ops.calibration.data.CalibrationData.getFinalTemperatureFromCurrent" class="reference internal" href="#ops.calibration.data.CalibrationData.getFinalTemperatureFromCurrent"><tt class="xref docutils literal"><span class="pre">getFinalTemperatureFromCurrent()</span></tt></a>, and
+<a title="ops.calibration.data.CalibrationData.getTemperatureFromVoltage" class="reference internal" href="#ops.calibration.data.CalibrationData.getTemperatureFromVoltage"><tt class="xref docutils literal"><span class="pre">getTemperatureFromVoltage()</span></tt></a>.</p>
+<p>These are fitted to the measurements taken during calibration (using
+<tt class="xref docutils literal"><span class="pre">numpy.polyfit()</span></tt>) if at least <a title="ops.calibration.data.CalibrationData.minMeasurementsForEstimation" class="reference internal" href="#ops.calibration.data.CalibrationData.minMeasurementsForEstimation"><tt class="xref docutils literal"><span class="pre">minMeasurementsForEstimation</span></tt></a>
+measurements have been taken. To check whether the functions have been
+sucessfully fitted, use <a title="ops.calibration.data.CalibrationData.isComplete" class="reference internal" href="#ops.calibration.data.CalibrationData.isComplete"><tt class="xref docutils literal"><span class="pre">isComplete</span></tt></a>.</p>
+<p>When measurements are added to or removed from the calibration data,
+the estimation functions are automatically refitted.</p>
+</dd></dl>
+
+<div class="section" id="general-attributes">
+<h3>General Attributes<a class="headerlink" href="#general-attributes" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.system">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">system</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.system" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> whose calibration data the
+instance holds, or <tt class="xref docutils literal"><span class="pre">None</span></tt>. If the instance associated with a system
+is changed, this parameter is automatically updated. Otherwise, it
+is read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.fileName">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">fileName</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.fileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the file the instance has last been saved to, or the name
+of the file the instance has been read from, or <tt class="xref docutils literal"><span class="pre">None</span></tt>.</p>
+<p><a title="ops.calibration.data.CalibrationData" class="reference internal" href="#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> itself does not use this attribute at all;
+it needs to be kept up to date by the client code responsible
+for saving and loading.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="measurements">
+<h3>Measurements<a class="headerlink" href="#measurements" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ops.calibration.data.CalibrationData.addMeasurement">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">addMeasurement</tt><big>(</big><em>current</em>, <em>voltage</em>, <em>temperature</em><big>)</big><a class="headerlink" href="#ops.calibration.data.CalibrationData.addMeasurement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new measurement to the calibration data. Arguments are the
+heating current used for the measurement (in mA), and the final
+temperature sensor voltage (in V) and final temperature (in °C)
+that are reached with that current. Any measurements for that current
+that may have been added previously are replaced.</p>
+<p>Also recalculates the estimation functions, and sends
+a <a title="ops.calibration.event.CalibrationDataChanged" class="reference external" href="event.html#ops.calibration.event.CalibrationDataChanged"><tt class="xref docutils literal"><span class="pre">CalibrationDataChanged</span></tt></a> event if the
+instance is associated with a <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.calibration.data.CalibrationData.removeMeasurement">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">removeMeasurement</tt><big>(</big><em>current</em><big>)</big><a class="headerlink" href="#ops.calibration.data.CalibrationData.removeMeasurement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the measurements taken for the given heating current (in mA)
+from the calibration data. Raises a <tt class="xref docutils literal"><span class="pre">KeyError</span></tt> if there are no
+measurements for that current.</p>
+<p>Also recalculates the estimation functions, and sends
+a <a title="ops.calibration.event.CalibrationDataChanged" class="reference external" href="event.html#ops.calibration.event.CalibrationDataChanged"><tt class="xref docutils literal"><span class="pre">CalibrationDataChanged</span></tt></a> event if the
+instance is associated with a <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.measurements">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">measurements</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.measurements" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple of tuples that each contain the heating current,
+final temperature sensor voltage, and final heating temperature
+for a measurement that is part of the calibration data. The
+tuple&#8217;s items are ordered by their heating currents. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.heatingCurrents">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">heatingCurrents</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.heatingCurrents" title="Permalink to this definition">¶</a></dt>
+<dd>A sorted tuple of the heating currents the measurements that are part
+of the calibration data have been taken for. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.temperatureSensorVoltages">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">temperatureSensorVoltages</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.temperatureSensorVoltages" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple of the temperature sensor voltages that have been measured
+during calibration, sorted by the heating currents they have been
+measured for. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.temperatures">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">temperatures</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.temperatures" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple of the heating temperatures that have been measured during
+calibration, sorted by the heating currents they have been measured
+for. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.hasMeasurements">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">hasMeasurements</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.hasMeasurements" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether the instance has at least one measurement.</dd></dl>
+
+</div>
+<div class="section" id="estimation-functions">
+<h3>Estimation Functions<a class="headerlink" href="#estimation-functions" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.isComplete">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">isComplete</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.isComplete" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether all three estimations functions have been
+sucessfully fitted. Read-only.</dd></dl>
+
+<dl class="method">
+<dt id="ops.calibration.data.CalibrationData.getCurrentFromTargetTemperature">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">getCurrentFromTargetTemperature</tt><big>(</big><em>targetTemperature</em><big>)</big><a class="headerlink" href="#ops.calibration.data.CalibrationData.getCurrentFromTargetTemperature" title="Permalink to this definition">¶</a></dt>
+<dd>Estimates the heating current (in mA) necessary for the heater
+to reach, but not exceed, a given target temperature (in °C).
+Raises a <a title="ops.error.NotCalibratedError" class="reference external" href="../error.html#ops.error.NotCalibratedError"><tt class="xref docutils literal"><span class="pre">NotCalibratedError</span></tt></a> if the estimation
+function could not be fitted.</dd></dl>
+
+<dl class="method">
+<dt id="ops.calibration.data.CalibrationData.getFinalTemperatureFromCurrent">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">getFinalTemperatureFromCurrent</tt><big>(</big><em>current</em><big>)</big><a class="headerlink" href="#ops.calibration.data.CalibrationData.getFinalTemperatureFromCurrent" title="Permalink to this definition">¶</a></dt>
+<dd>Estimates the temperature (in °C) that the heater will reach,
+but not exceed, for a given heating current (in mA).
+Raises a <a title="ops.error.NotCalibratedError" class="reference external" href="../error.html#ops.error.NotCalibratedError"><tt class="xref docutils literal"><span class="pre">NotCalibratedError</span></tt></a> if the estimation
+function could not be fitted.</dd></dl>
+
+<dl class="method">
+<dt id="ops.calibration.data.CalibrationData.getTemperatureFromVoltage">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">getTemperatureFromVoltage</tt><big>(</big><em>voltage</em><big>)</big><a class="headerlink" href="#ops.calibration.data.CalibrationData.getTemperatureFromVoltage" title="Permalink to this definition">¶</a></dt>
+<dd>Estimates the temperature (in °C) that corresponds to a given
+temperature sensor voltage (in V).
+Raises a <a title="ops.error.NotCalibratedError" class="reference external" href="../error.html#ops.error.NotCalibratedError"><tt class="xref docutils literal"><span class="pre">NotCalibratedError</span></tt></a> if the estimation
+function could not be fitted.</dd></dl>
+
+</div>
+<div class="section" id="fitting">
+<h3>Fitting<a class="headerlink" href="#fitting" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.polynomialDegree">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">polynomialDegree</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.polynomialDegree" title="Permalink to this definition">¶</a></dt>
+<dd>The degree of the polynomials that make up the estimation functions.
+This is a class attribute, but can be set on an instance to override
+the default value.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.data.CalibrationData.minMeasurementsForEstimation">
+<tt class="descclassname">CalibrationData.</tt><tt class="descname">minMeasurementsForEstimation</tt><a class="headerlink" href="#ops.calibration.data.CalibrationData.minMeasurementsForEstimation" title="Permalink to this definition">¶</a></dt>
+<dd>The number of measurements that is required before the estimation
+functions are fitted. This is a class attribute, but can be set on
+an instance to override the default value.</dd></dl>
+
+</div>
+</div>
+<div class="section" id="persistence-functions">
+<h2>Persistence Functions<a class="headerlink" href="#persistence-functions" title="Permalink to this headline">¶</a></h2>
+<p><a title="ops.calibration.data.CalibrationData" class="reference internal" href="#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> objects are saved as XML documents, using the
+extension <em>cal</em>. The files are structured according to the following XML
+Schema:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;xs:schema</span> <span class="na">xmlns:xs=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;calibration-data&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;xs:complexType&gt;</span>
+      <span class="nt">&lt;xs:sequence</span> <span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;measurement&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;xs:complexType&gt;</span>
+            <span class="nt">&lt;xs:sequence&gt;</span>
+              <span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;current&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:double&quot;</span> <span class="nt">/&gt;</span>
+              <span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;voltage&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:double&quot;</span> <span class="nt">/&gt;</span>
+              <span class="nt">&lt;xs:element</span> <span class="na">name=</span><span class="s">&quot;temperature&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:double&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;/xs:sequence&gt;</span>
+          <span class="nt">&lt;/xs:complexType&gt;</span>
+        <span class="nt">&lt;/xs:element&gt;</span>
+      <span class="nt">&lt;/xs:sequence&gt;</span>
+    <span class="nt">&lt;/xs:complexType&gt;</span>
+  <span class="nt">&lt;/xs:element&gt;</span>
+<span class="nt">&lt;/xs:schema&gt;</span>
+</pre></div>
+</div>
+<p>The docment is not formally validated when it is parsed, however. Some errors,
+such as extraneous elements, will slip through.</p>
+<dl class="function">
+<dt id="ops.calibration.data.toXML">
+<tt class="descclassname">ops.calibration.data.</tt><tt class="descname">toXML</tt><big>(</big><em>calibrationData</em><big>)</big><a class="headerlink" href="#ops.calibration.data.toXML" title="Permalink to this definition">¶</a></dt>
+<dd>Creates an XML document from the given <a title="ops.calibration.data.CalibrationData" class="reference internal" href="#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> object
+and returns it as a string.</dd></dl>
+
+<dl class="function">
+<dt id="ops.calibration.data.fromXML">
+<tt class="descclassname">ops.calibration.data.</tt><tt class="descname">fromXML</tt><big>(</big><em>string</em><big>)</big><a class="headerlink" href="#ops.calibration.data.fromXML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <a title="ops.calibration.data.CalibrationData" class="reference internal" href="#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> object from the given string, which must
+be a valid XML document.</p>
+<p>If an error occurs while parsing the document, the function returns
+<tt class="xref docutils literal"><span class="pre">None</span></tt>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">ops.calibration.data</span></tt> &#8212; Encapsulates data collected during calibration</a><ul>
+<li><a class="reference external" href="#the-calibrationdata-class">The <tt class="docutils literal"><span class="pre">CalibrationData</span></tt> Class</a><ul>
+<li><a class="reference external" href="#general-attributes">General Attributes</a></li>
+<li><a class="reference external" href="#measurements">Measurements</a></li>
+<li><a class="reference external" href="#estimation-functions">Estimation Functions</a></li>
+<li><a class="reference external" href="#fitting">Fitting</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#persistence-functions">Persistence Functions</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="manager.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">ops.calibration.manager</span></tt> &#8212; Runs the calibration procedure</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="event.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">ops.calibration.event</span></tt> &#8212; Contains calibration-related event classes</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="event.html" title="ops.calibration.event — Contains calibration-related event classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="manager.html" title="ops.calibration.manager — Runs the calibration procedure"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal"><span class="pre">ops.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

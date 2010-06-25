@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.calibration.progress — Shows the calibration procedure’s progress &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="gui.calibration" href="index.html" />
+    <link rel="next" title="gui.calibration.entry — Allows the entry of temperature measurements" href="entry.html" />
+    <link rel="prev" title="gui.calibration.parameters — Allows setting calibration parameters" href="parameters.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="entry.html" title="gui.calibration.entry — Allows the entry of temperature measurements"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="parameters.html" title="gui.calibration.parameters — Allows setting calibration parameters"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.calibration.progress">
+<h1><tt class="xref docutils literal"><span class="pre">gui.calibration.progress</span></tt> &#8212; Shows the calibration procedure&#8217;s progress<a class="headerlink" href="#module-gui.calibration.progress" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.calibration.progress.ProgressWidgetHandler" class="reference internal" href="#gui.calibration.progress.ProgressWidgetHandler"><tt class="xref docutils literal"><span class="pre">ProgressWidgetHandler</span></tt></a> class, which manages
+a group of widgets that show the progress of the <a class="reference external" href="../../glossary.html#term-calibration-procedure"><em class="xref">calibration procedure</em></a>
+while it is running.</p>
+<p>The class listens to <a title="ops.calibration.event.CalibrationStarted" class="reference external" href="../../ops/calibration/event.html#ops.calibration.event.CalibrationStarted"><tt class="xref docutils literal"><span class="pre">CalibrationStarted</span></tt></a> and
+<a title="ops.calibration.event.CalibrationOver" class="reference external" href="../../ops/calibration/event.html#ops.calibration.event.CalibrationOver"><tt class="xref docutils literal"><span class="pre">CalibrationOver</span></tt></a> events to determine whether
+the calibration procedure is running. While it is running, it periodically
+obtains progress information from the responsible
+<a title="ops.calibration.manager.CalibrationManager" class="reference external" href="../../ops/calibration/manager.html#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a>, and uses this information
+to update two progress bars that show the estimated progress of the ongoing
+<a class="reference external" href="../../glossary.html#term-calibration-stage"><em class="xref">calibration stage</em></a> and the calibration procedure as whole, and two
+labels that show the estimated time remaining for both.</p>
+<p>The top-level container of these widgets can be accessed using the handler&#8217;s
+<a title="gui.calibration.progress.ProgressWidgetHandler.widget" class="reference internal" href="#gui.calibration.progress.ProgressWidgetHandler.widget"><tt class="xref docutils literal"><span class="pre">widget</span></tt></a> property. Clients also need to keep a
+reference to the handler itself to prevent it from being reclaimed as
+garbage, but need not otherwise deal with it.</p>
+<p>The <a title="gui.calibration.progress.ProgressWidgetHandler" class="reference internal" href="#gui.calibration.progress.ProgressWidgetHandler"><tt class="xref docutils literal"><span class="pre">ProgressWidgetHandler</span></tt></a> allows clients to register additional
+<tt class="xref docutils literal"><span class="pre">gtk.ProgressBar</span></tt> and <tt class="xref docutils literal"><span class="pre">gtk.Label</span></tt> instances, however, which
+will then receive periodic progress updates as well.</p>
+<div class="section" id="the-progresswidgethandler-class">
+<h2>The <a title="gui.calibration.progress.ProgressWidgetHandler" class="reference internal" href="#gui.calibration.progress.ProgressWidgetHandler"><tt class="xref docutils literal"><span class="pre">ProgressWidgetHandler</span></tt></a> Class<a class="headerlink" href="#the-progresswidgethandler-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.calibration.progress.ProgressWidgetHandler">
+<em class="property">class </em><tt class="descclassname">gui.calibration.progress.</tt><tt class="descname">ProgressWidgetHandler</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.progress.ProgressWidgetHandler" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new instance of this class, which shows the progress of
+calibration procedures performed on the given
+<a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.progress.ProgressWidgetHandler.widget">
+<tt class="descclassname">ProgressWidgetHandler.</tt><tt class="descname">widget</tt><a class="headerlink" href="#gui.calibration.progress.ProgressWidgetHandler.widget" title="Permalink to this definition">¶</a></dt>
+<dd>The top-level container of the widgets that show the progress.
+Immutable.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.progress.ProgressWidgetHandler.updateInterval">
+<tt class="descclassname">ProgressWidgetHandler.</tt><tt class="descname">updateInterval</tt><a class="headerlink" href="#gui.calibration.progress.ProgressWidgetHandler.updateInterval" title="Permalink to this definition">¶</a></dt>
+<dd>The interval in which the progress widgets are updated, in milliseconds.
+This is a class attribute, but it can be set on an instance before the
+calibration procedure is started to override the default value.</dd></dl>
+
+<div class="section" id="registering-additional-widgets">
+<h3>Registering Additional Widgets<a class="headerlink" href="#registering-additional-widgets" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="gui.calibration.progress.ProgressWidgetHandler.addStageProgressBar">
+<tt class="descclassname">ProgressWidgetHandler.</tt><tt class="descname">addStageProgressBar</tt><big>(</big><em>bar</em>, <em>showText=True</em><big>)</big><a class="headerlink" href="#gui.calibration.progress.ProgressWidgetHandler.addStageProgressBar" title="Permalink to this definition">¶</a></dt>
+<dd>Registers the given <tt class="xref docutils literal"><span class="pre">gtk.ProgressBar</span></tt> for periodic updates with
+the progress of the ongoing calibration stage while the calibration
+procedure is running. If <cite>showText</cite> is <tt class="xref docutils literal"><span class="pre">True</span></tt>, the stage progress in
+percent will also be shown as a string on the progress bar.</dd></dl>
+
+<dl class="method">
+<dt id="gui.calibration.progress.ProgressWidgetHandler.addTotalProgressBar">
+<tt class="descclassname">ProgressWidgetHandler.</tt><tt class="descname">addTotalProgressBar</tt><big>(</big><em>bar</em>, <em>showText=True</em><big>)</big><a class="headerlink" href="#gui.calibration.progress.ProgressWidgetHandler.addTotalProgressBar" title="Permalink to this definition">¶</a></dt>
+<dd>Registers the given <tt class="xref docutils literal"><span class="pre">gtk.ProgressBar</span></tt> for periodic updates with
+the progress of the entire calibration procedure while it is running.
+If <cite>showText</cite> is <tt class="xref docutils literal"><span class="pre">True</span></tt>, the total progress in percent will also be
+shown as a string on the progress bar.</dd></dl>
+
+<dl class="method">
+<dt id="gui.calibration.progress.ProgressWidgetHandler.addDefaultStageProgressLabel">
+<tt class="descclassname">ProgressWidgetHandler.</tt><tt class="descname">addDefaultStageProgressLabel</tt><big>(</big><em>label</em><big>)</big><a class="headerlink" href="#gui.calibration.progress.ProgressWidgetHandler.addDefaultStageProgressLabel" title="Permalink to this definition">¶</a></dt>
+<dd>A convenience method that calls <a title="gui.calibration.progress.ProgressWidgetHandler.addProgressLabel" class="reference internal" href="#gui.calibration.progress.ProgressWidgetHandler.addProgressLabel"><tt class="xref docutils literal"><span class="pre">addProgressLabel()</span></tt></a> with
+a suitable template for a label that is to show the progress of
+the ongoing calibration stage.</dd></dl>
+
+<dl class="method">
+<dt id="gui.calibration.progress.ProgressWidgetHandler.addDefaultTotalProgressLabel">
+<tt class="descclassname">ProgressWidgetHandler.</tt><tt class="descname">addDefaultTotalProgressLabel</tt><big>(</big><em>label</em><big>)</big><a class="headerlink" href="#gui.calibration.progress.ProgressWidgetHandler.addDefaultTotalProgressLabel" title="Permalink to this definition">¶</a></dt>
+<dd>A convenience method that calls <a title="gui.calibration.progress.ProgressWidgetHandler.addProgressLabel" class="reference internal" href="#gui.calibration.progress.ProgressWidgetHandler.addProgressLabel"><tt class="xref docutils literal"><span class="pre">addProgressLabel()</span></tt></a> with
+a suitable template for a label that is to show the calibration
+procedure&#8217;s total progress.</dd></dl>
+
+<dl class="method">
+<dt id="gui.calibration.progress.ProgressWidgetHandler.addProgressLabel">
+<tt class="descclassname">ProgressWidgetHandler.</tt><tt class="descname">addProgressLabel</tt><big>(</big><em>label</em>, <em>template</em>, <em>noTimeTemplate</em><big>)</big><a class="headerlink" href="#gui.calibration.progress.ProgressWidgetHandler.addProgressLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers the given <tt class="xref docutils literal"><span class="pre">gtk.Label</span></tt> for periodic updates with the
+calibration procedure&#8217;s progress while it is running. The label&#8217;s text
+will be set to <cite>template</cite> if the remaining duration of the stage and
+the calibration procedure as a while are known, and to <cite>noTimeTemplate</cite>
+otherwise. The templates may include the following mapping keys:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">%(action)s</span></tt>:</dt>
+<dd>A localized description of the action that is being performed
+(e.g. <tt class="docutils literal"><span class="pre">'Heating</span> <span class="pre">with</span> <span class="pre">8</span> <span class="pre">mA'</span></tt>).</dd>
+<dt><tt class="docutils literal"><span class="pre">%(stageProgress)s</span></tt> and <tt class="docutils literal"><span class="pre">%(totalProgress)s</span></tt>:</dt>
+<dd>The progress of the ongoing calibration stage and the
+entire calibration procedure, as a string (e.g. <tt class="docutils literal"><span class="pre">'23%'</span></tt>).</dd>
+<dt><tt class="docutils literal"><span class="pre">%(stageTimeLeft)s</span></tt> and <tt class="docutils literal"><span class="pre">%(totalTimeLeft)s</span></tt>:</dt>
+<dd>The estimated time remaining until the completion of the ongoing
+calibration stage and the entire calibration procedure, as a
+localized string (e.g. <tt class="docutils literal"><span class="pre">'3</span> <span class="pre">minutes,</span> <span class="pre">14</span> <span class="pre">seconds'</span></tt>), or the
+localized equivalent of <tt class="docutils literal"><span class="pre">'unknown'</span></tt> if the time left is not
+known.</dd>
+<dt><tt class="docutils literal"><span class="pre">%(emptyString)s</span></tt>:</dt>
+<dd>The empty string.</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.calibration.progress</span></tt> &#8212; Shows the calibration procedure&#8217;s progress</a><ul>
+<li><a class="reference external" href="#the-progresswidgethandler-class">The <tt class="docutils literal"><span class="pre">ProgressWidgetHandler</span></tt> Class</a><ul>
+<li><a class="reference external" href="#registering-additional-widgets">Registering Additional Widgets</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="parameters.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.calibration.parameters</span></tt> &#8212; Allows setting calibration parameters</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="entry.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">gui.calibration.entry</span></tt> &#8212; Allows the entry of temperature measurements</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="entry.html" title="gui.calibration.entry — Allows the entry of temperature measurements"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="parameters.html" title="gui.calibration.parameters — Allows setting calibration parameters"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

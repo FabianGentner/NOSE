@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ops.calibration.event — Contains calibration-related event classes &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="ops.calibration" href="index.html" />
+    <link rel="next" title="ops.calibration.leastsquare — Estimates the heating parameters" href="leastsquare.html" />
+    <link rel="prev" title="ops.calibration.data — Encapsulates data collected during calibration" href="data.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="leastsquare.html" title="ops.calibration.leastsquare — Estimates the heating parameters"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="data.html" title="ops.calibration.data — Encapsulates data collected during calibration"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal"><span class="pre">ops.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-ops.calibration.event">
+<h1><tt class="xref docutils literal"><span class="pre">ops.calibration.event</span></tt> &#8212; Contains calibration-related event classes<a class="headerlink" href="#module-ops.calibration.event" title="Permalink to this headline">¶</a></h1>
+<p>A set of simple classes that are used to encapsulate the data associated with
+the various events the <a title="" class="reference external" href="index.html#module-ops.calibration"><tt class="xref docutils literal"><span class="pre">ops.calibration</span></tt></a> package can send.</p>
+<p>All classes in this module are immutable.</p>
+<div class="section" id="the-calibrationstarted-class">
+<h2>The <a title="ops.calibration.event.CalibrationStarted" class="reference internal" href="#ops.calibration.event.CalibrationStarted"><tt class="xref docutils literal"><span class="pre">CalibrationStarted</span></tt></a> Class<a class="headerlink" href="#the-calibrationstarted-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.calibration.event.CalibrationStarted">
+<em class="property">class </em><tt class="descclassname">ops.calibration.event.</tt><tt class="descname">CalibrationStarted</tt><a class="headerlink" href="#ops.calibration.event.CalibrationStarted" title="Permalink to this definition">¶</a></dt>
+<dd>Used to indicate that a calibration procedure has just been started.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.CalibrationStarted.system">
+<tt class="descclassname">CalibrationStarted.</tt><tt class="descname">system</tt><a class="headerlink" href="#ops.calibration.event.CalibrationStarted.system" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that is being calibrated.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.CalibrationStarted.manager">
+<tt class="descclassname">CalibrationStarted.</tt><tt class="descname">manager</tt><a class="headerlink" href="#ops.calibration.event.CalibrationStarted.manager" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.calibration.manager.CalibrationManager" class="reference external" href="manager.html#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a> that is
+responsible for the calibration procedure.</dd></dl>
+
+</div>
+<div class="section" id="the-calibrationover-class">
+<h2>The <a title="ops.calibration.event.CalibrationOver" class="reference internal" href="#ops.calibration.event.CalibrationOver"><tt class="xref docutils literal"><span class="pre">CalibrationOver</span></tt></a> Class<a class="headerlink" href="#the-calibrationover-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.calibration.event.CalibrationOver">
+<em class="property">class </em><tt class="descclassname">ops.calibration.event.</tt><tt class="descname">CalibrationOver</tt><a class="headerlink" href="#ops.calibration.event.CalibrationOver" title="Permalink to this definition">¶</a></dt>
+<dd>Used to indicate that a calibration procedure has just ended.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.CalibrationOver.system">
+<tt class="descclassname">CalibrationOver.</tt><tt class="descname">system</tt><a class="headerlink" href="#ops.calibration.event.CalibrationOver.system" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that has been calibrated.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.CalibrationOver.manager">
+<tt class="descclassname">CalibrationOver.</tt><tt class="descname">manager</tt><a class="headerlink" href="#ops.calibration.event.CalibrationOver.manager" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.calibration.manager.CalibrationManager" class="reference external" href="manager.html#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a> that was
+responsible for the calibration procedure.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.CalibrationOver.status">
+<tt class="descclassname">CalibrationOver.</tt><tt class="descname">status</tt><a class="headerlink" href="#ops.calibration.event.CalibrationOver.status" title="Permalink to this definition">¶</a></dt>
+<dd>A status code that indicates why the calibration procedure has ended.
+One of <a title="ops.calibration.manager.STATUS_ABORTED" class="reference external" href="manager.html#ops.calibration.manager.STATUS_ABORTED"><tt class="xref docutils literal"><span class="pre">ops.calibration.manager.STATUS_ABORTED</span></tt></a>,
+<a title="ops.calibration.manager.STATUS_SAFE_MODE_TRIGGERED" class="reference external" href="manager.html#ops.calibration.manager.STATUS_SAFE_MODE_TRIGGERED"><tt class="xref docutils literal"><span class="pre">STATUS_SAFE_MODE_TRIGGERED</span></tt></a>,
+<a title="ops.calibration.manager.STATUS_INVALID_CURRENT" class="reference external" href="manager.html#ops.calibration.manager.STATUS_INVALID_CURRENT"><tt class="xref docutils literal"><span class="pre">STATUS_INVALID_CURRENT</span></tt></a>, and
+<a title="ops.calibration.manager.STATUS_FINISHED" class="reference external" href="manager.html#ops.calibration.manager.STATUS_FINISHED"><tt class="xref docutils literal"><span class="pre">STATUS_FINISHED</span></tt></a>.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.CalibrationOver.unusedCurrents">
+<tt class="descclassname">CalibrationOver.</tt><tt class="descname">unusedCurrents</tt><a class="headerlink" href="#ops.calibration.event.CalibrationOver.unusedCurrents" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple of heating currents no measurements were taken for.
+If <a title="ops.calibration.event.CalibrationOver.status" class="reference internal" href="#ops.calibration.event.CalibrationOver.status"><tt class="xref docutils literal"><span class="pre">status</span></tt></a> is <a title="ops.calibration.manager.STATUS_FINISHED" class="reference external" href="manager.html#ops.calibration.manager.STATUS_FINISHED"><tt class="xref docutils literal"><span class="pre">STATUS_FINISHED</span></tt></a>,
+the tuple will be empty.</dd></dl>
+
+</div>
+<div class="section" id="the-temperaturerequested-class">
+<h2>The <a title="ops.calibration.event.TemperatureRequested" class="reference internal" href="#ops.calibration.event.TemperatureRequested"><tt class="xref docutils literal"><span class="pre">TemperatureRequested</span></tt></a> Class<a class="headerlink" href="#the-temperaturerequested-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.calibration.event.TemperatureRequested">
+<em class="property">class </em><tt class="descclassname">ops.calibration.event.</tt><tt class="descname">TemperatureRequested</tt><a class="headerlink" href="#ops.calibration.event.TemperatureRequested" title="Permalink to this definition">¶</a></dt>
+<dd>Used to indicate that the user needs to take a temperature measurement
+before the calibration procedure can continue.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.TemperatureRequested.manager">
+<tt class="descclassname">TemperatureRequested.</tt><tt class="descname">manager</tt><a class="headerlink" href="#ops.calibration.event.TemperatureRequested.manager" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.calibration.manager.CalibrationManager" class="reference external" href="manager.html#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a> that is
+responsible for the calibration procedure.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.TemperatureRequested.system">
+<tt class="descclassname">TemperatureRequested.</tt><tt class="descname">system</tt><a class="headerlink" href="#ops.calibration.event.TemperatureRequested.system" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that is being calibrated.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.TemperatureRequested.callback">
+<tt class="descclassname">TemperatureRequested.</tt><tt class="descname">callback</tt><a class="headerlink" href="#ops.calibration.event.TemperatureRequested.callback" title="Permalink to this definition">¶</a></dt>
+<dd>A function that can be called to report a temperature measurement,
+with the temperature (in °C) as argument. Calling this function after
+<a title="ops.calibration.event.TemperatureRequested.manager" class="reference internal" href="#ops.calibration.event.TemperatureRequested.manager"><tt class="xref docutils literal"><span class="pre">manager</span></tt></a> has sent a <a title="ops.calibration.event.TemperatureRequestOver" class="reference internal" href="#ops.calibration.event.TemperatureRequestOver"><tt class="xref docutils literal"><span class="pre">TemperatureRequestOver</span></tt></a> event will
+raise an <a title="util.ApplicationError" class="reference external" href="../../util.html#util.ApplicationError"><tt class="xref docutils literal"><span class="pre">ApplicationError</span></tt></a>.</dd></dl>
+
+</div>
+<div class="section" id="the-temperaturerequestover-class">
+<h2>The <a title="ops.calibration.event.TemperatureRequestOver" class="reference internal" href="#ops.calibration.event.TemperatureRequestOver"><tt class="xref docutils literal"><span class="pre">TemperatureRequestOver</span></tt></a> Class<a class="headerlink" href="#the-temperaturerequestover-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.calibration.event.TemperatureRequestOver">
+<em class="property">class </em><tt class="descclassname">ops.calibration.event.</tt><tt class="descname">TemperatureRequestOver</tt><a class="headerlink" href="#ops.calibration.event.TemperatureRequestOver" title="Permalink to this definition">¶</a></dt>
+<dd>Used to indicate that a temperature measurement previously requested
+with a <a title="ops.calibration.event.TemperatureRequested" class="reference internal" href="#ops.calibration.event.TemperatureRequested"><tt class="xref docutils literal"><span class="pre">TemperatureRequested</span></tt></a> event is no longer required, either
+because it has already been supplied, or because the calibration procedure
+has ended.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.TemperatureRequestOver.manager">
+<tt class="descclassname">TemperatureRequestOver.</tt><tt class="descname">manager</tt><a class="headerlink" href="#ops.calibration.event.TemperatureRequestOver.manager" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.calibration.manager.CalibrationManager" class="reference external" href="manager.html#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a> that is
+responsible for the calibration procedure.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.TemperatureRequestOver.system">
+<tt class="descclassname">TemperatureRequestOver.</tt><tt class="descname">system</tt><a class="headerlink" href="#ops.calibration.event.TemperatureRequestOver.system" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that is being calibrated.</dd></dl>
+
+</div>
+<div class="section" id="the-calibrationdatachanged-class">
+<h2>The <a title="ops.calibration.event.CalibrationDataChanged" class="reference internal" href="#ops.calibration.event.CalibrationDataChanged"><tt class="xref docutils literal"><span class="pre">CalibrationDataChanged</span></tt></a> Class<a class="headerlink" href="#the-calibrationdatachanged-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.calibration.event.CalibrationDataChanged">
+<em class="property">class </em><tt class="descclassname">ops.calibration.event.</tt><tt class="descname">CalibrationDataChanged</tt><a class="headerlink" href="#ops.calibration.event.CalibrationDataChanged" title="Permalink to this definition">¶</a></dt>
+<dd>Used to indicate that a <a title="ops.calibration.data.CalibrationData" class="reference external" href="data.html#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a>
+object has changed. If a calibration data object that is not currently
+used by a production system is changed, no event is sent.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.CalibrationDataChanged.system">
+<tt class="descclassname">CalibrationDataChanged.</tt><tt class="descname">system</tt><a class="headerlink" href="#ops.calibration.event.CalibrationDataChanged.system" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.system.ProductionSystem" class="reference external" href="../system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> the changed
+<a title="ops.calibration.data.CalibrationData" class="reference external" href="data.html#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> object belongs to.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.calibration.event.CalibrationDataChanged.calibrationData">
+<tt class="descclassname">CalibrationDataChanged.</tt><tt class="descname">calibrationData</tt><a class="headerlink" href="#ops.calibration.event.CalibrationDataChanged.calibrationData" title="Permalink to this definition">¶</a></dt>
+<dd>The changed <a title="ops.calibration.data.CalibrationData" class="reference external" href="data.html#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> object
+itself. If a calibration data object is replaced with another,
+this is set to the new object.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">ops.calibration.event</span></tt> &#8212; Contains calibration-related event classes</a><ul>
+<li><a class="reference external" href="#the-calibrationstarted-class">The <tt class="docutils literal"><span class="pre">CalibrationStarted</span></tt> Class</a></li>
+<li><a class="reference external" href="#the-calibrationover-class">The <tt class="docutils literal"><span class="pre">CalibrationOver</span></tt> Class</a></li>
+<li><a class="reference external" href="#the-temperaturerequested-class">The <tt class="docutils literal"><span class="pre">TemperatureRequested</span></tt> Class</a></li>
+<li><a class="reference external" href="#the-temperaturerequestover-class">The <tt class="docutils literal"><span class="pre">TemperatureRequestOver</span></tt> Class</a></li>
+<li><a class="reference external" href="#the-calibrationdatachanged-class">The <tt class="docutils literal"><span class="pre">CalibrationDataChanged</span></tt> Class</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="data.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">ops.calibration.data</span></tt> &#8212; Encapsulates data collected during calibration</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="leastsquare.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">ops.calibration.leastsquare</span></tt> &#8212; Estimates the heating parameters</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="leastsquare.html" title="ops.calibration.leastsquare — Estimates the heating parameters"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="data.html" title="ops.calibration.data — Encapsulates data collected during calibration"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal"><span class="pre">ops.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

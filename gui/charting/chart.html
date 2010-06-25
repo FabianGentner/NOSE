@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.charting.chart — Provides a gtk.Widget for simple charts &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="The gui.charting Package" href="index.html" />
+    <link rel="next" title="gui.charting.axis — Handles the charts’ axes" href="axis.html" />
+    <link rel="prev" title="The gui.charting Package" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="axis.html" title="gui.charting.axis — Handles the charts’ axes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The gui.charting Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The <tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.charting</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.charting.chart">
+<h1><tt class="xref docutils literal"><span class="pre">gui.charting.chart</span></tt> &#8212; Provides a <tt class="xref docutils literal"><span class="pre">gtk.Widget</span></tt> for simple charts<a class="headerlink" href="#module-gui.charting.chart" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.charting.chart.Chart" class="reference internal" href="#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> class, which is a <tt class="xref docutils literal"><span class="pre">gtk.Widget</span></tt>
+that draws simple charts. Most of the actual work is performed by the classes
+in the <a title="" class="reference external" href="axis.html#module-gui.charting.axis"><tt class="xref docutils literal"><span class="pre">gui.charting.axis</span></tt></a> and <a title="" class="reference external" href="graph.html#module-gui.charting.graph"><tt class="xref docutils literal"><span class="pre">gui.charting.graph</span></tt></a> modules.</p>
+<p>A list of the features charts provide and a usage example can be
+found on the documentation page of the <a title="" class="reference external" href="index.html#module-gui.charting"><tt class="xref docutils literal"><span class="pre">gui.charting</span></tt></a> package.</p>
+<div class="section" id="the-chart-widget">
+<h2>The <a title="gui.charting.chart.Chart" class="reference internal" href="#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> Widget<a class="headerlink" href="#the-chart-widget" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.charting.chart.Chart">
+<em class="property">class </em><tt class="descclassname">gui.charting.chart.</tt><tt class="descname">Chart</tt><a class="headerlink" href="#gui.charting.chart.Chart" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new instance of this class. <a title="gui.charting.chart.Chart" class="reference internal" href="#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> is a subclass of
+<tt class="xref docutils literal"><span class="pre">gtk.DrawingArea</span></tt>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.charting.chart.Chart.chartArea">
+<tt class="descclassname">Chart.</tt><tt class="descname">chartArea</tt><a class="headerlink" href="#gui.charting.chart.Chart.chartArea" title="Permalink to this definition">¶</a></dt>
+<dd><p>A named tuple <tt class="docutils literal"><span class="pre">(</span><em><span class="pre">x</span></em><span class="pre">,</span> <em><span class="pre">y</span></em><span class="pre">,</span> <em><span class="pre">width</span></em><span class="pre">,</span> <em><span class="pre">height</span></em><span class="pre">)</span></tt> that indicates the
+position and size of the area of the widget used to show the actual
+chart rather than the tick labels, the dimension labels, and the
+caption. Read-only.</p>
+<p>The tuple is automatically updated when <a title="gui.charting.chart.Chart.captionText" class="reference internal" href="#gui.charting.chart.Chart.captionText"><tt class="xref docutils literal"><span class="pre">captionText</span></tt></a>,
+<a title="gui.charting.chart.Chart.minCaptionLines" class="reference internal" href="#gui.charting.chart.Chart.minCaptionLines"><tt class="xref docutils literal"><span class="pre">minCaptionLines</span></tt></a> or the widget&#8217;s size allocation change.</p>
+</dd></dl>
+
+<div class="section" id="axes">
+<h3>Axes<a class="headerlink" href="#axes" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="gui.charting.chart.Chart.abscissa">
+<tt class="descclassname">Chart.</tt><tt class="descname">abscissa</tt><a class="headerlink" href="#gui.charting.chart.Chart.abscissa" title="Permalink to this definition">¶</a></dt>
+<dd>The chart&#8217;s <a title="gui.charting.axis.Abscissa" class="reference external" href="axis.html#gui.charting.axis.Abscissa"><tt class="xref docutils literal"><span class="pre">Abscissa</span></tt></a>. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.charting.chart.Chart.ordinate">
+<tt class="descclassname">Chart.</tt><tt class="descname">ordinate</tt><a class="headerlink" href="#gui.charting.chart.Chart.ordinate" title="Permalink to this definition">¶</a></dt>
+<dd>The chart&#8217;s <a title="gui.charting.axis.Ordinate" class="reference external" href="axis.html#gui.charting.axis.Ordinate"><tt class="xref docutils literal"><span class="pre">Ordinate</span></tt></a>. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.charting.chart.Chart.secondaryOrdinate">
+<tt class="descclassname">Chart.</tt><tt class="descname">secondaryOrdinate</tt><a class="headerlink" href="#gui.charting.chart.Chart.secondaryOrdinate" title="Permalink to this definition">¶</a></dt>
+<dd>The chart&#8217;s <a title="gui.charting.axis.SecondaryOrdinate" class="reference external" href="axis.html#gui.charting.axis.SecondaryOrdinate"><tt class="xref docutils literal"><span class="pre">SecondaryOrdinate</span></tt></a>. Read-only.
+The secondary ordinate is only shown if <a title="gui.charting.chart.Chart.showSecondaryOrdinate" class="reference internal" href="#gui.charting.chart.Chart.showSecondaryOrdinate"><tt class="xref docutils literal"><span class="pre">showSecondaryOrdinate</span></tt></a>
+is set to <tt class="xref docutils literal"><span class="pre">True</span></tt>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.charting.chart.Chart.showSecondaryOrdinate">
+<tt class="descclassname">Chart.</tt><tt class="descname">showSecondaryOrdinate</tt><a class="headerlink" href="#gui.charting.chart.Chart.showSecondaryOrdinate" title="Permalink to this definition">¶</a></dt>
+<dd>Determines whether the chart&#8217;s secondary ordinate will be shown. May
+be modified. The default is <tt class="xref docutils literal"><span class="pre">False</span></tt>.</dd></dl>
+
+</div>
+<div class="section" id="graphs">
+<h3>Graphs<a class="headerlink" href="#graphs" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="gui.charting.chart.Chart.addGraph">
+<tt class="descclassname">Chart.</tt><tt class="descname">addGraph</tt><big>(</big><em>graph</em><big>)</big><a class="headerlink" href="#gui.charting.chart.Chart.addGraph" title="Permalink to this definition">¶</a></dt>
+<dd>Adds the given graph to those that are displayed on chart. A chart can
+have any number of graphs, and a graph can be shown on any number of
+charts.</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.chart.Chart.addSecondaryGraph">
+<tt class="descclassname">Chart.</tt><tt class="descname">addSecondaryGraph</tt><big>(</big><em>graph</em><big>)</big><a class="headerlink" href="#gui.charting.chart.Chart.addSecondaryGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the given graph to those that are displayed on chart. The graph
+will use the dimension of the secondary ordinate.
+If <a title="gui.charting.chart.Chart.showSecondaryOrdinate" class="reference internal" href="#gui.charting.chart.Chart.showSecondaryOrdinate"><tt class="xref docutils literal"><span class="pre">showSecondaryOrdinate</span></tt></a> is <tt class="xref docutils literal"><span class="pre">False</span></tt>, the graph will not be
+shown.</p>
+<p>A chart can have any number of graphs, and a graph can be shown on any
+number of charts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.chart.Chart.clearGraphs">
+<tt class="descclassname">Chart.</tt><tt class="descname">clearGraphs</tt><big>(</big><big>)</big><a class="headerlink" href="#gui.charting.chart.Chart.clearGraphs" title="Permalink to this definition">¶</a></dt>
+<dd>Removes all graphs from the chart.</dd></dl>
+
+</div>
+<div class="section" id="caption">
+<h3>Caption<a class="headerlink" href="#caption" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="gui.charting.chart.Chart.captionText">
+<tt class="descclassname">Chart.</tt><tt class="descname">captionText</tt><a class="headerlink" href="#gui.charting.chart.Chart.captionText" title="Permalink to this definition">¶</a></dt>
+<dd>The text of the chart&#8217;s caption. Pango Markup Language tags are
+supported. The caption is only shown if the chart has at least
+one graph. If the value is <tt class="xref docutils literal"><span class="pre">None</span></tt> or <tt class="docutils literal"><span class="pre">''</span></tt>, no caption will
+be shown.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.charting.chart.Chart.minCaptionLines">
+<tt class="descclassname">Chart.</tt><tt class="descname">minCaptionLines</tt><a class="headerlink" href="#gui.charting.chart.Chart.minCaptionLines" title="Permalink to this definition">¶</a></dt>
+<dd><p>The minimum number of lines worth of space the chart reserves for
+its caption. If the captions uses fewer lines, it still receives the
+amount of vertical space that would be used by that number of lines.
+If a caption uses more lines, it receives as much space as required.</p>
+<p>This is useful to give a series of related charts with captions of
+different lengths an uniform appearance.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.charting.chart.NO_DATA_TEXT">
+<tt class="descclassname">gui.charting.chart.</tt><tt class="descname">NO_DATA_TEXT</tt><a class="headerlink" href="#gui.charting.chart.NO_DATA_TEXT" title="Permalink to this definition">¶</a></dt>
+<dd>A string that is drawn in the middle of the chart area if there are no
+graphs to be drawn. Pango Markup Language tags are supported.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.chart.BORDER">
+<tt class="descclassname">gui.charting.chart.</tt><tt class="descname">BORDER</tt><a class="headerlink" href="#gui.charting.chart.BORDER" title="Permalink to this definition">¶</a></dt>
+<dd>A named tuple <tt class="docutils literal"><span class="pre">(</span><em><span class="pre">top</span></em><span class="pre">,</span> <em><span class="pre">bottom</span></em><span class="pre">,</span> <em><span class="pre">left</span></em><span class="pre">,</span> <em><span class="pre">right</span></em><span class="pre">)</span></tt> of the amount of
+space left around the actual chart for showing the axes&#8217; tick and dimension
+labels. <tt class="docutils literal"><em><span class="pre">bottom</span></em></tt> does not include the space for the caption.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.charting.chart</span></tt> &#8212; Provides a <tt class="docutils literal"><span class="pre">gtk.Widget</span></tt> for simple charts</a><ul>
+<li><a class="reference external" href="#the-chart-widget">The <tt class="docutils literal"><span class="pre">Chart</span></tt> Widget</a><ul>
+<li><a class="reference external" href="#axes">Axes</a></li>
+<li><a class="reference external" href="#graphs">Graphs</a></li>
+<li><a class="reference external" href="#caption">Caption</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#constants">Constants</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">The <tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.charting</span></tt> Package</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="axis.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">gui.charting.axis</span></tt> &#8212; Handles the charts&#8217; axes</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="axis.html" title="gui.charting.axis — Handles the charts’ axes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The gui.charting Package"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" >The <tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.charting</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

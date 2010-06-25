@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ops.system — Provides high-level control over the production system &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../index.html" />
+    <link rel="up" title="The ops Package" href="index.html" />
+    <link rel="next" title="ops.simulation — Simulates communication with the production system" href="simulation.html" />
+    <link rel="prev" title="The ops Package" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="simulation.html" title="ops.simulation — Simulates communication with the production system"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The ops Package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-ops.system">
+<h1><tt class="xref docutils literal"><span class="pre">ops.system</span></tt> &#8212; Provides high-level control over the production system<a class="headerlink" href="#module-ops.system" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="ops.system.ProductionSystem" class="reference internal" href="#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> class &#8211; the cornerstone of
+the application.</p>
+<div class="section" id="the-productionsystem-class">
+<h2>The <a title="ops.system.ProductionSystem" class="reference internal" href="#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> Class<a class="headerlink" href="#the-productionsystem-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.system.ProductionSystem">
+<em class="property">class </em><tt class="descclassname">ops.system.</tt><tt class="descname">ProductionSystem</tt><a class="headerlink" href="#ops.system.ProductionSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class that provides high-level control over an FCI-7011 fiber coupler
+production system (the <a class="reference external" href="../glossary.html#term-device"><em class="xref">device</em></a>). Each instance of this class
+wraps a <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a> object (which handles the
+communication with the device) and complements the low-level functionality
+it provides with a number of high-level services:</p>
+<ul>
+<li><p class="first">Instances hold <em>calibration data</em> for the device. If this
+calibration data is complete, clients can interact with the device in
+terms of heating temperatures rather than temperature sensor voltages
+and heating currents by using its <a title="ops.system.ProductionSystem.temperature" class="reference internal" href="#ops.system.ProductionSystem.temperature"><tt class="xref docutils literal"><span class="pre">temperature</span></tt></a> property and
+<a title="ops.system.ProductionSystem.startHeatingToTemperature" class="reference internal" href="#ops.system.ProductionSystem.startHeatingToTemperature"><tt class="xref docutils literal"><span class="pre">startHeatingToTemperature()</span></tt></a> method. The calibration data itself
+is stored in a <a title="ops.calibration.data.CalibrationData" class="reference external" href="calibration/data.html#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> object,
+and can be accessed using the <a title="ops.system.ProductionSystem.calibrationData" class="reference internal" href="#ops.system.ProductionSystem.calibrationData"><tt class="xref docutils literal"><span class="pre">calibrationData</span></tt></a> property.</p>
+<p>The necessary data can be gathered by performing a <a class="reference external" href="../glossary.html#term-calibration-procedure"><em class="xref">calibration
+procedure</em></a>, which requires the application&#8217;s user to take a series of
+temperature measurements, and may take several hours. A calibration
+procedure can be started by calling <a title="ops.system.ProductionSystem.startCalibration" class="reference internal" href="#ops.system.ProductionSystem.startCalibration"><tt class="xref docutils literal"><span class="pre">startCalibration()</span></tt></a>.
+See the documentation for <a title="" class="reference external" href="calibration/manager.html#module-ops.calibration.manager"><tt class="xref docutils literal"><span class="pre">ops.calibration.manager</span></tt></a> for further
+information</p>
+<p>To check whether an instance has a complete set of calibration data for
+its device, use <a title="ops.system.ProductionSystem.isCalibrated" class="reference internal" href="#ops.system.ProductionSystem.isCalibrated"><tt class="xref docutils literal"><span class="pre">isCalibrated</span></tt></a>.</p>
+</li>
+<li><p class="first">Instances monitor the device&#8217;s temperature and temperature sensor
+voltage. If either exceeds its safe limits (<a title="ops.system.ProductionSystem.maxSafeTemperature" class="reference internal" href="#ops.system.ProductionSystem.maxSafeTemperature"><tt class="xref docutils literal"><span class="pre">maxSafeTemperature</span></tt></a>
+and <a title="ops.system.ProductionSystem.maxSafeTemperatureSensorVoltage" class="reference internal" href="#ops.system.ProductionSystem.maxSafeTemperatureSensorVoltage"><tt class="xref docutils literal"><span class="pre">maxSafeTemperatureSensorVoltage</span></tt></a>, respectively), the instance
+is switched into its <a class="reference external" href="../glossary.html#term-safe-mode"><em class="xref">safe mode</em></a>. In safe mode, the device&#8217;s
+heating current is set to <a title="ops.system.ProductionSystem.heatingCurrentInSafeMode" class="reference internal" href="#ops.system.ProductionSystem.heatingCurrentInSafeMode"><tt class="xref docutils literal"><span class="pre">heatingCurrentInSafeMode</span></tt></a>, and the
+instance&#8217;s <a title="ops.system.ProductionSystem.isInSafeMode" class="reference internal" href="#ops.system.ProductionSystem.isInSafeMode"><tt class="xref docutils literal"><span class="pre">isInSafeMode</span></tt></a> flag is set. The instance leaves safe
+mode when a new new heating procedure is started.</p>
+</li>
+<li><p class="first">Instances can be locked. While an instance is locked, clients cannot
+perform any operations on the device without providing the appropriate
+key. This ensures that different operations do not interfere with each
+other.</p>
+<p>To lock or unlock an instance, use the <a title="ops.system.ProductionSystem.lock" class="reference internal" href="#ops.system.ProductionSystem.lock"><tt class="xref docutils literal"><span class="pre">lock()</span></tt></a> and <a title="ops.system.ProductionSystem.unlock" class="reference internal" href="#ops.system.ProductionSystem.unlock"><tt class="xref docutils literal"><span class="pre">unlock()</span></tt></a>
+methods. To check whether an instance is locked, use the <a title="ops.system.ProductionSystem.isLocked" class="reference internal" href="#ops.system.ProductionSystem.isLocked"><tt class="xref docutils literal"><span class="pre">isLocked</span></tt></a>
+property.</p>
+</li>
+</ul>
+<p>An <a title="ops.simulation.SimulatedDeviceInterface" class="reference external" href="simulation.html#ops.simulation.SimulatedDeviceInterface"><tt class="xref docutils literal"><span class="pre">ops.simulation.SimulatedDeviceInterface</span></tt></a> object can be
+substituted for the <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a> in order to
+test the application without using an actual device.</p>
+</dd></dl>
+
+<div class="section" id="general-attributes">
+<h3>General Attributes<a class="headerlink" href="#general-attributes" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="ops.system.ProductionSystem.__init__">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">__init__</tt><big>(</big><em>mediator</em>, <em>interface=None</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiates a new instance of this class.</p>
+<p><cite>mediator</cite> is used to set <a title="ops.system.ProductionSystem.mediator" class="reference internal" href="#ops.system.ProductionSystem.mediator"><tt class="xref docutils literal"><span class="pre">mediator</span></tt></a>.</p>
+<p><cite>interface</cite> is the <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a> the
+instance uses to communicate with the device it controls, a
+<a title="ops.simulation.SimulatedDeviceInterface" class="reference external" href="simulation.html#ops.simulation.SimulatedDeviceInterface"><tt class="xref docutils literal"><span class="pre">SimulatedDeviceInterface</span></tt></a>, or <tt class="xref docutils literal"><span class="pre">None</span></tt>,
+in which case a new <a title="ops.simulation.SimulatedDeviceInterface" class="reference external" href="simulation.html#ops.simulation.SimulatedDeviceInterface"><tt class="xref docutils literal"><span class="pre">SimulatedDeviceInterface</span></tt></a>
+object is used.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.mediator">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">mediator</tt><a class="headerlink" href="#ops.system.ProductionSystem.mediator" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="gui.mediator.Mediator" class="reference external" href="../gui/mediator.html#gui.mediator.Mediator"><tt class="xref docutils literal"><span class="pre">Mediator</span></tt></a> the instance uses to communicate
+with the GUI, or an object that provides a compatible interface.
+Immutable.</dd></dl>
+
+</div>
+<div class="section" id="locking">
+<h3>Locking<a class="headerlink" href="#locking" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.isLocked">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">isLocked</tt><a class="headerlink" href="#ops.system.ProductionSystem.isLocked" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether the instance is locked. Read-only. To lock or unlock
+the instance, use the <a title="ops.system.ProductionSystem.lock" class="reference internal" href="#ops.system.ProductionSystem.lock"><tt class="xref docutils literal"><span class="pre">lock()</span></tt></a> and <a title="ops.system.ProductionSystem.unlock" class="reference internal" href="#ops.system.ProductionSystem.unlock"><tt class="xref docutils literal"><span class="pre">unlock()</span></tt></a> methods.</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.lock">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">lock</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locks the instance with the given key. While it is locked, clients
+cannot perform any operations on the device without providing the
+appropriate key.</p>
+<p>Any object other than <tt class="xref docutils literal"><span class="pre">None</span></tt> may be used as the key. If the instance
+is already locked, a <a title="ops.error.SystemLockedError" class="reference external" href="error.html#ops.error.SystemLockedError"><tt class="xref docutils literal"><span class="pre">SystemLockedError</span></tt></a> is raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.unlock">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">unlock</tt><big>(</big><em>key</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.unlock" title="Permalink to this definition">¶</a></dt>
+<dd>Unlocks the instance, using the given key. If the instance
+is not locked, a <a title="ops.error.SystemNotLockedError" class="reference external" href="error.html#ops.error.SystemNotLockedError"><tt class="xref docutils literal"><span class="pre">SystemNotLockedError</span></tt></a> is raised.
+If a key other than the one used to lock the instance is passed,
+a <a title="ops.error.WrongKeyError" class="reference external" href="error.html#ops.error.WrongKeyError"><tt class="xref docutils literal"><span class="pre">WrongKeyError</span></tt></a> is raised.</dd></dl>
+
+</div>
+<div class="section" id="calibration">
+<h3>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.isCalibrated">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">isCalibrated</tt><a class="headerlink" href="#ops.system.ProductionSystem.isCalibrated" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether the instance has complete calibration data for the
+device. This is always <tt class="xref docutils literal"><span class="pre">False</span></tt> while a calibration procedure is
+underway. Read -only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.isBeingCalibrated">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">isBeingCalibrated</tt><a class="headerlink" href="#ops.system.ProductionSystem.isBeingCalibrated" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether a calibration procedure is underway. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.calibrationData">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">calibrationData</tt><a class="headerlink" href="#ops.system.ProductionSystem.calibrationData" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a title="ops.calibration.data.CalibrationData" class="reference external" href="calibration/data.html#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> object that holds
+the resuts of the calibration procedure of the device the instance
+controls.</p>
+<p>May be modified, but the new calibration data object may not be
+currently used by another <a title="ops.system.ProductionSystem" class="reference internal" href="#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> (that is, its
+<a title="ops.calibration.data.CalibrationData.system" class="reference external" href="calibration/data.html#ops.calibration.data.CalibrationData.system"><tt class="xref docutils literal"><span class="pre">system</span></tt></a> property must
+be <tt class="xref docutils literal"><span class="pre">None</span></tt>), or an <a title="util.ApplicationError" class="reference external" href="../util.html#util.ApplicationError"><tt class="xref docutils literal"><span class="pre">ApplicationError</span></tt></a> is raised.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.calibrationManager">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">calibrationManager</tt><a class="headerlink" href="#ops.system.ProductionSystem.calibrationManager" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="ops.calibration.manager.CalibrationManager" class="reference external" href="calibration/manager.html#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a> that is
+managing the ongoing calibration procedure of the device the instance
+controls, or <tt class="xref docutils literal"><span class="pre">None</span></tt> if the device is not being calibrated. Read-only.</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.startCalibration">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">startCalibration</tt><big>(</big><em>currents</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.startCalibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a <a class="reference external" href="../glossary.html#term-calibration-procedure"><em class="xref">calibration procedure</em></a>. <cite>currents</cite> is a list of the
+heating currents (in mA) for which measurements are to be taken.
+The actual work is done by
+<a title="ops.calibration.manager.CalibrationManager" class="reference external" href="calibration/manager.html#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">ops.calibration.manager.CalibrationManager</span></tt></a>.
+See that class for further documentation.</p>
+<p><em>This method is asynchronous.</em> The calibration procedure itself may
+take several hours to complete, but the method returns immediately.</p>
+<p>The instance is locked for the duration of the calibration procedure.
+If the instance is already locked when this method is called, a
+<a title="ops.error.SystemLockedError" class="reference external" href="error.html#ops.error.SystemLockedError"><tt class="xref docutils literal"><span class="pre">SystemLockedError</span></tt></a> is raised.</p>
+<p>During the calibration procedure, the application&#8217;s user needs to be
+available to take a series of temperature measurements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.abortCalibration">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">abortCalibration</tt><big>(</big><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.abortCalibration" title="Permalink to this definition">¶</a></dt>
+<dd>Aborts the ongoing calibration procedure.</dd></dl>
+
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a title="ops.system.ProductionSystem.performMagicCalibration" class="reference internal" href="#ops.system.ProductionSystem.performMagicCalibration"><tt class="xref docutils literal"><span class="pre">performMagicCalibration()</span></tt></a></p>
+</div>
+</div>
+<div class="section" id="monitoring">
+<h3>Monitoring<a class="headerlink" href="#monitoring" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.isInSafeMode">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">isInSafeMode</tt><a class="headerlink" href="#ops.system.ProductionSystem.isInSafeMode" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether the instance is in its safe mode. Read-only.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.monitorInterval">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">monitorInterval</tt><a class="headerlink" href="#ops.system.ProductionSystem.monitorInterval" title="Permalink to this definition">¶</a></dt>
+<dd>The interval the temperature is monitored in, in milliseconds.
+This is a class attribute. Setting it on an instance has no effect.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.maxSafeTemperature">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">maxSafeTemperature</tt><a class="headerlink" href="#ops.system.ProductionSystem.maxSafeTemperature" title="Permalink to this definition">¶</a></dt>
+<dd>The highest safe heating temperature, in °C. If this temperature is
+exceeded, the instance switches into its safe mode. The device needs
+to be calibrated for this to work.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.maxSafeTemperatureSensorVoltage">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">maxSafeTemperatureSensorVoltage</tt><a class="headerlink" href="#ops.system.ProductionSystem.maxSafeTemperatureSensorVoltage" title="Permalink to this definition">¶</a></dt>
+<dd>The highest safe temperature sensor voltage, in V. If this voltage is
+exceeded the instance switches into its safe mode. Having a highest
+safe temperature sensor voltage as well as a highest safe heating
+temperature allows monitoring the device even if it is uncalibrated.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.heatingCurrentInSafeMode">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">heatingCurrentInSafeMode</tt><a class="headerlink" href="#ops.system.ProductionSystem.heatingCurrentInSafeMode" title="Permalink to this definition">¶</a></dt>
+<dd>The heating current used in safe mode, in mA.</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.enterSafeMode">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">enterSafeMode</tt><big>(</big><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.enterSafeMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switches the instance into its <a class="reference external" href="../glossary.html#term-safe-mode"><em class="xref">safe mode</em></a>. In safe mode, the
+device&#8217;s heating current is set to <a title="ops.system.ProductionSystem.heatingCurrentInSafeMode" class="reference internal" href="#ops.system.ProductionSystem.heatingCurrentInSafeMode"><tt class="xref docutils literal"><span class="pre">heatingCurrentInSafeMode</span></tt></a>,
+and the instance&#8217;s <a title="ops.system.ProductionSystem.isInSafeMode" class="reference internal" href="#ops.system.ProductionSystem.isInSafeMode"><tt class="xref docutils literal"><span class="pre">isInSafeMode</span></tt></a> flag is set. The instance
+leaves safe mode when a new new heating procedure is started.</p>
+<p>Calling this method on a locked instance does not require a key;
+operations must be able to deal with the fact that the instance may
+unexpectedly enter safe mode while they are running. Entering
+safe mode does not unlock the instance, however.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="heating">
+<h3>Heating<a class="headerlink" href="#heating" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.heatingCurrent">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">heatingCurrent</tt><a class="headerlink" href="#ops.system.ProductionSystem.heatingCurrent" title="Permalink to this definition">¶</a></dt>
+<dd>The device&#8217;s heating current, in mA. Read-only. To change the
+heating current, use the <a title="ops.system.ProductionSystem.startHeatingWithCurrent" class="reference internal" href="#ops.system.ProductionSystem.startHeatingWithCurrent"><tt class="xref docutils literal"><span class="pre">startHeatingWithCurrent()</span></tt></a> method.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.heatingCurrentWhileIdle">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">heatingCurrentWhileIdle</tt><a class="headerlink" href="#ops.system.ProductionSystem.heatingCurrentWhileIdle" title="Permalink to this definition">¶</a></dt>
+<dd>The heating current used when the device is idle, in mA.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.maxHeatingCurrent">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">maxHeatingCurrent</tt><a class="headerlink" href="#ops.system.ProductionSystem.maxHeatingCurrent" title="Permalink to this definition">¶</a></dt>
+<dd>The highest legal heating current, in mA.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.temperatureSensorVoltage">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">temperatureSensorVoltage</tt><a class="headerlink" href="#ops.system.ProductionSystem.temperatureSensorVoltage" title="Permalink to this definition">¶</a></dt>
+<dd><p>The voltage reported by the temperature sensor, in V. Read-only.</p>
+<p>In most cases, clients will want to use <a title="ops.system.ProductionSystem.temperature" class="reference internal" href="#ops.system.ProductionSystem.temperature"><tt class="xref docutils literal"><span class="pre">temperature</span></tt></a> instead.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the heater is not in its foremost position (see
+<a title="ops.system.ProductionSystem.heaterPosition" class="reference internal" href="#ops.system.ProductionSystem.heaterPosition"><tt class="xref docutils literal"><span class="pre">heaterPosition</span></tt></a>), the returned voltage will not be an
+accurate reflection of the heater&#8217;s temperature. If the user
+has moved the temperature sensor aside, it will be unrelated
+to the heater&#8217;s temperature.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.temperature">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">temperature</tt><a class="headerlink" href="#ops.system.ProductionSystem.temperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>The heating temperature that corresponds to the measured temperature
+sensor voltage, in °C, or <tt class="xref docutils literal"><span class="pre">None</span></tt> if the device isn&#8217;t calibrated.
+Read-only.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The returned temperature is only accurate if the temperature sensor
+can get an accurate reading. If the heater is not in its foremost
+position (see <a title="ops.system.ProductionSystem.heaterPosition" class="reference internal" href="#ops.system.ProductionSystem.heaterPosition"><tt class="xref docutils literal"><span class="pre">heaterPosition</span></tt></a>), the returned temperature
+will be inaccurate. If the user has moved the temperature sensor
+aside, it will be unrelated to the actual heating temperature.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.targetTemperature">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">targetTemperature</tt><a class="headerlink" href="#ops.system.ProductionSystem.targetTemperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>The temperature the heater is being heated to, in °C, or <tt class="xref docutils literal"><span class="pre">None</span></tt> if
+it is not being heated to a particular temperature.</p>
+<p>Read-only. To change the target temperature, or start heating towards a
+particular temperature, use the <a title="ops.system.ProductionSystem.startHeatingToTemperature" class="reference internal" href="#ops.system.ProductionSystem.startHeatingToTemperature"><tt class="xref docutils literal"><span class="pre">startHeatingToTemperature()</span></tt></a>
+method.</p>
+<p>Changing the heating current using <a title="ops.system.ProductionSystem.startHeatingWithCurrent" class="reference internal" href="#ops.system.ProductionSystem.startHeatingWithCurrent"><tt class="xref docutils literal"><span class="pre">startHeatingWithCurrent()</span></tt></a>
+resets this property to <tt class="xref docutils literal"><span class="pre">None</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.minTargetTemperature">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">minTargetTemperature</tt><a class="headerlink" href="#ops.system.ProductionSystem.minTargetTemperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>The lowest target temperature that can be passed to
+<a title="ops.system.ProductionSystem.startHeatingToTemperature" class="reference internal" href="#ops.system.ProductionSystem.startHeatingToTemperature"><tt class="xref docutils literal"><span class="pre">startHeatingToTemperature()</span></tt></a>, in °C, or <tt class="xref docutils literal"><span class="pre">None</span></tt> if the
+device is not calibrated.</p>
+<p>The value is equal to the lowest temperature measured during the
+calibration procedure. Read-only.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.maxTargetTemperature">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">maxTargetTemperature</tt><a class="headerlink" href="#ops.system.ProductionSystem.maxTargetTemperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>The highest target temperature that can be passed to
+<a title="ops.system.ProductionSystem.startHeatingToTemperature" class="reference internal" href="#ops.system.ProductionSystem.startHeatingToTemperature"><tt class="xref docutils literal"><span class="pre">startHeatingToTemperature()</span></tt></a>, in °C, or <tt class="xref docutils literal"><span class="pre">None</span></tt> if the
+device is not calibrated.</p>
+<p>The value is equal to the lowest of <a title="ops.system.ProductionSystem.maxSafeTemperature" class="reference internal" href="#ops.system.ProductionSystem.maxSafeTemperature"><tt class="xref docutils literal"><span class="pre">maxSafeTemperature</span></tt></a>, the
+temperature that can be reached with a heating current equal to
+<a title="ops.system.ProductionSystem.maxHeatingCurrent" class="reference internal" href="#ops.system.ProductionSystem.maxHeatingCurrent"><tt class="xref docutils literal"><span class="pre">maxHeatingCurrent</span></tt></a>, or the highest temperature measured
+during the calibration procedure. Read-only.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.isValidTargetTemperature">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">isValidTargetTemperature</tt><big>(</big><em>temperature</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.isValidTargetTemperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates whether the given temperature (in °C) can be passed to
+<a title="ops.system.ProductionSystem.startHeatingToTemperature" class="reference internal" href="#ops.system.ProductionSystem.startHeatingToTemperature"><tt class="xref docutils literal"><span class="pre">startHeatingToTemperature()</span></tt></a>, that is, whether it lies between
+<a title="ops.system.ProductionSystem.minTargetTemperature" class="reference internal" href="#ops.system.ProductionSystem.minTargetTemperature"><tt class="xref docutils literal"><span class="pre">minTargetTemperature</span></tt></a> and <a title="ops.system.ProductionSystem.maxTargetTemperature" class="reference internal" href="#ops.system.ProductionSystem.maxTargetTemperature"><tt class="xref docutils literal"><span class="pre">maxTargetTemperature</span></tt></a>.</p>
+<p>If the device is not calibrated, a <a title="ops.error.NotCalibratedError" class="reference external" href="error.html#ops.error.NotCalibratedError"><tt class="xref docutils literal"><span class="pre">NotCalibratedError</span></tt></a>
+is raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.startHeatingWithCurrent">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">startHeatingWithCurrent</tt><big>(</big><em>current</em>, <em>key=None</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.startHeatingWithCurrent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the device&#8217;s heating current to <cite>current</cite>, in mA. Also clears
+the <a title="ops.system.ProductionSystem.isInSafeMode" class="reference internal" href="#ops.system.ProductionSystem.isInSafeMode"><tt class="xref docutils literal"><span class="pre">isInSafeMode</span></tt></a> flag and sets <a title="ops.system.ProductionSystem.targetTemperature" class="reference internal" href="#ops.system.ProductionSystem.targetTemperature"><tt class="xref docutils literal"><span class="pre">targetTemperature</span></tt></a> to
+<tt class="xref docutils literal"><span class="pre">None</span></tt>.</p>
+<p>If the instance is locked, the appropriate key must be passed,
+otherwise a <a title="ops.error.SystemLockedError" class="reference external" href="error.html#ops.error.SystemLockedError"><tt class="xref docutils literal"><span class="pre">SystemLockedError</span></tt></a> is raised.
+If the wrong key is passed, a <a title="ops.error.WrongKeyError" class="reference external" href="error.html#ops.error.WrongKeyError"><tt class="xref docutils literal"><span class="pre">WrongKeyError</span></tt></a> is
+raised. If a key is passed even though the instance is not locked,
+a <a title="ops.error.SystemNotLockedError" class="reference external" href="error.html#ops.error.SystemNotLockedError"><tt class="xref docutils literal"><span class="pre">SystemNotLockedError</span></tt></a> is raised.</p>
+<p>If <cite>current</cite> is negative or exceeds <a title="ops.system.ProductionSystem.maxHeatingCurrent" class="reference internal" href="#ops.system.ProductionSystem.maxHeatingCurrent"><tt class="xref docutils literal"><span class="pre">maxHeatingCurrent</span></tt></a>, an
+<a title="ops.error.InvalidHeatingCurrentError" class="reference external" href="error.html#ops.error.InvalidHeatingCurrentError"><tt class="xref docutils literal"><span class="pre">InvalidHeatingCurrentError</span></tt></a> is raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.startHeatingToTemperature">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">startHeatingToTemperature</tt><big>(</big><em>targetTemperature</em>, <em>key=None</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.startHeatingToTemperature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the device&#8217;s heating current to a value that should result in the
+heater reaching, but not exceeding, <cite>targetTemperature</cite>, in °C. The
+device must be calibrated for this method to be usable. Also clears the
+<a title="ops.system.ProductionSystem.isInSafeMode" class="reference internal" href="#ops.system.ProductionSystem.isInSafeMode"><tt class="xref docutils literal"><span class="pre">isInSafeMode</span></tt></a> flag and sets <a title="ops.system.ProductionSystem.targetTemperature" class="reference internal" href="#ops.system.ProductionSystem.targetTemperature"><tt class="xref docutils literal"><span class="pre">targetTemperature</span></tt></a> to
+<cite>targetTemperature</cite>.</p>
+<p>If the instance is locked, the appropriate key must be passed,
+otherwise a <a title="ops.error.SystemLockedError" class="reference external" href="error.html#ops.error.SystemLockedError"><tt class="xref docutils literal"><span class="pre">SystemLockedError</span></tt></a> is raised.
+If the wrong key is passed, a <a title="ops.error.WrongKeyError" class="reference external" href="error.html#ops.error.WrongKeyError"><tt class="xref docutils literal"><span class="pre">WrongKeyError</span></tt></a> is
+raised. If a key is passed even though the instance is not locked,
+a <a title="ops.error.SystemNotLockedError" class="reference external" href="error.html#ops.error.SystemNotLockedError"><tt class="xref docutils literal"><span class="pre">SystemNotLockedError</span></tt></a> is raised.</p>
+<p>If the device is not calibrated, a <a title="ops.error.NotCalibratedError" class="reference external" href="error.html#ops.error.NotCalibratedError"><tt class="xref docutils literal"><span class="pre">NotCalibratedError</span></tt></a>
+is raised.</p>
+<p>If <cite>targetTemperature</cite> is less than <a title="ops.system.ProductionSystem.minTargetTemperature" class="reference internal" href="#ops.system.ProductionSystem.minTargetTemperature"><tt class="xref docutils literal"><span class="pre">minTargetTemperature</span></tt></a> or
+greater then <a title="ops.system.ProductionSystem.maxTargetTemperature" class="reference internal" href="#ops.system.ProductionSystem.maxTargetTemperature"><tt class="xref docutils literal"><span class="pre">maxTargetTemperature</span></tt></a>, an
+<a title="ops.error.InvalidTargetTemperatureError" class="reference external" href="error.html#ops.error.InvalidTargetTemperatureError"><tt class="xref docutils literal"><span class="pre">InvalidTargetTemperatureError</span></tt></a> is raised.</p>
+<p>The temperature sensor is not used by the heating procedure started by
+this method at all. The current used is determined from the temperature
+measurements taken during the calibration procedure, and no
+second-guessing based on the temperature sensor voltages reported
+during the heating procedure takes place. This means this method
+is not affected by the issues mentioned in the documentation for the
+<a title="ops.system.ProductionSystem.temperature" class="reference internal" href="#ops.system.ProductionSystem.temperature"><tt class="xref docutils literal"><span class="pre">temperature</span></tt></a> property.</p>
+<p><em>This method is asynchronous.</em> It will take some time for the heater
+to reach the target temperature, but the method will return
+immediately.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.idle">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">idle</tt><big>(</big><em>key=None</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.idle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the device&#8217;s heating current to <a title="ops.system.ProductionSystem.heatingCurrentWhileIdle" class="reference internal" href="#ops.system.ProductionSystem.heatingCurrentWhileIdle"><tt class="xref docutils literal"><span class="pre">heatingCurrentWhileIdle</span></tt></a>.</p>
+<p>If the instance is locked, the appropriate key must be passed,
+otherwise a <a title="ops.error.SystemLockedError" class="reference external" href="error.html#ops.error.SystemLockedError"><tt class="xref docutils literal"><span class="pre">SystemLockedError</span></tt></a> is raised.
+If the wrong key is passed, a <a title="ops.error.WrongKeyError" class="reference external" href="error.html#ops.error.WrongKeyError"><tt class="xref docutils literal"><span class="pre">WrongKeyError</span></tt></a> is
+raised. If a key is passed even though the instance is not locked,
+a <a title="ops.error.SystemNotLockedError" class="reference external" href="error.html#ops.error.SystemNotLockedError"><tt class="xref docutils literal"><span class="pre">SystemNotLockedError</span></tt></a> is raised.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="heater-movement">
+<h3>Heater Movement<a class="headerlink" href="#heater-movement" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.heaterPosition">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">heaterPosition</tt><a class="headerlink" href="#ops.system.ProductionSystem.heaterPosition" title="Permalink to this definition">¶</a></dt>
+<dd>The position of the heater, as a fraction of the distance between
+rearmost position (<tt class="docutils literal"><span class="pre">0.0</span></tt>) and foremost position (<tt class="docutils literal"><span class="pre">1.0</span></tt>).
+Read-only. To move the heater to another position, use the
+<a title="ops.system.ProductionSystem.startHeaterMovement" class="reference internal" href="#ops.system.ProductionSystem.startHeaterMovement"><tt class="xref docutils literal"><span class="pre">startHeaterMovement()</span></tt></a> method.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.heaterTargetPosition">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">heaterTargetPosition</tt><a class="headerlink" href="#ops.system.ProductionSystem.heaterTargetPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position the heater is supposed to be at, as a fraction of the
+distance between rearmost position (<tt class="docutils literal"><span class="pre">0.0</span></tt>) and foremost position
+(<tt class="docutils literal"><span class="pre">1.0</span></tt>).</p>
+<p>If <a title="ops.system.ProductionSystem.heaterTargetPosition" class="reference internal" href="#ops.system.ProductionSystem.heaterTargetPosition"><tt class="xref docutils literal"><span class="pre">heaterTargetPosition</span></tt></a> is not equal to <a title="ops.system.ProductionSystem.heaterPosition" class="reference internal" href="#ops.system.ProductionSystem.heaterPosition"><tt class="xref docutils literal"><span class="pre">heaterPosition</span></tt></a>,
+the heater is still moving to its target position.</p>
+<p>Read-only. To change the heater&#8217;s target position, use the
+<a title="ops.system.ProductionSystem.startHeaterMovement" class="reference internal" href="#ops.system.ProductionSystem.startHeaterMovement"><tt class="xref docutils literal"><span class="pre">startHeaterMovement()</span></tt></a> method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.startHeaterMovement">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">startHeaterMovement</tt><big>(</big><em>targetPosition</em>, <em>key=None</em><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.startHeaterMovement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the heater to the given position, expressed as a fraction of the
+distance between rearmost position (<tt class="docutils literal"><span class="pre">0.0</span></tt>) and foremost position
+(<tt class="docutils literal"><span class="pre">1.0</span></tt>).</p>
+<p>If the instance is locked, the appropriate key must be passed,
+otherwise a <a title="ops.error.SystemLockedError" class="reference external" href="error.html#ops.error.SystemLockedError"><tt class="xref docutils literal"><span class="pre">SystemLockedError</span></tt></a> is raised.
+If the wrong key is passed, a <a title="ops.error.WrongKeyError" class="reference external" href="error.html#ops.error.WrongKeyError"><tt class="xref docutils literal"><span class="pre">WrongKeyError</span></tt></a> is
+raised. If a key is passed even though the instance is not locked,
+a <a title="ops.error.SystemNotLockedError" class="reference external" href="error.html#ops.error.SystemNotLockedError"><tt class="xref docutils literal"><span class="pre">SystemNotLockedError</span></tt></a> is raised.</p>
+<p>If <cite>targetPosition</cite> is less than <tt class="docutils literal"><span class="pre">0.0</span></tt> or greater than <tt class="docutils literal"><span class="pre">1.0</span></tt>,
+an <a title="ops.error.InvalidHeaterPositionError" class="reference external" href="error.html#ops.error.InvalidHeaterPositionError"><tt class="xref docutils literal"><span class="pre">InvalidHeaterPositionError</span></tt></a> is raised.</p>
+<p><em>This method is asynchronous.</em> Moving the heater can take several
+seconds, but this method returns immediately.</p>
+<p>To check which position the heater is currently moving to, use
+<a title="ops.system.ProductionSystem.heaterTargetPosition" class="reference internal" href="#ops.system.ProductionSystem.heaterTargetPosition"><tt class="xref docutils literal"><span class="pre">heaterTargetPosition</span></tt></a>; to get its actual position use
+<a title="ops.system.ProductionSystem.heaterPosition" class="reference internal" href="#ops.system.ProductionSystem.heaterPosition"><tt class="xref docutils literal"><span class="pre">heaterPosition</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.isSimulation">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">isSimulation</tt><a class="headerlink" href="#ops.system.ProductionSystem.isSimulation" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether the device the instance controls is simulated;
+that is, whether it wraps
+a <a title="ops.simulation.SimulatedDeviceInterface" class="reference external" href="simulation.html#ops.simulation.SimulatedDeviceInterface"><tt class="xref docutils literal"><span class="pre">SimulatedDeviceInterface</span></tt></a>
+or a <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a>. Immutable.</dd></dl>
+
+<dl class="attribute">
+<dt id="ops.system.ProductionSystem.speedFactor">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">speedFactor</tt><a class="headerlink" href="#ops.system.ProductionSystem.speedFactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>The factor by which all operations performed with the device are sped
+up. Setting this property to, say, <tt class="docutils literal"><span class="pre">5.0</span></tt> greatly reduces the time
+required to test the application. Mutable.</p>
+<p>This property is intended for testing purposes only. If the instance
+wraps a real <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a>, any attempt
+to acess it raises a <a title="ops.error.RequiresSimulationError" class="reference external" href="error.html#ops.error.RequiresSimulationError"><tt class="xref docutils literal"><span class="pre">RequiresSimulationError</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ops.system.ProductionSystem.performMagicCalibration">
+<tt class="descclassname">ProductionSystem.</tt><tt class="descname">performMagicCalibration</tt><big>(</big><big>)</big><a class="headerlink" href="#ops.system.ProductionSystem.performMagicCalibration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a <a title="ops.calibration.data.CalibrationData" class="reference external" href="calibration/data.html#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> object using
+the parameters of the <a title="ops.simulation.SimulatedDeviceInterface" class="reference external" href="simulation.html#ops.simulation.SimulatedDeviceInterface"><tt class="xref docutils literal"><span class="pre">SimulatedDeviceInterface</span></tt></a>
+used by the instance, and assigns it to <a title="ops.system.ProductionSystem.calibrationData" class="reference internal" href="#ops.system.ProductionSystem.calibrationData"><tt class="xref docutils literal"><span class="pre">calibrationData</span></tt></a>.
+Unlike a real calibration procedure, magic calibration is instant.
+The <a title="ops.calibration.manager.CalibrationManager" class="reference external" href="calibration/manager.html#ops.calibration.manager.CalibrationManager"><tt class="xref docutils literal"><span class="pre">CalibrationManager</span></tt></a> is not used.</p>
+<p>This method is intended for testing purposes only. If the instance
+wraps a real <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a>, this method
+raises a <a title="ops.error.RequiresSimulationError" class="reference external" href="error.html#ops.error.RequiresSimulationError"><tt class="xref docutils literal"><span class="pre">RequiresSimulationError</span></tt></a>.</p>
+<p>Magic calibration will generate measurements for heating currents
+starting at <a title="ops.system.ProductionSystem.heatingCurrentWhileIdle" class="reference internal" href="#ops.system.ProductionSystem.heatingCurrentWhileIdle"><tt class="xref docutils literal"><span class="pre">heatingCurrentWhileIdle</span></tt></a> and increasing in steps
+of 2 mA until they would exceed <a title="ops.system.ProductionSystem.maxHeatingCurrent" class="reference internal" href="#ops.system.ProductionSystem.maxHeatingCurrent"><tt class="xref docutils literal"><span class="pre">maxHeatingCurrent</span></tt></a> or the
+temperature sensor voltage reached with this current would exceed
+<a title="ops.system.ProductionSystem.maxSafeTemperatureSensorVoltage" class="reference internal" href="#ops.system.ProductionSystem.maxSafeTemperatureSensorVoltage"><tt class="xref docutils literal"><span class="pre">maxSafeTemperatureSensorVoltage</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">ops.system</span></tt> &#8212; Provides high-level control over the production system</a><ul>
+<li><a class="reference external" href="#the-productionsystem-class">The <tt class="docutils literal"><span class="pre">ProductionSystem</span></tt> Class</a><ul>
+<li><a class="reference external" href="#general-attributes">General Attributes</a></li>
+<li><a class="reference external" href="#locking">Locking</a></li>
+<li><a class="reference external" href="#calibration">Calibration</a></li>
+<li><a class="reference external" href="#monitoring">Monitoring</a></li>
+<li><a class="reference external" href="#heating">Heating</a></li>
+<li><a class="reference external" href="#heater-movement">Heater Movement</a></li>
+<li><a class="reference external" href="#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="index.html"
+                                  title="previous chapter">The <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops</span></tt> Package</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="simulation.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">ops.simulation</span></tt> &#8212; Simulates communication with the production system</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="simulation.html" title="ops.simulation — Simulates communication with the production system"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The ops Package"
+             >previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" >The <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

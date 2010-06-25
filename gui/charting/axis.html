@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.charting.axis — Handles the charts’ axes &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="The gui.charting Package" href="index.html" />
+    <link rel="next" title="gui.charting.graph — Draws several types of graph" href="graph.html" />
+    <link rel="prev" title="gui.charting.chart — Provides a gtk.Widget for simple charts" href="chart.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="graph.html" title="gui.charting.graph — Draws several types of graph"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="chart.html" title="gui.charting.chart — Provides a gtk.Widget for simple charts"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The <tt class="docutils literal docutils literal"><span class="pre">gui.charting</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.charting.axis">
+<h1><tt class="xref docutils literal"><span class="pre">gui.charting.axis</span></tt> &#8212; Handles the charts&#8217; axes<a class="headerlink" href="#module-gui.charting.axis" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.charting.axis.Axis" class="reference internal" href="#gui.charting.axis.Axis"><tt class="xref docutils literal"><span class="pre">Axis</span></tt></a> abstract base class and its subclasses
+<a title="gui.charting.axis.Abscissa" class="reference internal" href="#gui.charting.axis.Abscissa"><tt class="xref docutils literal"><span class="pre">Abscissa</span></tt></a>, <a title="gui.charting.axis.Ordinate" class="reference internal" href="#gui.charting.axis.Ordinate"><tt class="xref docutils literal"><span class="pre">Ordinate</span></tt></a>, and <a title="gui.charting.axis.SecondaryOrdinate" class="reference internal" href="#gui.charting.axis.SecondaryOrdinate"><tt class="xref docutils literal"><span class="pre">SecondaryOrdinate</span></tt></a>, which
+are responsible for drawing the axes of a <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>
+and the associated dimension label, and for converting from values to <em>x</em> or
+<em>y</em> positions and vice versa.</p>
+<p>To access a <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>&#8216;s axes, use its
+<a title="gui.charting.chart.Chart.abscissa" class="reference external" href="chart.html#gui.charting.chart.Chart.abscissa"><tt class="xref docutils literal"><span class="pre">abscissa</span></tt></a>,
+<a title="gui.charting.chart.Chart.ordinate" class="reference external" href="chart.html#gui.charting.chart.Chart.ordinate"><tt class="xref docutils literal"><span class="pre">ordinate</span></tt></a>, and
+<a title="gui.charting.chart.Chart.secondaryOrdinate" class="reference external" href="chart.html#gui.charting.chart.Chart.secondaryOrdinate"><tt class="xref docutils literal"><span class="pre">secondaryOrdinate</span></tt></a> properties.</p>
+<p>A usage example can be found on the documentation page of the
+<a title="" class="reference external" href="index.html#module-gui.charting"><tt class="xref docutils literal"><span class="pre">gui.charting</span></tt></a> package.</p>
+<div class="section" id="the-axis-abstract-base-class">
+<h2>The <a title="gui.charting.axis.Axis" class="reference internal" href="#gui.charting.axis.Axis"><tt class="xref docutils literal"><span class="pre">Axis</span></tt></a> Abstract Base Class<a class="headerlink" href="#the-axis-abstract-base-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.charting.axis.Axis">
+<em class="property">class </em><tt class="descclassname">gui.charting.axis.</tt><tt class="descname">Axis</tt><a class="headerlink" href="#gui.charting.axis.Axis" title="Permalink to this definition">¶</a></dt>
+<dd>The abstract base class for the classes in this module.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.charting.axis.Axis.maxValue">
+<tt class="descclassname">Axis.</tt><tt class="descname">maxValue</tt><a class="headerlink" href="#gui.charting.axis.Axis.maxValue" title="Permalink to this definition">¶</a></dt>
+<dd>The greatest value shown on the axis. Must be at least <tt class="docutils literal"><span class="pre">0.0001</span></tt>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.charting.axis.Axis.dimensionLabelText">
+<tt class="descclassname">Axis.</tt><tt class="descname">dimensionLabelText</tt><a class="headerlink" href="#gui.charting.axis.Axis.dimensionLabelText" title="Permalink to this definition">¶</a></dt>
+<dd>The text of the label that indicates the dimension represented on
+the axis. Strings of the form <tt class="docutils literal"><span class="pre">'</span><em><span class="pre">numerator</span></em> <span class="pre">/</span> <em><span class="pre">denominator</span></em><span class="pre">'</span></tt>
+are displayed as a proper fraction. Pango Markup Language tags
+are supported. If the value is <tt class="xref docutils literal"><span class="pre">None</span></tt> or <tt class="docutils literal"><span class="pre">''</span></tt>, no label will
+be shown.</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.axis.Axis.draw">
+<tt class="descclassname">Axis.</tt><tt class="descname">draw</tt><big>(</big><big>)</big><a class="headerlink" href="#gui.charting.axis.Axis.draw" title="Permalink to this definition">¶</a></dt>
+<dd>Draws the axis on its <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>.</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.axis.Axis.isInBounds">
+<tt class="descclassname">Axis.</tt><tt class="descname">isInBounds</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#gui.charting.axis.Axis.isInBounds" title="Permalink to this definition">¶</a></dt>
+<dd>Indicates whether the given value falls within the range of values that
+are displayed on the axis.</dd></dl>
+
+</div>
+<div class="section" id="the-abscissa-class">
+<h2>The <a title="gui.charting.axis.Abscissa" class="reference internal" href="#gui.charting.axis.Abscissa"><tt class="xref docutils literal"><span class="pre">Abscissa</span></tt></a> Class<a class="headerlink" href="#the-abscissa-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.charting.axis.Abscissa">
+<em class="property">class </em><tt class="descclassname">gui.charting.axis.</tt><tt class="descname">Abscissa</tt><big>(</big><em>chart</em><big>)</big><a class="headerlink" href="#gui.charting.axis.Abscissa" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new <a title="gui.charting.axis.Axis" class="reference internal" href="#gui.charting.axis.Axis"><tt class="xref docutils literal"><span class="pre">Axis</span></tt></a> that represents an abscissa shown on the given
+<a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>.</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.axis.Abscissa.xFromValue">
+<tt class="descclassname">Abscissa.</tt><tt class="descname">xFromValue</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#gui.charting.axis.Abscissa.xFromValue" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the <em>x</em> position the given value can be found at.</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.axis.Abscissa.valueFromX">
+<tt class="descclassname">Abscissa.</tt><tt class="descname">valueFromX</tt><big>(</big><em>position</em><big>)</big><a class="headerlink" href="#gui.charting.axis.Abscissa.valueFromX" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the value that can be found at the given <em>x</em> position.</dd></dl>
+
+</div>
+<div class="section" id="the-ordinate-class">
+<h2>The <a title="gui.charting.axis.Ordinate" class="reference internal" href="#gui.charting.axis.Ordinate"><tt class="xref docutils literal"><span class="pre">Ordinate</span></tt></a> Class<a class="headerlink" href="#the-ordinate-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.charting.axis.Ordinate">
+<em class="property">class </em><tt class="descclassname">gui.charting.axis.</tt><tt class="descname">Ordinate</tt><big>(</big><em>chart</em><big>)</big><a class="headerlink" href="#gui.charting.axis.Ordinate" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new <a title="gui.charting.axis.Axis" class="reference internal" href="#gui.charting.axis.Axis"><tt class="xref docutils literal"><span class="pre">Axis</span></tt></a> that represents a (primary) ordinate shown on
+the given <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>.</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.axis.Ordinate.yFromValue">
+<tt class="descclassname">Ordinate.</tt><tt class="descname">yFromValue</tt><big>(</big><em>value</em><big>)</big><a class="headerlink" href="#gui.charting.axis.Ordinate.yFromValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the <em>y</em> position the given value can be found at.</p>
+<p>The method accepts values outside the range shown on the axis,
+in which case the return value is the value <em>y</em> position the
+value would be shown at of the value were in the displayed
+range, and values were shown at that position.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.axis.Ordinate.valueFromY">
+<tt class="descclassname">Ordinate.</tt><tt class="descname">valueFromY</tt><big>(</big><em>position</em><big>)</big><a class="headerlink" href="#gui.charting.axis.Ordinate.valueFromY" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the value that can be found at the given <em>y</em> position.</dd></dl>
+
+</div>
+<div class="section" id="the-secondaryordinate-class">
+<h2>The <a title="gui.charting.axis.SecondaryOrdinate" class="reference internal" href="#gui.charting.axis.SecondaryOrdinate"><tt class="xref docutils literal"><span class="pre">SecondaryOrdinate</span></tt></a> Class<a class="headerlink" href="#the-secondaryordinate-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.charting.axis.SecondaryOrdinate">
+<em class="property">class </em><tt class="descclassname">gui.charting.axis.</tt><tt class="descname">SecondaryOrdinate</tt><big>(</big><em>chart</em><big>)</big><a class="headerlink" href="#gui.charting.axis.SecondaryOrdinate" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new <a title="gui.charting.axis.Ordinate" class="reference internal" href="#gui.charting.axis.Ordinate"><tt class="xref docutils literal"><span class="pre">Ordinate</span></tt></a> that is shown on the right side of the
+given <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>, so that graphs using a
+dimension other than that of the primary ordinate can be shown.</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<p>The following constants are provided:</p>
+<div class="section" id="ticks">
+<h3>Ticks<a class="headerlink" href="#ticks" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="gui.charting.axis.MAJOR_TICK_LENGTH">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">MAJOR_TICK_LENGTH</tt><a class="headerlink" href="#gui.charting.axis.MAJOR_TICK_LENGTH" title="Permalink to this definition">¶</a></dt>
+<dd>The length of a major tick, in pixels. This should be an odd number.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.axis.MINOR_TICK_LENGTH">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">MINOR_TICK_LENGTH</tt><a class="headerlink" href="#gui.charting.axis.MINOR_TICK_LENGTH" title="Permalink to this definition">¶</a></dt>
+<dd>The length of a minor tick, in pixels. This should be an odd number.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.axis.MIN_TICK_DISTANCE">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">MIN_TICK_DISTANCE</tt><a class="headerlink" href="#gui.charting.axis.MIN_TICK_DISTANCE" title="Permalink to this definition">¶</a></dt>
+<dd>The minimum distance between two ticks, in pixels.</dd></dl>
+
+</div>
+<div class="section" id="tick-labels">
+<h3>Tick Labels<a class="headerlink" href="#tick-labels" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="gui.charting.axis.ABSCISSA_MIN_TICK_LABEL_DISTANCE">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">ABSCISSA_MIN_TICK_LABEL_DISTANCE</tt><a class="headerlink" href="#gui.charting.axis.ABSCISSA_MIN_TICK_LABEL_DISTANCE" title="Permalink to this definition">¶</a></dt>
+<dd>The minimum distance between two tick labels on abscissae, in pixels.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.axis.ORDINATE_MIN_TICK_LABEL_DISTANCE">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">ORDINATE_MIN_TICK_LABEL_DISTANCE</tt><a class="headerlink" href="#gui.charting.axis.ORDINATE_MIN_TICK_LABEL_DISTANCE" title="Permalink to this definition">¶</a></dt>
+<dd>The minimum distance between two tick labels on ordinates, in pixels.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.axis.ABSCISSA_TO_LABEL_SPACING">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">ABSCISSA_TO_LABEL_SPACING</tt><a class="headerlink" href="#gui.charting.axis.ABSCISSA_TO_LABEL_SPACING" title="Permalink to this definition">¶</a></dt>
+<dd>The distance between abscissae and their tick labels, in pixels.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.axis.ORDINATE_TO_LABEL_SPACING">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">ORDINATE_TO_LABEL_SPACING</tt><a class="headerlink" href="#gui.charting.axis.ORDINATE_TO_LABEL_SPACING" title="Permalink to this definition">¶</a></dt>
+<dd>The distance between the ordinates and their tick labels, in pixels.</dd></dl>
+
+</div>
+<div class="section" id="dimension-labels">
+<h3>Dimension Labels<a class="headerlink" href="#dimension-labels" title="Permalink to this headline">¶</a></h3>
+<dl class="data">
+<dt id="gui.charting.axis.ABSCISSA_DIMENSION_LABEL_POSITION">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">ABSCISSA_DIMENSION_LABEL_POSITION</tt><a class="headerlink" href="#gui.charting.axis.ABSCISSA_DIMENSION_LABEL_POSITION" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple <tt class="docutils literal"><span class="pre">(</span><em><span class="pre">xDistance</span></em><span class="pre">,</span> <em><span class="pre">yDistance</span></em><span class="pre">)</span></tt> of the distance between the end
+of an abscissa and the top left corner of the dimension label, in pixels.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.axis.ORDINATE_DIMENSION_LABEL_POSITION">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">ORDINATE_DIMENSION_LABEL_POSITION</tt><a class="headerlink" href="#gui.charting.axis.ORDINATE_DIMENSION_LABEL_POSITION" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple <tt class="docutils literal"><span class="pre">(</span><em><span class="pre">xDistance</span></em><span class="pre">,</span> <em><span class="pre">yDistance</span></em><span class="pre">)</span></tt> of the distance between the end
+of an ordinate and the bottom right corner of its dimension label, or the
+end of a secondary ordinate and the bottom left corner of its dimension
+label, in pixels.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.axis.EXTRA_FRACTION_BAR_LENGTH">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">EXTRA_FRACTION_BAR_LENGTH</tt><a class="headerlink" href="#gui.charting.axis.EXTRA_FRACTION_BAR_LENGTH" title="Permalink to this definition">¶</a></dt>
+<dd>The distance the fraction bar of the dimension label exceeds the width
+of the wider of numerator and denominator on each side, in pixels.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.axis.FRACTION_BAR_SPACING">
+<tt class="descclassname">gui.charting.axis.</tt><tt class="descname">FRACTION_BAR_SPACING</tt><a class="headerlink" href="#gui.charting.axis.FRACTION_BAR_SPACING" title="Permalink to this definition">¶</a></dt>
+<dd>The distance between the fraction bar of the dimension label and the
+numerator and denominator, in pixels.</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.charting.axis</span></tt> &#8212; Handles the charts&#8217; axes</a><ul>
+<li><a class="reference external" href="#the-axis-abstract-base-class">The <tt class="docutils literal"><span class="pre">Axis</span></tt> Abstract Base Class</a></li>
+<li><a class="reference external" href="#the-abscissa-class">The <tt class="docutils literal"><span class="pre">Abscissa</span></tt> Class</a></li>
+<li><a class="reference external" href="#the-ordinate-class">The <tt class="docutils literal"><span class="pre">Ordinate</span></tt> Class</a></li>
+<li><a class="reference external" href="#the-secondaryordinate-class">The <tt class="docutils literal"><span class="pre">SecondaryOrdinate</span></tt> Class</a></li>
+<li><a class="reference external" href="#constants">Constants</a><ul>
+<li><a class="reference external" href="#ticks">Ticks</a></li>
+<li><a class="reference external" href="#tick-labels">Tick Labels</a></li>
+<li><a class="reference external" href="#dimension-labels">Dimension Labels</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="chart.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">gui.charting.chart</span></tt> &#8212; Provides a <tt class="docutils literal"><span class="pre">gtk.Widget</span></tt> for simple charts</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="graph.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">gui.charting.graph</span></tt> &#8212; Draws several types of graph</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="graph.html" title="gui.charting.graph — Draws several types of graph"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="chart.html" title="gui.charting.chart — Provides a gtk.Widget for simple charts"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" >The <tt class="docutils literal docutils literal"><span class="pre">gui.charting</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

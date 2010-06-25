@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.charting.graph — Draws several types of graph &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="The gui.charting Package" href="index.html" />
+    <link rel="next" title="The ops Package" href="../../ops/index.html" />
+    <link rel="prev" title="gui.charting.axis — Handles the charts’ axes" href="axis.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../ops/index.html" title="The ops Package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="axis.html" title="gui.charting.axis — Handles the charts’ axes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.charting</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.charting.graph">
+<h1><tt class="xref docutils literal"><span class="pre">gui.charting.graph</span></tt> &#8212; Draws several types of graph<a class="headerlink" href="#module-gui.charting.graph" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.charting.graph.FunctionGraph" class="reference internal" href="#gui.charting.graph.FunctionGraph"><tt class="xref docutils literal"><span class="pre">FunctionGraph</span></tt></a> and <a title="gui.charting.graph.PointGraph" class="reference internal" href="#gui.charting.graph.PointGraph"><tt class="xref docutils literal"><span class="pre">PointGraph</span></tt></a>
+classes, which are responsible for drawing the graphs shown on a
+<a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>.</p>
+<p>To add these graphs to a <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>, use its
+<a title="gui.charting.chart.Chart.addGraph" class="reference external" href="chart.html#gui.charting.chart.Chart.addGraph"><tt class="xref docutils literal"><span class="pre">addGraph()</span></tt></a> or
+<a title="gui.charting.chart.Chart.addSecondaryGraph" class="reference external" href="chart.html#gui.charting.chart.Chart.addSecondaryGraph"><tt class="xref docutils literal"><span class="pre">addSecondaryGraph()</span></tt></a> methods.</p>
+<p>A usage example can be found on the documentation page of the
+<a title="" class="reference external" href="index.html#module-gui.charting"><tt class="xref docutils literal"><span class="pre">gui.charting</span></tt></a> package.</p>
+<div class="section" id="the-functiongraph-class">
+<h2>The <a title="gui.charting.graph.FunctionGraph" class="reference internal" href="#gui.charting.graph.FunctionGraph"><tt class="xref docutils literal"><span class="pre">FunctionGraph</span></tt></a> Class<a class="headerlink" href="#the-functiongraph-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.charting.graph.FunctionGraph">
+<em class="property">class </em><tt class="descclassname">gui.charting.graph.</tt><tt class="descname">FunctionGraph</tt><big>(</big><em>function</em>, <em>color</em>, <em>drawOnFrame=True</em><big>)</big><a class="headerlink" href="#gui.charting.graph.FunctionGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new graph that draws a continuous line using a function that
+accepts any float value in the displayed range as an input and returns
+a float value.</p>
+<p>Sections of the graph that lie outside the range shown on the graph
+are not drawn. If <cite>drawOnFrame</cite> is <tt class="xref docutils literal"><span class="pre">False</span></tt>, values at zero and the
+ordinates&#8217;s maximum value will not be drawn either.</p>
+<p><cite>color</cite> may be a <tt class="xref docutils literal"><span class="pre">gtk.gdk.Color</span></tt> object, an X11 color name
+(<tt class="docutils literal"><span class="pre">'misty</span> <span class="pre">rose'</span></tt>) or a hexadecimal string (<tt class="docutils literal"><span class="pre">'#FFE4E1'</span></tt>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The graph draws one <em>y</em> value for each pixel of the chart area&#8217;s width.
+If the function rapidly changes its <em>y</em> values back and forth, that
+change may lie between two <em>x</em> values for which <em>y</em> values are drawn,
+and may thus not appear on the chart.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.graph.FunctionGraph.draw">
+<tt class="descclassname">FunctionGraph.</tt><tt class="descname">draw</tt><big>(</big><em>chart</em>, <em>abscissa</em>, <em>ordinate</em><big>)</big><a class="headerlink" href="#gui.charting.graph.FunctionGraph.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the graph on the given <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>.
+<cite>abscissa</cite> and <cite>ordinate</cite> are the <a title="gui.charting.axis.Axis" class="reference external" href="axis.html#gui.charting.axis.Axis"><tt class="xref docutils literal"><span class="pre">Axis</span></tt></a>
+instances whose dimensions are used for drawing the graph.</p>
+<p>This method should only be called by
+<a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="the-pointgraph-class">
+<h2>The <a title="gui.charting.graph.PointGraph" class="reference internal" href="#gui.charting.graph.PointGraph"><tt class="xref docutils literal"><span class="pre">PointGraph</span></tt></a> Class<a class="headerlink" href="#the-pointgraph-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.charting.graph.PointGraph">
+<em class="property">class </em><tt class="descclassname">gui.charting.graph.</tt><tt class="descname">PointGraph</tt><big>(</big><em>points</em>, <em>color</em>, <em>style='squares'</em><big>)</big><a class="headerlink" href="#gui.charting.graph.PointGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new graph that draws a series of marks representing discrete
+values. Marks that lie outside the ranges shown on the graph are not
+drawn.</p>
+<p><cite>color</cite> may be a <tt class="xref docutils literal"><span class="pre">gtk.gdk.Color</span></tt> object, an X11 color name
+(<tt class="docutils literal"><span class="pre">'misty</span> <span class="pre">rose'</span></tt>) or a hexadecimal string (<tt class="docutils literal"><span class="pre">'#FFE4E1'</span></tt>).</p>
+<p><cite>style</cite> determines the type of mark used. <tt class="docutils literal"><span class="pre">'squares'</span></tt> and <tt class="docutils literal"><span class="pre">'diamonds'</span></tt>
+are supported.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gui.charting.graph.PointGraph.draw">
+<tt class="descclassname">PointGraph.</tt><tt class="descname">draw</tt><big>(</big><em>chart</em>, <em>abscissa</em>, <em>ordinate</em><big>)</big><a class="headerlink" href="#gui.charting.graph.PointGraph.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the graph on the given <a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>.
+<cite>abscissa</cite> and <cite>ordinate</cite> are the <a title="gui.charting.axis.Axis" class="reference external" href="axis.html#gui.charting.axis.Axis"><tt class="xref docutils literal"><span class="pre">Axis</span></tt></a>
+instances whose dimensions are used for drawing the graph.</p>
+<p>This method should only be called by
+<a title="gui.charting.chart.Chart" class="reference external" href="chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.charting.graph.SQUARE_SIZE">
+<tt class="descclassname">gui.charting.graph.</tt><tt class="descname">SQUARE_SIZE</tt><a class="headerlink" href="#gui.charting.graph.SQUARE_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd>The size of the squares the <a title="gui.charting.graph.PointGraph" class="reference internal" href="#gui.charting.graph.PointGraph"><tt class="xref docutils literal"><span class="pre">PointGraph</span></tt></a> uses to mark a point
+if its style is <tt class="docutils literal"><span class="pre">'squares'</span></tt>, in pixels. Should be odd.</dd></dl>
+
+<dl class="data">
+<dt id="gui.charting.graph.DIAMOND_SIZE">
+<tt class="descclassname">gui.charting.graph.</tt><tt class="descname">DIAMOND_SIZE</tt><a class="headerlink" href="#gui.charting.graph.DIAMOND_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd>The size of the diamonds the <a title="gui.charting.graph.PointGraph" class="reference internal" href="#gui.charting.graph.PointGraph"><tt class="xref docutils literal"><span class="pre">PointGraph</span></tt></a> uses to mark a point
+if its style is <tt class="docutils literal"><span class="pre">'diamonds'</span></tt>, in pixels. Should be odd.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.charting.graph</span></tt> &#8212; Draws several types of graph</a><ul>
+<li><a class="reference external" href="#the-functiongraph-class">The <tt class="docutils literal"><span class="pre">FunctionGraph</span></tt> Class</a></li>
+<li><a class="reference external" href="#the-pointgraph-class">The <tt class="docutils literal"><span class="pre">PointGraph</span></tt> Class</a></li>
+<li><a class="reference external" href="#constants">Constants</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="axis.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.charting.axis</span></tt> &#8212; Handles the charts&#8217; axes</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../../ops/index.html"
+                                  title="next chapter">The <tt class="docutils literal"><span class="pre">ops</span></tt> Package</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../ops/index.html" title="The ops Package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="axis.html" title="gui.charting.axis — Handles the charts’ axes"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" >The <tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.charting</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

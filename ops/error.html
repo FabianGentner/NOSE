@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ops.error — Contains exception classes for operation errors &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../index.html" />
+    <link rel="up" title="The ops Package" href="index.html" />
+    <link rel="next" title="ops.calibration" href="calibration/index.html" />
+    <link rel="prev" title="ops.interface — Handles communication with the production system" href="interface.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="calibration/index.html" title="ops.calibration"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="interface.html" title="ops.interface — Handles communication with the production system"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The <tt class="docutils literal docutils literal"><span class="pre">ops</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-ops.error">
+<h1><tt class="xref docutils literal"><span class="pre">ops.error</span></tt> &#8212; Contains exception classes for operation errors<a class="headerlink" href="#module-ops.error" title="Permalink to this headline">¶</a></h1>
+<p>Contains a number of exception classes for errors that can occur in the
+<a title="" class="reference external" href="index.html#module-ops"><tt class="xref docutils literal"><span class="pre">ops</span></tt></a> package.</p>
+<p>All exception classes in this module extend <a title="util.ApplicationError" class="reference external" href="../util.html#util.ApplicationError"><tt class="xref docutils literal"><span class="pre">util.ApplicationError</span></tt></a>.</p>
+<div class="section" id="value-related-errors">
+<h2>Value-related Errors<a class="headerlink" href="#value-related-errors" title="Permalink to this headline">¶</a></h2>
+<p>The exception classes in this section also extend <tt class="xref docutils literal"><span class="pre">ValueError</span></tt>.</p>
+<dl class="class">
+<dt id="ops.error.InvalidHeatingCurrentError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">InvalidHeatingCurrentError</tt><a class="headerlink" href="#ops.error.InvalidHeatingCurrentError" title="Permalink to this definition">¶</a></dt>
+<dd>Raised when one of the various <tt class="xref docutils literal"><span class="pre">startHeatingWithCurrent()</span></tt> methods is
+called with an invalid current.</dd></dl>
+
+<dl class="class">
+<dt id="ops.error.InvalidTargetTemperatureError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">InvalidTargetTemperatureError</tt><a class="headerlink" href="#ops.error.InvalidTargetTemperatureError" title="Permalink to this definition">¶</a></dt>
+<dd>Raised when <a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>&#8216;s
+<a title="ops.system.ProductionSystem.startHeatingToTemperature" class="reference external" href="system.html#ops.system.ProductionSystem.startHeatingToTemperature"><tt class="xref docutils literal"><span class="pre">startHeatingToTemperature()</span></tt></a> method
+is called with an invalid heating temperature.</dd></dl>
+
+<dl class="class">
+<dt id="ops.error.InvalidHeaterPositionError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">InvalidHeaterPositionError</tt><a class="headerlink" href="#ops.error.InvalidHeaterPositionError" title="Permalink to this definition">¶</a></dt>
+<dd>Raised when one of the various <tt class="xref docutils literal"><span class="pre">startHeaterMovement()</span></tt> methods is
+called with an invalid target position.</dd></dl>
+
+</div>
+<div class="section" id="state-related-errors">
+<h2>State-related Errors<a class="headerlink" href="#state-related-errors" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.error.NotCalibratedError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">NotCalibratedError</tt><a class="headerlink" href="#ops.error.NotCalibratedError" title="Permalink to this definition">¶</a></dt>
+<dd>Raised by various methods of <a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> and
+<a title="ops.calibration.data.CalibrationData" class="reference external" href="calibration/data.html#ops.calibration.data.CalibrationData"><tt class="xref docutils literal"><span class="pre">CalibrationData</span></tt></a> if they are called while
+the system has not yet been successfully calibrated.</dd></dl>
+
+<dl class="class">
+<dt id="ops.error.RequiresSimulationError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">RequiresSimulationError</tt><a class="headerlink" href="#ops.error.RequiresSimulationError" title="Permalink to this definition">¶</a></dt>
+<dd>Raised by <a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> when an operation that
+requires a <a title="ops.simulation.SimulatedDeviceInterface" class="reference external" href="simulation.html#ops.simulation.SimulatedDeviceInterface"><tt class="xref docutils literal"><span class="pre">SimulatedDeviceInterface</span></tt></a> is performed
+on a system that wraps a real <a title="ops.interface.DeviceInterface" class="reference external" href="interface.html#ops.interface.DeviceInterface"><tt class="xref docutils literal"><span class="pre">DeviceInterface</span></tt></a>.</dd></dl>
+
+</div>
+<div class="section" id="locking-related-errors">
+<h2>Locking-related Errors<a class="headerlink" href="#locking-related-errors" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ops.error.LockingError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">LockingError</tt><a class="headerlink" href="#ops.error.LockingError" title="Permalink to this definition">¶</a></dt>
+<dd>The base class for <a title="ops.error.SystemLockedError" class="reference internal" href="#ops.error.SystemLockedError"><tt class="xref docutils literal"><span class="pre">SystemLockedError</span></tt></a>, <a title="ops.error.SystemNotLockedError" class="reference internal" href="#ops.error.SystemNotLockedError"><tt class="xref docutils literal"><span class="pre">SystemNotLockedError</span></tt></a>,
+and <a title="ops.error.WrongKeyError" class="reference internal" href="#ops.error.WrongKeyError"><tt class="xref docutils literal"><span class="pre">WrongKeyError</span></tt></a>.</dd></dl>
+
+<dl class="class">
+<dt id="ops.error.SystemLockedError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">SystemLockedError</tt><a class="headerlink" href="#ops.error.SystemLockedError" title="Permalink to this definition">¶</a></dt>
+<dd>Raised when a client tries to start an operation on a locked
+<a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> without providing a key,
+or tries to lock a <a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that
+is already locked.</dd></dl>
+
+<dl class="class">
+<dt id="ops.error.SystemNotLockedError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">SystemNotLockedError</tt><a class="headerlink" href="#ops.error.SystemNotLockedError" title="Permalink to this definition">¶</a></dt>
+<dd>Raised when a client provides a key when starting an operation
+on a <a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that is not locked,
+or tries to unlock a <a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> that
+is not locked.</dd></dl>
+
+<dl class="class">
+<dt id="ops.error.WrongKeyError">
+<em class="property">class </em><tt class="descclassname">ops.error.</tt><tt class="descname">WrongKeyError</tt><a class="headerlink" href="#ops.error.WrongKeyError" title="Permalink to this definition">¶</a></dt>
+<dd>Raised when a client provides the wrong key when starting an operation
+on or unlocking a locked <a title="ops.system.ProductionSystem" class="reference external" href="system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">ops.error</span></tt> &#8212; Contains exception classes for operation errors</a><ul>
+<li><a class="reference external" href="#value-related-errors">Value-related Errors</a></li>
+<li><a class="reference external" href="#state-related-errors">State-related Errors</a></li>
+<li><a class="reference external" href="#locking-related-errors">Locking-related Errors</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="interface.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">ops.interface</span></tt> &#8212; Handles communication with the production system</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="calibration/index.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">ops.calibration</span></tt></a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="calibration/index.html" title="ops.calibration"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="interface.html" title="ops.interface — Handles communication with the production system"
+             >previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" >The <tt class="docutils literal docutils literal"><span class="pre">ops</span></tt> Package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

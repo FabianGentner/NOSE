@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.calibration.table — Tabulates the calibration measurements &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="gui.calibration" href="index.html" />
+    <link rel="next" title="gui.calibration.functions — Shows the estimation functions" href="functions.html" />
+    <link rel="prev" title="gui.calibration.dialog — Presents the widgets in this package" href="dialog.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="functions.html" title="gui.calibration.functions — Shows the estimation functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dialog.html" title="gui.calibration.dialog — Presents the widgets in this package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.calibration.table">
+<h1><tt class="xref docutils literal"><span class="pre">gui.calibration.table</span></tt> &#8212; Tabulates the calibration measurements<a class="headerlink" href="#module-gui.calibration.table" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.calibration.table.MeasurementTableHandler" class="reference internal" href="#gui.calibration.table.MeasurementTableHandler"><tt class="xref docutils literal"><span class="pre">MeasurementTableHandler</span></tt></a> class, which manages
+a table that shows the measurements collected during the <a class="reference external" href="../../glossary.html#term-calibration-procedure"><em class="xref">calibration
+procedure</em></a>. The handler also allows the user to delete selected measurements
+and to start a new calibration procedure to retake selected measurements.</p>
+<p>Clients need not actually deal with the <a title="gui.calibration.table.MeasurementTableHandler" class="reference internal" href="#gui.calibration.table.MeasurementTableHandler"><tt class="xref docutils literal"><span class="pre">MeasurementTableHandler</span></tt></a>
+itself; instead, they can use the <a title="gui.calibration.table.createMeasurementTable" class="reference internal" href="#gui.calibration.table.createMeasurementTable"><tt class="xref docutils literal"><span class="pre">createMeasurementTable()</span></tt></a> function,
+which creates the handler and returns the widget used for the table (a
+<tt class="xref docutils literal"><span class="pre">gtk.TreeView</span></tt>). The table will be automatically updated when the
+calibration data of the <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> passed to
+the function changes.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div align="center" class="align-center"><img alt="../../_images/table.png" class="align-center" src="../../_images/table.png" /></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="function">
+<dt id="gui.calibration.table.createMeasurementTable">
+<tt class="descclassname">gui.calibration.table.</tt><tt class="descname">createMeasurementTable</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.table.createMeasurementTable" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a <a title="gui.calibration.table.MeasurementTableHandler" class="reference internal" href="#gui.calibration.table.MeasurementTableHandler"><tt class="xref docutils literal"><span class="pre">MeasurementTableHandler</span></tt></a> and returns the widget it uses
+for the table. <cite>system</cite> is the <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> whose
+calibration measurements are to be shown.</dd></dl>
+
+<div class="section" id="the-measurementtablehandler-class">
+<h2>The <a title="gui.calibration.table.MeasurementTableHandler" class="reference internal" href="#gui.calibration.table.MeasurementTableHandler"><tt class="xref docutils literal"><span class="pre">MeasurementTableHandler</span></tt></a> Class<a class="headerlink" href="#the-measurementtablehandler-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.calibration.table.MeasurementTableHandler">
+<em class="property">class </em><tt class="descclassname">gui.calibration.table.</tt><tt class="descname">MeasurementTableHandler</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.table.MeasurementTableHandler" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new instance of this class that shows the measurements collected
+during the calibration of the given <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.table.MeasurementTableHandler.widget">
+<tt class="descclassname">MeasurementTableHandler.</tt><tt class="descname">widget</tt><a class="headerlink" href="#gui.calibration.table.MeasurementTableHandler.widget" title="Permalink to this definition">¶</a></dt>
+<dd>The <tt class="xref docutils literal"><span class="pre">gtk.TreeView</span></tt> used for the table. Immutable.</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.calibration.table.COLUMN_TITLES">
+<tt class="descclassname">gui.calibration.table.</tt><tt class="descname">COLUMN_TITLES</tt><a class="headerlink" href="#gui.calibration.table.COLUMN_TITLES" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple that lists the localized titles for the columns that show the
+heating current, temperature sensor voltage, and heating temperature.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.table.FRACTIONAL_DIGITS">
+<tt class="descclassname">gui.calibration.table.</tt><tt class="descname">FRACTIONAL_DIGITS</tt><a class="headerlink" href="#gui.calibration.table.FRACTIONAL_DIGITS" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple that lists the maximum number of fractional digits that are to
+be used for heating currents, temperature sensor voltages, and heating
+temperatures.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.table.TRIM_TRAILING_ZEROS">
+<tt class="descclassname">gui.calibration.table.</tt><tt class="descname">TRIM_TRAILING_ZEROS</tt><a class="headerlink" href="#gui.calibration.table.TRIM_TRAILING_ZEROS" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple that lists whether trailing zeros of the fractional part of the
+heating currents, temperature sensor voltages, and heating temperatures
+(and the dot, if there is no fractional part) should be omitted.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.calibration.table</span></tt> &#8212; Tabulates the calibration measurements</a><ul>
+<li><a class="reference external" href="#the-measurementtablehandler-class">The <tt class="docutils literal"><span class="pre">MeasurementTableHandler</span></tt> Class</a></li>
+<li><a class="reference external" href="#constants">Constants</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="dialog.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.calibration.dialog</span></tt> &#8212; Presents the widgets in this package</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="functions.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.calibration.functions</span></tt> &#8212; Shows the estimation functions</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="functions.html" title="gui.calibration.functions — Shows the estimation functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dialog.html" title="gui.calibration.dialog — Presents the widgets in this package"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.calibration.functions — Shows the estimation functions &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="gui.calibration" href="index.html" />
+    <link rel="next" title="gui.calibration.charts — Visualizes the calibration data" href="charts.html" />
+    <link rel="prev" title="gui.calibration.table — Tabulates the calibration measurements" href="table.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="charts.html" title="gui.calibration.charts — Visualizes the calibration data"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="table.html" title="gui.calibration.table — Tabulates the calibration measurements"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.calibration.functions">
+<h1><tt class="xref docutils literal"><span class="pre">gui.calibration.functions</span></tt> &#8212; Shows the estimation functions<a class="headerlink" href="#module-gui.calibration.functions" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.calibration.functions.FunctionWidgetHandler" class="reference internal" href="#gui.calibration.functions.FunctionWidgetHandler"><tt class="xref docutils literal"><span class="pre">FunctionWidgetHandler</span></tt></a> class, which manages
+a group of widgets that display the <a class="reference external" href="../../glossary.html#term-estimation-function"><em class="xref">estimation functions</em></a> that have been fitted during the <a class="reference external" href="../../glossary.html#term-calibration-procedure"><em class="xref">calibration
+procedure</em></a>. If the functions haven&#8217;t been fitted yet, a label that states
+this is shown instead.</p>
+<p>Clients need not actually deal with the <a title="gui.calibration.functions.FunctionWidgetHandler" class="reference internal" href="#gui.calibration.functions.FunctionWidgetHandler"><tt class="xref docutils literal"><span class="pre">FunctionWidgetHandler</span></tt></a> itself;
+instead, they can use the <a title="gui.calibration.functions.createFunctionWidgets" class="reference internal" href="#gui.calibration.functions.createFunctionWidgets"><tt class="xref docutils literal"><span class="pre">createFunctionWidgets()</span></tt></a> function, which creates
+the handler and returns the top-level container of the widgets used to show the
+functions. The functions will be automatically updated when the calibration
+data of the <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> passed to the function
+changes.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div align="center" class="align-center"><img alt="../../_images/functions.png" class="align-center" src="../../_images/functions.png" /></div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="function">
+<dt id="gui.calibration.functions.createFunctionWidgets">
+<tt class="descclassname">gui.calibration.functions.</tt><tt class="descname">createFunctionWidgets</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.functions.createFunctionWidgets" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a <a title="gui.calibration.functions.FunctionWidgetHandler" class="reference internal" href="#gui.calibration.functions.FunctionWidgetHandler"><tt class="xref docutils literal"><span class="pre">FunctionWidgetHandler</span></tt></a> and returns the top-level
+container of the widgets used to show the functions. <cite>system</cite> is the
+<a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> whose estimation functions
+are to be shown.</dd></dl>
+
+<div class="section" id="the-functionwidgethandler-class">
+<h2>The <a title="gui.calibration.functions.FunctionWidgetHandler" class="reference internal" href="#gui.calibration.functions.FunctionWidgetHandler"><tt class="xref docutils literal"><span class="pre">FunctionWidgetHandler</span></tt></a> Class<a class="headerlink" href="#the-functionwidgethandler-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.calibration.functions.FunctionWidgetHandler">
+<em class="property">class </em><tt class="descclassname">gui.calibration.functions.</tt><tt class="descname">FunctionWidgetHandler</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.functions.FunctionWidgetHandler" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new instance of this class, which shows the estimation functions
+fitted for the given <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.functions.FunctionWidgetHandler.widget">
+<tt class="descclassname">FunctionWidgetHandler.</tt><tt class="descname">widget</tt><a class="headerlink" href="#gui.calibration.functions.FunctionWidgetHandler.widget" title="Permalink to this definition">¶</a></dt>
+<dd>The top-level container of the widgets that show the estimation
+functions. Immutable.</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.calibration.functions.CAPTION_TO_FUNCTION_SPACING">
+<tt class="descclassname">gui.calibration.functions.</tt><tt class="descname">CAPTION_TO_FUNCTION_SPACING</tt><a class="headerlink" href="#gui.calibration.functions.CAPTION_TO_FUNCTION_SPACING" title="Permalink to this definition">¶</a></dt>
+<dd>The amount of empty space used between a function&#8217;s caption and the
+function itself, in pixels.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.functions.FUNCTION_TO_CAPTION_SPACING">
+<tt class="descclassname">gui.calibration.functions.</tt><tt class="descname">FUNCTION_TO_CAPTION_SPACING</tt><a class="headerlink" href="#gui.calibration.functions.FUNCTION_TO_CAPTION_SPACING" title="Permalink to this definition">¶</a></dt>
+<dd>The amount of empty space used between a function and the caption for the
+next function, in pixels.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.calibration.functions</span></tt> &#8212; Shows the estimation functions</a><ul>
+<li><a class="reference external" href="#the-functionwidgethandler-class">The <tt class="docutils literal"><span class="pre">FunctionWidgetHandler</span></tt> Class</a></li>
+<li><a class="reference external" href="#constants">Constants</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="table.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">gui.calibration.table</span></tt> &#8212; Tabulates the calibration measurements</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="charts.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">gui.calibration.charts</span></tt> &#8212; Visualizes the calibration data</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="charts.html" title="gui.calibration.charts — Visualizes the calibration data"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="table.html" title="gui.calibration.table — Tabulates the calibration measurements"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

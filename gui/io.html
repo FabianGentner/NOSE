@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.io &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../index.html" />
+    <link rel="up" title="gui" href="index.html" />
+    <link rel="next" title="gui.mediator" href="mediator.html" />
+    <link rel="prev" title="gui.actions" href="actions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="mediator.html" title="gui.mediator"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="actions.html" title="gui.actions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.io">
+<h1><tt class="xref docutils literal"><span class="pre">gui.io</span></tt><a class="headerlink" href="#module-gui.io" title="Permalink to this headline">¶</a></h1>
+<p>Contains a number of utility functions related to file input/output.
+Does not contain any functions related to any daughter of Inachus,
+moon, genus of freshwater snail, band, or editor from <em>Solstice</em>,
+although the latter would be awesome.</p>
+<dl class="data">
+<dt id="gui.io.FILE_TYPES">
+<tt class="descclassname">gui.io.</tt><tt class="descname">FILE_TYPES</tt><a class="headerlink" href="#gui.io.FILE_TYPES" title="Permalink to this definition">¶</a></dt>
+<dd>A dictionary containing information about the file types used by <em>NOSE</em>.
+Keys are internal names for different types of files (which will not be
+displayed to the user). The associated values are tupels containing a
+human-readable description of the file type, the type’s extension, and
+the module that contains the <tt class="docutils literal"><span class="pre">toXML()</span></tt> and <tt class="docutils literal"><span class="pre">fromXML()</span></tt> functions
+used for the objects saved in files of that type.</dd></dl>
+
+<dl class="function">
+<dt id="gui.io.load">
+<tt class="descclassname">gui.io.</tt><tt class="descname">load</tt><big>(</big><em>type</em>, <em>fileName=None</em>, <em>parent=None</em>, <em>*parserParameters</em><big>)</big><a class="headerlink" href="#gui.io.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads an object of the given type from a file. <tt class="docutils literal"><span class="pre">type</span></tt> must be one of the
+file types listed in <a title="gui.io.FILE_TYPES" class="reference internal" href="#gui.io.FILE_TYPES"><tt class="xref docutils literal"><span class="pre">FILE_TYPES</span></tt></a>. <tt class="docutils literal"><span class="pre">fileName</span></tt> must be either the
+name of the file the object that is to be loaded is saved in, or <tt class="xref docutils literal"><span class="pre">None</span></tt>,
+in which case the user is queried for a file name. <tt class="docutils literal"><span class="pre">parent</span></tt> is used as
+the <em>transient parent</em> of any windows that are shown during loading. Any
+extra arguments are passed to the <tt class="docutils literal"><span class="pre">fromXML()</span></tt> function for <tt class="docutils literal"><span class="pre">type</span></tt>.</p>
+<p>If the object has a <tt class="docutils literal"><span class="pre">fileName</span></tt> attribute, it is set to the file name
+the object was loaded from.</p>
+<p>If the user decline to choose a file, or if an error occurs while reading
+or parsing the file, this function returns <tt class="xref docutils literal"><span class="pre">None</span></tt>. In the case of an
+error, an error message is shown to the user.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gui.io.save">
+<tt class="descclassname">gui.io.</tt><tt class="descname">save</tt><big>(</big><em>obj</em>, <em>type</em>, <em>fileName=None</em>, <em>parent=None</em><big>)</big><a class="headerlink" href="#gui.io.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves an object of the given type to a file. <tt class="docutils literal"><span class="pre">type</span></tt> must be one of the
+file types listed in <a title="gui.io.FILE_TYPES" class="reference internal" href="#gui.io.FILE_TYPES"><tt class="xref docutils literal"><span class="pre">FILE_TYPES</span></tt></a>. <tt class="docutils literal"><span class="pre">fileName</span></tt> must be either the
+name of athe file the object is to be saved in, or <tt class="xref docutils literal"><span class="pre">None</span></tt>, in which case
+the user is queried for a file name. <tt class="docutils literal"><span class="pre">parent</span></tt> is used as the <em>transient
+parent</em> of any windows that are shown during loading.</p>
+<p>The function returns <tt class="xref docutils literal"><span class="pre">True</span></tt> if the object has been successfully saved.
+If the user declines to choose a file, or if an error occurs while writing
+to the file, it returns <tt class="xref docutils literal"><span class="pre">False</span></tt>. In the case of an error, an error
+message is shown to the user.</p>
+<p>If the object has a <tt class="docutils literal"><span class="pre">fileName</span></tt> attribute, it is set to the file name the
+object was saved to.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gui.io.read">
+<tt class="descclassname">gui.io.</tt><tt class="descname">read</tt><big>(</big><em>fileName</em>, <em>parent=None</em><big>)</big><a class="headerlink" href="#gui.io.read" title="Permalink to this definition">¶</a></dt>
+<dd>Returns the contents of the file indicated by <tt class="docutils literal"><span class="pre">fileName</span></tt> as a string.
+If an error occurs while reading the file, it is reported to the user,
+using <tt class="docutils literal"><span class="pre">parent</span></tt> as the <em>transient parent</em> of the error dialog, and
+this function returns <tt class="xref docutils literal"><span class="pre">None</span></tt>.</dd></dl>
+
+<dl class="function">
+<dt id="gui.io.write">
+<tt class="descclassname">gui.io.</tt><tt class="descname">write</tt><big>(</big><em>text</em>, <em>fileName</em>, <em>parent=None</em><big>)</big><a class="headerlink" href="#gui.io.write" title="Permalink to this definition">¶</a></dt>
+<dd>Writes text to the file indicated by <tt class="docutils literal"><span class="pre">fileName</span></tt>. If an error occurs
+while writing to the file, it is reported to the user, using <tt class="docutils literal"><span class="pre">parent</span></tt>
+as the <em>transient parent</em> of the error dialog. The function returns
+<tt class="xref docutils literal"><span class="pre">True</span></tt> if the text has been successfully saved.</dd></dl>
+
+<dl class="function">
+<dt id="gui.io.chooseFile">
+<tt class="descclassname">gui.io.</tt><tt class="descname">chooseFile</tt><big>(</big><em>type</em>, <em>mode</em>, <em>parent=None</em><big>)</big><a class="headerlink" href="#gui.io.chooseFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays a dialog that allows the user to choose a file. <tt class="docutils literal"><span class="pre">type</span></tt> must
+be one of the file types listed in <a title="gui.io.FILE_TYPES" class="reference internal" href="#gui.io.FILE_TYPES"><tt class="xref docutils literal"><span class="pre">FILE_TYPES</span></tt></a> and is used to
+filter the files that are presented to the user (which does not stop
+the user from selecting a file of another type, though). mode must be
+either <tt class="docutils literal"><span class="pre">'r'</span></tt> for reading or <tt class="docutils literal"><span class="pre">'w'</span></tt> for writing. <tt class="docutils literal"><span class="pre">parent</span></tt> is used
+as the <em>transient parent</em> of all windows that are displayed.</p>
+<p>The function returns either the name of the file the user selected,
+or <tt class="xref docutils literal"><span class="pre">None</span></tt> if the user cancels the file selection procedure.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="gui.io.stripPath">
+<tt class="descclassname">gui.io.</tt><tt class="descname">stripPath</tt><big>(</big><em>fileName</em><big>)</big><a class="headerlink" href="#gui.io.stripPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last component of fileName.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">stripPath</span><span class="p">(</span><span class="s">&#39;foo/bar/baz.qux&#39;</span><span class="p">)</span>
+<span class="go">&#39;baz.qux&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Module Data</strong></p>
+<dl class="data">
+<dt id="gui.io.TESTING_USE_DEFAULT_FILE_NAME">
+<tt class="descclassname">gui.io.</tt><tt class="descname">TESTING_USE_DEFAULT_FILE_NAME</tt><a class="headerlink" href="#gui.io.TESTING_USE_DEFAULT_FILE_NAME" title="Permalink to this definition">¶</a></dt>
+<dt id="gui.io.TESTING_DEFAULT_FILE_NAME">
+<tt class="descclassname">gui.io.</tt><tt class="descname">TESTING_DEFAULT_FILE_NAME</tt><a class="headerlink" href="#gui.io.TESTING_DEFAULT_FILE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd>If <a title="gui.io.TESTING_USE_DEFAULT_FILE_NAME" class="reference internal" href="#gui.io.TESTING_USE_DEFAULT_FILE_NAME"><tt class="xref docutils literal"><span class="pre">TESTING_USE_DEFAULT_FILE_NAME</span></tt></a> is set to <tt class="xref docutils literal"><span class="pre">True</span></tt>,
+<a title="gui.io.chooseFile" class="reference internal" href="#gui.io.chooseFile"><tt class="xref docutils literal"><span class="pre">chooseFile()</span></tt></a> returns <a title="gui.io.TESTING_DEFAULT_FILE_NAME" class="reference internal" href="#gui.io.TESTING_DEFAULT_FILE_NAME"><tt class="xref docutils literal"><span class="pre">TESTING_DEFAULT_FILE_NAME</span></tt></a>
+rather than asking the user to choose a file. Intended for
+unit testing.</dd></dl>
+
+<dl class="data">
+<dt id="gui.io.READ_ERROR_MESSAGE">
+<tt class="descclassname">gui.io.</tt><tt class="descname">READ_ERROR_MESSAGE</tt><a class="headerlink" href="#gui.io.READ_ERROR_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd>The message shown when an error occurs while reading from a file.</dd></dl>
+
+<dl class="data">
+<dt id="gui.io.WRITE_ERROR_MESSAGE">
+<tt class="descclassname">gui.io.</tt><tt class="descname">WRITE_ERROR_MESSAGE</tt><a class="headerlink" href="#gui.io.WRITE_ERROR_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd>The message shown when an error occurs while writing to a file.</dd></dl>
+
+<dl class="data">
+<dt id="gui.io.PARSE_ERROR_MESSAGE">
+<tt class="descclassname">gui.io.</tt><tt class="descname">PARSE_ERROR_MESSAGE</tt><a class="headerlink" href="#gui.io.PARSE_ERROR_MESSAGE" title="Permalink to this definition">¶</a></dt>
+<dd>The message shown when an error occurs while parsing a file.</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><strong>Private Utiltiy Functions</strong></p>
+<dl class="function">
+<dt id="gui.io._createFileChooser">
+<tt class="descclassname">gui.io.</tt><tt class="descname">_createFileChooser</tt><big>(</big><em>type</em>, <em>mode</em>, <em>parent</em><big>)</big><a class="headerlink" href="#gui.io._createFileChooser" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a <tt class="xref docutils literal"><span class="pre">gtk.FileChooserDialog</span></tt> that has the user choose
+a file of the given type (which must be one of the file types listed
+in <a title="gui.io.FILE_TYPES" class="reference internal" href="#gui.io.FILE_TYPES"><tt class="xref docutils literal"><span class="pre">FILE_TYPES</span></tt></a>) for either reading (if <tt class="docutils literal"><span class="pre">mode</span></tt> is <tt class="docutils literal"><span class="pre">'r'</span></tt>)
+or writing (if <tt class="docutils literal"><span class="pre">mode</span></tt> is <tt class="docutils literal"><span class="pre">'w'</span></tt>). <tt class="docutils literal"><span class="pre">parent</span></tt> is used as the transient
+parent of the dialog.</dd></dl>
+
+<dl class="function">
+<dt id="gui.io._runFileChooser">
+<tt class="descclassname">gui.io.</tt><tt class="descname">_runFileChooser</tt><big>(</big><em>chooser</em><big>)</big><a class="headerlink" href="#gui.io._runFileChooser" title="Permalink to this definition">¶</a></dt>
+<dd>Calls the <tt class="docutils literal"><span class="pre">run()</span></tt> method of the given <tt class="xref docutils literal"><span class="pre">gtk.FileChooserDialog</span></tt>
+and returns the name of the file the user chose.</dd></dl>
+
+<dl class="function">
+<dt id="gui.io._addFileFilters">
+<tt class="descclassname">gui.io.</tt><tt class="descname">_addFileFilters</tt><big>(</big><em>chooser</em>, <em>type</em><big>)</big><a class="headerlink" href="#gui.io._addFileFilters" title="Permalink to this definition">¶</a></dt>
+<dd>Creates two <tt class="xref docutils literal"><span class="pre">gtk.FileFilters</span></tt> &#8211; one that matches all files,
+and one that matches a known type of files &#8211; and adds them to the given
+<tt class="xref docutils literal"><span class="pre">gtk.FileChooserDialog</span></tt>. <tt class="docutils literal"><span class="pre">type</span></tt> must be one of the file types
+listed in <a title="gui.io.FILE_TYPES" class="reference internal" href="#gui.io.FILE_TYPES"><tt class="xref docutils literal"><span class="pre">FILE_TYPES</span></tt></a>, where this function looks up a human-readable
+description for that type of file and its extension.</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="actions.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.actions</span></tt></a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="mediator.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">gui.mediator</span></tt></a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="mediator.html" title="gui.mediator"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="actions.html" title="gui.actions"
+             >previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

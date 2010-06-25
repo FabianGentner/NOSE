@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.calibration.charts — Visualizes the calibration data &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="gui.calibration" href="index.html" />
+    <link rel="next" title="gui.calibration.parameters — Allows setting calibration parameters" href="parameters.html" />
+    <link rel="prev" title="gui.calibration.functions — Shows the estimation functions" href="functions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="parameters.html" title="gui.calibration.parameters — Allows setting calibration parameters"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="functions.html" title="gui.calibration.functions — Shows the estimation functions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.calibration.charts">
+<h1><tt class="xref docutils literal"><span class="pre">gui.calibration.charts</span></tt> &#8212; Visualizes the calibration data<a class="headerlink" href="#module-gui.calibration.charts" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the <a title="gui.calibration.charts.ChartHandler" class="reference internal" href="#gui.calibration.charts.ChartHandler"><tt class="xref docutils literal"><span class="pre">ChartHandler</span></tt></a> class, which manages a set of
+<a title="gui.charting.chart.Chart" class="reference external" href="../charting/chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> widgtes that visualize the measurements
+taken during the <a class="reference external" href="../../glossary.html#term-calibration-procedure"><em class="xref">calibration procedure</em></a> and the and the
+<a class="reference external" href="../../glossary.html#term-estimation-function"><em class="xref">estimation functions</em></a> that are its result.</p>
+<p>The class provides three charts:</p>
+<ul class="simple">
+<li>the <em>measurements chart</em>, which shows the <a class="reference external" href="../../glossary.html#term-temperature-measurement"><em class="xref">temperature measurements</em></a> the user has taken for the <a class="reference external" href="../../glossary.html#term-heating-current"><em class="xref">heating
+currents</em></a> used during the calibration procedure and
+the <a class="reference external" href="../../glossary.html#term-temperature-sensor-voltage"><em class="xref">temperature sensor voltages</em></a>
+at the time the measurements were taken;</li>
+<li>the <em>temperature chart</em>, which plots the function used to estimate the
+<a class="reference external" href="../../glossary.html#term-heating-temperature"><em class="xref">heating temperature</em></a> that corresponds to a given <a class="reference external" href="../../glossary.html#term-temperature-sensor-voltage"><em class="xref">temperature
+sensor voltage</em></a>; and</li>
+<li>the <em>current chart</em>, which plots the function used to estimate the
+<a class="reference external" href="../../glossary.html#term-heating-current"><em class="xref">heating current</em></a> that needs to be used to heat the system to a given
+<a class="reference external" href="../../glossary.html#term-target-temperature"><em class="xref">target temperature</em></a>.</li>
+</ul>
+<p>Clients need not actually deal with the <a title="gui.calibration.charts.ChartHandler" class="reference internal" href="#gui.calibration.charts.ChartHandler"><tt class="xref docutils literal"><span class="pre">ChartHandler</span></tt></a>
+itself; instead, they can use the <a title="gui.calibration.charts.createCharts" class="reference internal" href="#gui.calibration.charts.createCharts"><tt class="xref docutils literal"><span class="pre">createCharts()</span></tt></a> function,
+which creates the handler and returns the <a title="gui.charting.chart.Chart" class="reference external" href="../charting/chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a>
+widgtes. The charts will be automatically updated when the
+calibration data of the <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> passed to
+the function changes.</p>
+<dl class="function">
+<dt id="gui.calibration.charts.createCharts">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">createCharts</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.charts.createCharts" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a <a title="gui.calibration.charts.ChartHandler" class="reference internal" href="#gui.calibration.charts.ChartHandler"><tt class="xref docutils literal"><span class="pre">ChartHandler</span></tt></a> and returns its
+<a title="gui.charting.chart.Chart" class="reference external" href="../charting/chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> widgets as a tuple
+<tt class="docutils literal"><span class="pre">(</span><em><span class="pre">measurementsChart</span></em><span class="pre">,</span> <em><span class="pre">temperatureChart</span></em><span class="pre">,</span> <em><span class="pre">currentChart</span></em><span class="pre">)</span></tt>.
+<cite>system</cite> is the <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a> whose calibration
+measurement are to be visualized.</dd></dl>
+
+<div class="section" id="the-charthandler-class">
+<h2>The <a title="gui.calibration.charts.ChartHandler" class="reference internal" href="#gui.calibration.charts.ChartHandler"><tt class="xref docutils literal"><span class="pre">ChartHandler</span></tt></a> Class<a class="headerlink" href="#the-charthandler-class" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gui.calibration.charts.ChartHandler">
+<em class="property">class </em><tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">ChartHandler</tt><big>(</big><em>system</em><big>)</big><a class="headerlink" href="#gui.calibration.charts.ChartHandler" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a new instance of this class, which visualizes the calibration
+data of the given <a title="ops.system.ProductionSystem" class="reference external" href="../../ops/system.html#ops.system.ProductionSystem"><tt class="xref docutils literal"><span class="pre">ProductionSystem</span></tt></a>.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.charts.ChartHandler.measurementsChart">
+<tt class="descclassname">ChartHandler.</tt><tt class="descname">measurementsChart</tt><a class="headerlink" href="#gui.calibration.charts.ChartHandler.measurementsChart" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="gui.charting.chart.Chart" class="reference external" href="../charting/chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> object that displays the
+measurements chart. Immutable.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.charts.ChartHandler.temperatureChart">
+<tt class="descclassname">ChartHandler.</tt><tt class="descname">temperatureChart</tt><a class="headerlink" href="#gui.calibration.charts.ChartHandler.temperatureChart" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="gui.charting.chart.Chart" class="reference external" href="../charting/chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> object that displays the
+temperature chart. Immutable.</dd></dl>
+
+<dl class="attribute">
+<dt id="gui.calibration.charts.ChartHandler.currentChart">
+<tt class="descclassname">ChartHandler.</tt><tt class="descname">currentChart</tt><a class="headerlink" href="#gui.calibration.charts.ChartHandler.currentChart" title="Permalink to this definition">¶</a></dt>
+<dd>The <a title="gui.charting.chart.Chart" class="reference external" href="../charting/chart.html#gui.charting.chart.Chart"><tt class="xref docutils literal"><span class="pre">Chart</span></tt></a> object that displays the
+current chart. Immutable.</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.calibration.charts.MIN_CAPTION_LINES">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">MIN_CAPTION_LINES</tt><a class="headerlink" href="#gui.calibration.charts.MIN_CAPTION_LINES" title="Permalink to this definition">¶</a></dt>
+<dd><p>The minimum number of lines worth of space the charts reserve for their
+caption. If a captions uses fewer lines, it still receives the amount
+of vertical space that would be used by that number of lines, so that
+the charts are visually congruent. If a caption uses more lines, it
+receives as much space as required.</p>
+<p>The value can be set during localization by using a message string that
+can be parsed as an integer for the message id <tt class="docutils literal"><span class="pre">{{MIN_CAPTION_LINES}}</span></tt>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.charts.CHART_SIZE">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">CHART_SIZE</tt><a class="headerlink" href="#gui.calibration.charts.CHART_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd>The minimum size of the charts in pixels, as a tuple
+<tt class="docutils literal"><span class="pre">(</span><em><span class="pre">width</span></em><span class="pre">,</span> <em><span class="pre">height</span></em><span class="pre">)</span></tt>.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.charts.DIMENSION_LABEL_TEXTS">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">DIMENSION_LABEL_TEXTS</tt><a class="headerlink" href="#gui.calibration.charts.DIMENSION_LABEL_TEXTS" title="Permalink to this definition">¶</a></dt>
+<dd>A tuple that lists the text of the dimension labels for heating current,
+heating temperature, and temperature sensor voltage. Strings of the form
+<tt class="docutils literal"><span class="pre">'</span><em><span class="pre">numerator</span></em> <span class="pre">/</span> <em><span class="pre">denominator</span></em><span class="pre">'</span></tt> are displayed as a proper fraction.
+Pango Markup Language tags are supported.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.charts.COLORS">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">COLORS</tt><a class="headerlink" href="#gui.calibration.charts.COLORS" title="Permalink to this definition">¶</a></dt>
+<dd><p>A tuple that lists the colors used for the graphs that show heating
+current, heating temperature, and temperature sensor voltage, as
+X11 color names (e.g. <tt class="docutils literal"><span class="pre">'blanched</span> <span class="pre">almond'</span></tt>) or hexadecimal strings
+(e.g. <tt class="docutils literal"><span class="pre">'#FFEBCD'</span></tt>).</p>
+<p>If these colors are changed, the captions need to be adjusted as well.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="captions">
+<h2>Captions<a class="headerlink" href="#captions" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.calibration.charts.MEASUREMENTS_CHART_CAPTION">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">MEASUREMENTS_CHART_CAPTION</tt><a class="headerlink" href="#gui.calibration.charts.MEASUREMENTS_CHART_CAPTION" title="Permalink to this definition">¶</a></dt>
+<dd>The caption used for the measurements chart if the estimation function
+has been fitted.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.charts.MEASUREMENTS_CHART_POINTS_ONLY_CAPTION">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">MEASUREMENTS_CHART_POINTS_ONLY_CAPTION</tt><a class="headerlink" href="#gui.calibration.charts.MEASUREMENTS_CHART_POINTS_ONLY_CAPTION" title="Permalink to this definition">¶</a></dt>
+<dd>The caption used for the measurements chart if the estimation function
+has not been fitted.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.charts.TEMPERATURE_CHART_CAPTION">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">TEMPERATURE_CHART_CAPTION</tt><a class="headerlink" href="#gui.calibration.charts.TEMPERATURE_CHART_CAPTION" title="Permalink to this definition">¶</a></dt>
+<dd>The caption used for the temperature chart if the estimation function
+has been fitted.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.charts.TEMPERATURE_CHART_POINTS_ONLY_CAPTION">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">TEMPERATURE_CHART_POINTS_ONLY_CAPTION</tt><a class="headerlink" href="#gui.calibration.charts.TEMPERATURE_CHART_POINTS_ONLY_CAPTION" title="Permalink to this definition">¶</a></dt>
+<dd>The caption used for the temperature chart if the estimation function
+has not been fitted.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.charts.CURRENT_CHART_CAPTION">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">CURRENT_CHART_CAPTION</tt><a class="headerlink" href="#gui.calibration.charts.CURRENT_CHART_CAPTION" title="Permalink to this definition">¶</a></dt>
+<dd>The caption used for the current chart if the estimation function
+has been fitted.</dd></dl>
+
+<dl class="data">
+<dt id="gui.calibration.charts.CURRENT_CHART_POINTS_ONLY_CAPTION">
+<tt class="descclassname">gui.calibration.charts.</tt><tt class="descname">CURRENT_CHART_POINTS_ONLY_CAPTION</tt><a class="headerlink" href="#gui.calibration.charts.CURRENT_CHART_POINTS_ONLY_CAPTION" title="Permalink to this definition">¶</a></dt>
+<dd>The caption used for the current chart if the estimation function
+has not been fitted.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.calibration.charts</span></tt> &#8212; Visualizes the calibration data</a><ul>
+<li><a class="reference external" href="#the-charthandler-class">The <tt class="docutils literal"><span class="pre">ChartHandler</span></tt> Class</a></li>
+<li><a class="reference external" href="#constants">Constants</a></li>
+<li><a class="reference external" href="#captions">Captions</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="functions.html"
+                                  title="previous chapter"><tt class="docutils literal"><span class="pre">gui.calibration.functions</span></tt> &#8212; Shows the estimation functions</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="parameters.html"
+                                  title="next chapter"><tt class="docutils literal"><span class="pre">gui.calibration.parameters</span></tt> &#8212; Allows setting calibration parameters</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="parameters.html" title="gui.calibration.parameters — Allows setting calibration parameters"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="functions.html" title="gui.calibration.functions — Shows the estimation functions"
+             >previous</a> |</li>
+        <li><a href="../../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal"><span class="pre">gui.calibration</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gui.widgets — Contains GUI-related utility functions &mdash; NOSE v0.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.0',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="NOSE v0.0.0 documentation" href="../index.html" />
+    <link rel="up" title="gui" href="index.html" />
+    <link rel="next" title="gui.calibration" href="calibration/index.html" />
+    <link rel="prev" title="gui.mediator" href="mediator.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="calibration/index.html" title="gui.calibration"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mediator.html" title="gui.mediator"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-gui.widgets">
+<h1><tt class="xref docutils literal"><span class="pre">gui.widgets</span></tt> &#8212; Contains GUI-related utility functions<a class="headerlink" href="#module-gui.widgets" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="widget-creation">
+<h2>Widget Creation<a class="headerlink" href="#widget-creation" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gui.widgets.createPanel">
+<tt class="descclassname">gui.widgets.</tt><tt class="descname">createPanel</tt><big>(</big><em>*children</em>, <em>**keywords</em><big>)</big><a class="headerlink" href="#gui.widgets.createPanel" title="Permalink to this definition">¶</a></dt>
+<dd>Creates a <tt class="xref docutils literal"><span class="pre">gtk.Alignment</span></tt> that contains the given widgets (in a
+<tt class="xref docutils literal"><span class="pre">gtk.VBox</span></tt> if there is more than one widget) and sets the border
+width and spacing between widgets to <a title="gui.widgets.PANEL_BORDER_WIDTH" class="reference internal" href="#gui.widgets.PANEL_BORDER_WIDTH"><tt class="xref docutils literal"><span class="pre">PANEL_BORDER_WIDTH</span></tt></a> and
+<a title="gui.widgets.PANEL_SPACING" class="reference internal" href="#gui.widgets.PANEL_SPACING"><tt class="xref docutils literal"><span class="pre">PANEL_SPACING</span></tt></a>, respectively. Any keyword arguments are passed
+to <tt class="xref docutils literal"><span class="pre">gtk.Alignment()</span></tt>.</dd></dl>
+
+<dl class="function">
+<dt id="gui.widgets.createCellDataRounder">
+<tt class="descclassname">gui.widgets.</tt><tt class="descname">createCellDataRounder</tt><big>(</big><em>index</em>, <em>fractionalDigits=2</em>, <em>trimTrailingZeros=False</em><big>)</big><a class="headerlink" href="#gui.widgets.createCellDataRounder" title="Permalink to this definition">¶</a></dt>
+<dd>Returns a <em>cell data function</em> for use in a <tt class="xref docutils literal"><span class="pre">gtk.TreeViewColumn</span></tt>
+that shows rounded floating-point numbers. The function retrieves its
+data from column <cite>index</cite> of the <tt class="xref docutils literal"><span class="pre">gtk.TreeModel</span></tt> used by the
+<tt class="xref docutils literal"><span class="pre">gtk.TreeView</span></tt> the <tt class="xref docutils literal"><span class="pre">gtk.TreeViewColumn</span></tt> is part of.
+The retrieved number is then rounded using <a title="util.stringFromFloat" class="reference external" href="../util.html#util.stringFromFloat"><tt class="xref docutils literal"><span class="pre">util.stringFromFloat()</span></tt></a>,
+which is called with <cite>fractionalDigits</cite> and <cite>trimTrailingZeros</cite> as
+arguments.</dd></dl>
+
+<dl class="function">
+<dt id="gui.widgets.addMenuItem">
+<tt class="descclassname">gui.widgets.</tt><tt class="descname">addMenuItem</tt><big>(</big><em>menu</em>, <em>text</em>, <em>stock</em>, <em>callback</em>, <em>*parameters</em><big>)</big><a class="headerlink" href="#gui.widgets.addMenuItem" title="Permalink to this definition">¶</a></dt>
+<dd>Adds a <tt class="xref docutils literal"><span class="pre">gtk.ImageMenuItem</span></tt> to the given <tt class="xref docutils literal"><span class="pre">gtk.Menu</span></tt> using
+the given text and the icon from the given stock. Also adds <cite>callback</cite>
+to the handlers for the menu item&#8217;s <cite>activate</cite> signal with the given
+extra parameters.</dd></dl>
+
+</div>
+<div class="section" id="utility-functions">
+<h2>Utility Functions<a class="headerlink" href="#utility-functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gui.widgets.getColor">
+<tt class="descclassname">gui.widgets.</tt><tt class="descname">getColor</tt><big>(</big><em>spec</em><big>)</big><a class="headerlink" href="#gui.widgets.getColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a color specification which may be either an X11 color name
+(<tt class="docutils literal"><span class="pre">'misty</span> <span class="pre">rose'</span></tt>) or a hexadecimal string (<tt class="docutils literal"><span class="pre">'#FFE4E1'</span></tt>),
+returns a <tt class="xref docutils literal"><span class="pre">gtk.gdk.Color</span></tt> object matching that specification.</p>
+<p><cite>spec</cite> may also be a <tt class="xref docutils literal"><span class="pre">gtk.gdk.Color</span></tt> object, in which case it
+is returned.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="constants">
+<h2>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="gui.widgets.PANEL_BORDER_WIDTH">
+<tt class="descclassname">gui.widgets.</tt><tt class="descname">PANEL_BORDER_WIDTH</tt><a class="headerlink" href="#gui.widgets.PANEL_BORDER_WIDTH" title="Permalink to this definition">¶</a></dt>
+<dd>The application-standard width for borders around panels.</dd></dl>
+
+<dl class="data">
+<dt id="gui.widgets.PANEL_SPACING">
+<tt class="descclassname">gui.widgets.</tt><tt class="descname">PANEL_SPACING</tt><a class="headerlink" href="#gui.widgets.PANEL_SPACING" title="Permalink to this definition">¶</a></dt>
+<dd>The application-standard width for the spacing between widgets in a panel.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#"><tt class="docutils literal"><span class="pre">gui.widgets</span></tt> &#8212; Contains GUI-related utility functions</a><ul>
+<li><a class="reference external" href="#widget-creation">Widget Creation</a></li>
+<li><a class="reference external" href="#utility-functions">Utility Functions</a></li>
+<li><a class="reference external" href="#constants">Constants</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="mediator.html"
+                                  title="previous chapter"><tt class="docutils literal docutils literal docutils literal"><span class="pre">gui.mediator</span></tt></a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="calibration/index.html"
+                                  title="next chapter"><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui.calibration</span></tt></a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="calibration/index.html" title="gui.calibration"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mediator.html" title="gui.mediator"
+             >previous</a> |</li>
+        <li><a href="../index.html">NOSE v0.0.0 documentation</a> &raquo;</li>
+          <li><a href="../tree.html" >Package Tree</a> &raquo;</li>
+          <li><a href="index.html" ><tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">gui</span></tt></a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2010, Institute for High-Frequency Technology, Technical University of Braunschweig.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.5.
+    </div>
+  </body>
+</html>
