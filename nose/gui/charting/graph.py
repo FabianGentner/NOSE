@@ -81,9 +81,12 @@ class FunctionGraph(object):
 
     def draw(self, chart, abscissa, ordinate):
         """
-        Draws the graph on its :class:`~gui.charting.chart.Chart`. `abscissa`
-        and `ordinate` are the :class:`~gui.charting.axis.Axis` instances
-        whose dimensions are used for drawing the graph.
+        Draws the graph on the given :class:`~gui.charting.chart.Chart`.
+        `abscissa` and `ordinate` are the :class:`~gui.charting.axis.Axis`
+        instances whose dimensions are used for drawing the graph.
+
+        This method should only be called by
+        :class:`~gui.charting.chart.Chart`.
         """
         cax, cay, caw, cah = chart.chartArea
 
@@ -135,6 +138,9 @@ class PointGraph(object):
     """
 
     def __init__(self, points, color, style='squares'):
+        if style not in ('squares', 'diamonds'):
+            raise ValueError('"%s" is not a valid style' % style)
+
         self._points = tuple(points)
         self._color = getColor(color)
         self._style = style
@@ -143,9 +149,12 @@ class PointGraph(object):
 
     def draw(self, chart, abscissa, ordinate):
         """
-        Draws the graph on its :class:`~gui.charting.chart.Chart`. `abscissa`
-        and `ordinate` are the :class:`~gui.charting.axis.Axis` instances
-        whose dimensions are used for drawing the graph.
+        Draws the graph on the given :class:`~gui.charting.chart.Chart`.
+        `abscissa` and `ordinate` are the :class:`~gui.charting.axis.Axis`
+        instances whose dimensions are used for drawing the graph.
+
+        This method should only be called by
+        :class:`~gui.charting.chart.Chart`.
         """
         if self._graphicsContext == None:
             self._graphicsContext = chart.window.new_gc()

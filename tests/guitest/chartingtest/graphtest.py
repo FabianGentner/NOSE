@@ -22,9 +22,9 @@ import gtk
 import unittest
 
 from test import *
+from gui.charting.graph import *
 
 import gui.charting.chart
-import gui.charting.graph
 
 
 class GraphTests(unittest.TestCase):
@@ -35,25 +35,37 @@ class GraphTests(unittest.TestCase):
     def setUp(self):
         self.chart = gui.charting.chart.Chart()
 
-        self.functionGraph = gui.charting.graph.FunctionGraph(
-            self.chart, lambda x: 2 * x * x, 'pink', self.chart.ordinate)
+        self.functionGraph = FunctionGraph(
+            lambda x: 2 * x * x, 'pink', drawOnFrame = False)
 
         x = (-0.2, -0.1, 0.0, 0.0, 0.1, 0.2, 0.5, 0.8,  0.9, 1.0, 1.0, 1.1)
         y = (-0.5,  0.3, 0.0, 0.1, 0.0, 0.2, 1.0, 1.1, -0.1, 0.9, 1.0, 0.7)
-        self.pointGraph = gui.charting.graph.PointGraph(
-            self.chart, zip(x, y), 'violet', self.chart.ordinate)
+        self.pointGraph = PointGraph(zip(x, y), 'violet', style='diamonds')
 
-        # The chart needs to be realized for some tests.
+        self.chart.addGraph(self.functionGraph)
+        self.chart.addGraph(self.pointGraph)
+
+        # The chart needs to be realized and have an allocation for some tests.
         window = gtk.Window()
+        self.chart.size_allocate((0, 0, 300, 300))
         window.add(self.chart)
         self.chart.realize()
 
 
     def testDrawFunctionGraph(self):
         """Tests the :meth:`draw` method of :class:`FunctionGraph`."""
-        self.functionGraph.draw()
+        self.functionGraph.draw(
+            self.chart, self.chart.abscissa, self.chart.ordinate)
+
+
+    def testBadPontGraphStyle(self):
+        """Tests creating a :class:`PointGraph` with an invalid style."""
+        self.assertRaises(ValueError, PointGraph, ((1, 2), (3, 4)), 'red', 'x')
 
 
     def testDrawPointGraph(self):
         """Tests the :meth:`draw` method of :class:`PointGraph`."""
-        self.pointGraph.draw()
+        self.pointGraph.draw(
+            self.chart, self.chart.abscissa, self.chart.ordinate)
+
+

@@ -58,7 +58,7 @@ if __name__ == '__main__':
         # FIXME
         #'guitest.chartingtest.charttest',
         #'guitest.chartingtest.axistest',
-        #'guitest.chartingtest.graphtest',
+        'guitest.chartingtest.graphtest',
 
         ## TODO: Rename test modules below this comment.
         ##'gui.main_test',
