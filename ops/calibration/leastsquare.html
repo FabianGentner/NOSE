@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>ops.calibration.leastsquare — Estimates the heating parameters &mdash; NOSE v0.0.0 documentation</title>
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -17,8 +17,8 @@
         HAS_SOURCE:  false
       };
     </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
     <link rel="top" title="NOSE v0.0.0 documentation" href="../../index.html" />
     <link rel="up" title="ops.calibration" href="index.html" />
     <link rel="next" title="Localizing the Application" href="../../localization.html" />
@@ -57,17 +57,17 @@ are then used by the <a title="ops.calibration.manager.CalibrationManager" class
 estimate the progress of a heating stage, and to determine whether the heating
 temperature is close enough to its final value for a <a class="reference external" href="../../glossary.html#term-temperature-measurement"><em class="xref">temperature
 measurement</em></a> to be taken.</p>
-<p>The module assumes that the heating temperature <img class="math" src="../../_images/math/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png" alt="T"/> at time <img class="math" src="../../_images/math/e0d2bf360290fd61d1c1557e763f2622363b3d35.png" alt="t"/> is</p>
+<p>The module assumes that the heating temperature <img class="math" src="../../images/math/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png" alt="T"/> at time <img class="math" src="../../images/math/e0d2bf360290fd61d1c1557e763f2622363b3d35.png" alt="t"/> is</p>
 <div class="math">
-<p><img src="../../_images/math/09f64cb77af9eed2ca95b8b87e0ae5c0816a6121.png" alt="T = T_0 + (T_1 - T_0) \times (1 - e^{-t/\tau})," /></p>
-</div><p>and that the temperature sensor voltage <img class="math" src="../../_images/math/e2bbebb3bd73f1ae5c64098ab0244f739abf7ca4.png" alt="U"/> for that temperature is</p>
+<p><img src="../../images/math/09f64cb77af9eed2ca95b8b87e0ae5c0816a6121.png" alt="T = T_0 + (T_1 - T_0) \times (1 - e^{-t/\tau})," /></p>
+</div><p>and that the temperature sensor voltage <img class="math" src="../../images/math/e2bbebb3bd73f1ae5c64098ab0244f739abf7ca4.png" alt="U"/> for that temperature is</p>
 <div class="math">
-<p><img src="../../_images/math/1b123c2fd20d6175d6464666ece0ee4302137c08.png" alt="U = a_4 T^4 + a_3 T^3 + a_2 T^2 + a_1 T + a_0," /></p>
-</div><p>where <img class="math" src="../../_images/math/6801c07694edb238c4a095956d8bf46ccdb38fcc.png" alt="T_0"/> is the temperature at the beginning of the heating stage,
-<img class="math" src="../../_images/math/c073f8a05257a19c2dacc368858763bb44fa3747.png" alt="T_1"/> is the final temperature for the heating current used, and
-<img class="math" src="../../_images/math/1dc1c0119a604b91be9142370dc3159b6a9bbcb9.png" alt="\tau"/> and <img class="math" src="../../_images/math/175aa56a24bc896e68ca97a26c1fb517a53672f5.png" alt="a_4, \dots, a_0"/> are constants.</p>
-<p>The module then estimates <img class="math" src="../../_images/math/bfd00607725c64332864a6370f059f71f71e5de1.png" alt="T_0, T_1, \tau,"/> and the coefficients
-<img class="math" src="../../_images/math/175aa56a24bc896e68ca97a26c1fb517a53672f5.png" alt="a_4, \dots, a_0"/> using <tt class="xref docutils literal"><span class="pre">scipy.optimize.leastsq()</span></tt>.</p>
+<p><img src="../../images/math/1b123c2fd20d6175d6464666ece0ee4302137c08.png" alt="U = a_4 T^4 + a_3 T^3 + a_2 T^2 + a_1 T + a_0," /></p>
+</div><p>where <img class="math" src="../../images/math/6801c07694edb238c4a095956d8bf46ccdb38fcc.png" alt="T_0"/> is the temperature at the beginning of the heating stage,
+<img class="math" src="../../images/math/c073f8a05257a19c2dacc368858763bb44fa3747.png" alt="T_1"/> is the final temperature for the heating current used, and
+<img class="math" src="../../images/math/1dc1c0119a604b91be9142370dc3159b6a9bbcb9.png" alt="\tau"/> and <img class="math" src="../../images/math/175aa56a24bc896e68ca97a26c1fb517a53672f5.png" alt="a_4, \dots, a_0"/> are constants.</p>
+<p>The module then estimates <img class="math" src="../../images/math/bfd00607725c64332864a6370f059f71f71e5de1.png" alt="T_0, T_1, \tau,"/> and the coefficients
+<img class="math" src="../../images/math/175aa56a24bc896e68ca97a26c1fb517a53672f5.png" alt="a_4, \dots, a_0"/> using <tt class="xref docutils literal"><span class="pre">scipy.optimize.leastsq()</span></tt>.</p>
 <p>The minimization is performed in a worker thread (<a title="ops.calibration.leastsquare.LeastSquareThread" class="reference internal" href="#ops.calibration.leastsquare.LeastSquareThread"><tt class="xref docutils literal"><span class="pre">LeastSquareThread</span></tt></a>)
 since it may take up to half a second, and would otherwise render the
 application unresponsive.</p>
@@ -143,8 +143,8 @@ has been called).</dd></dl>
 <dd>A named tuple that contains the solution of a minimzation, or the starting
 estimates for one. The items in this tuple are <cite>startingTemperature</cite>,
 <cite>finalTemperature</cite>, <cite>tau</cite>, and <cite>coefficients</cite>, where the first three are
-<img class="math" src="../../_images/math/0cf7bbc52410a64e450dc4fc259e609a4e5e84d1.png" alt="T_0, T_1,"/> and <img class="math" src="../../_images/math/1dc1c0119a604b91be9142370dc3159b6a9bbcb9.png" alt="\tau"/> as defined above, and the last is an
-unnamed tuple containing <img class="math" src="../../_images/math/6b8a98d264d2c2fe0526bba33f42063b2b3dc39d.png" alt="a_4, \dots, a_0,"/> in that order.</dd></dl>
+<img class="math" src="../../images/math/0cf7bbc52410a64e450dc4fc259e609a4e5e84d1.png" alt="T_0, T_1,"/> and <img class="math" src="../../images/math/1dc1c0119a604b91be9142370dc3159b6a9bbcb9.png" alt="\tau"/> as defined above, and the last is an
+unnamed tuple containing <img class="math" src="../../images/math/6b8a98d264d2c2fe0526bba33f42063b2b3dc39d.png" alt="a_4, \dots, a_0,"/> in that order.</dd></dl>
 
 </div>
 <div class="section" id="starting-estimates">
