@@ -1,3 +1,5 @@
 NOSE is control software for an FCI-7011 fiber coupler production system, is written for the Institute for High-Frequency Technology of the Technical University of Braunschweig, and is GPL-licensed. It is still in development and has not yet reached a usable state.
 
 NOSE requires Python 2.6, PyGTK, and SciPy to run.
+
+Documentation is available at http://fabiangentner.github.com/NOSE/.
