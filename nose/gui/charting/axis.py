@@ -120,7 +120,7 @@ class Axis(object):
     def maxValue(self, newValue):
         # The setter for the :attr:`maxValue` property.
         if newValue < 0.0001:
-            raise util.ApplicationError('maxValue must be at least 0.0001')
+            raise ValueError('maxValue must be at least 0.0001')
 
         self._maxValue = float(newValue)
         self._chart.queue_draw()

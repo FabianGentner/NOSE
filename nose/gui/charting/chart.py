@@ -31,7 +31,7 @@ import collections
 import gtk
 import pango
 
-from util import gettext, ApplicationError
+from util import gettext
 from gui.widgets import getColor
 
 import gui.charting.axis
@@ -218,7 +218,7 @@ class Chart(gtk.DrawingArea):
     def minCaptionLines(self, newValue):
         # The setter for the :attr:`minCaptionLines` property.
         if newValue < 0:
-            raise ApplicationError('minCaptionLines must not be negative')
+            raise ValueError('minCaptionLines must not be negative')
         else:
             self._minCaptionLines = newValue
             self._updateChartArea()
