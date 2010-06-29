@@ -13,12 +13,9 @@ The :class:`ChartHandler` Class
 
 Constants
 ---------
-.. autodata:: MIN_CAPTION_LINES
 .. autodata:: CHART_SIZE
 .. autodata:: DIMENSION_LABEL_TEXTS
 .. autodata:: COLORS
-
-Captions
---------
 .. autodata:: COMPLETE_CAPTIONS
 .. autodata:: INCOMPLETE_CAPTIONS
+.. autodata:: MIN_CAPTION_LINES

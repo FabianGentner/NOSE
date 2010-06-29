@@ -46,6 +46,13 @@ which creates the handler and returns the :class:`~gui.charting.chart.Chart`
 widgtes. The charts will be automatically updated when the
 calibration data of the :class:`~ops.system.ProductionSystem` passed to
 the function changes.
+
+|
+
+.. image:: measurements-chart.png
+    :align: center
+
+|
 """
 
 from gui.charting.chart import Chart
@@ -75,16 +82,6 @@ def createCharts(system):
 # CONSTANTS                                                                   #
 ###############################################################################
 
-#: The minimum number of lines worth of space the charts reserve for their
-#: caption. If a captions uses fewer lines, it still receives the amount
-#: of vertical space that would be used by that number of lines, so that
-#: the charts are visually congruent. If a caption uses more lines, it
-#: receives as much space as required.
-#:
-#: The value can be set during localization by using a message string that
-#: can be parsed as an integer for the message id ``{{MIN_CAPTION_LINES}}``.
-MIN_CAPTION_LINES = parseOrDefault(gettext('{{MIN_CAPTION_LINES}}'), int, 3)
-
 #: The minimum size of the charts in pixels, as a tuple
 #: :samp:`({width}, {height})`.
 CHART_SIZE = (400, 330)
@@ -105,6 +102,43 @@ DIMENSION_LABEL_TEXTS = (
 #:
 #: If these colors are changed, the captions need to be adjusted as well.
 COLORS = ('orange', 'red', 'blue')
+
+#: A tuple of the captions used for the measurements chart, temperature chart,
+#: and current chart if the estimation function could be fitted.
+#: Pango Markup Language tags are supported.
+COMPLETE_CAPTIONS = (
+    gettext('Shown are the final heating temperatures (red squares) and '
+    'temperature sensor voltages (blue diamonds) measured for the given '
+    'heating currents, and the estimation function for the final heating '
+    'temperature (red curve).'),
+    gettext('Shown are the heating temperatures measured for the given '
+    'temperature sensor voltages (red squares) and the estimation '
+    'function for the heating temperature (red curve).'),
+    gettext('Shown are the heating currents used to reach the given '
+    'temperatures (orange squares) and the estimation function for the '
+    'heating current (orange curve).'))
+
+#: A tuple of the captions used for the measurements chart, temperature chart,
+#: and current chart if the estimation function could not be fitted.
+#: Pango Markup Language tags are supported.
+INCOMPLETE_CAPTIONS = (
+    gettext('Shown are the final heating temperatures (red squares) and '
+    'temperature sensor voltages (blue diamonds) measured for the given '
+    'heating currents.'),
+    gettext('Shown are the heating temperatures measured for the given '
+    'temperature sensor voltages (red squares).'),
+    gettext('Shown are the heating currents used to reach the given '
+    'temperatures (orange squares).'))
+
+#: The minimum number of lines worth of space the charts reserve for their
+#: caption. If a captions uses fewer lines, it still receives the amount
+#: of vertical space that would be used by that number of lines, so that
+#: the charts are visually congruent. If a caption uses more lines, it
+#: receives as much space as required.
+#:
+#: The value can be set during localization by using a message string that
+#: can be parsed as an integer for the message id ``{{MIN_CAPTION_LINES}}``.
+MIN_CAPTION_LINES = parseOrDefault(gettext('{{MIN_CAPTION_LINES}}'), int, 3)
 
 
 ###############################################################################
@@ -235,6 +269,8 @@ class ChartHandler(object):
         self.temperatureChart.clearGraphs()
         self.currentChart.clearGraphs()
 
+        captions = INCOMPLETE_CAPTIONS
+
         if cd.hasMeasurements:
             itPoints = zip(cd.heatingCurrents, cd.temperatures)
             iuPoints = zip(cd.heatingCurrents, cd.temperatureSensorVoltages)
@@ -259,39 +295,7 @@ class ChartHandler(object):
                     cd.getCurrentFromTargetTemperature, iColor, False))
 
                 captions = COMPLETE_CAPTIONS
-            else:
-                captions = INCOMPLETE_CAPTIONS
 
-            self.measurementsChart.captionText = captions[0]
-            self.temperatureChart.captionText = captions[1]
-            self.currentChart.captionText = captions[2]
-
-
-###############################################################################
-# CAPTIONS                                                                    #
-###############################################################################
-
-#: A tuple of the captions used for the measurements chart, temperature chart,
-#: and current chart if the estimation function could be fitted.
-COMPLETE_CAPTIONS = (
-    gettext('Shown are the final heating temperatures (red squares) and '
-    'temperature sensor voltages (blue diamonds) measured for the given '
-    'heating currents, and the estimation functions for final heating '
-    'temperatures (red curve).'),
-    gettext('Shown are the heating temperatures measured for the given '
-    'temperature sensor voltages (red squares) and the estimation '
-    'function for heating temperatures (red curve).'),
-    gettext('Shown are the heating currents used to reach the given '
-    'temperatures (orange squares) and the estimation function for the '
-    'heating current (orange curve).'))
-
-#: A tuple of the captions used for the measurements chart, temperature chart,
-#: and current chart if the estimation function could not be fitted.
-INCOMPLETE_CAPTIONS = (
-    gettext('Shown are the final heating temperatures (red squares) and '
-    'temperature sensor voltages (blue diamonds) measured for the given '
-    'heating currents.'),
-    gettext('Shown are the heating temperatures measured for the given '
-    'temperature sensor voltages (red squares).'),
-    gettext('Shown are the heating currents used to reach the given '
-    'temperatures (orange squares).'))
+        self.measurementsChart.captionText = captions[0]
+        self.temperatureChart.captionText = captions[1]
+        self.currentChart.captionText = captions[2]

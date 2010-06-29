@@ -20,12 +20,14 @@
 
 import unittest
 
-from test import *
+from gui.calibration.charts import *
 from ops.calibration.data import CalibrationData
+from test import *
 
-import gui.calibration.charts
+import gui.charting.chart
 import gui.mediator
 import ops.calibration.event
+import ops.event
 import ops.system
 
 
@@ -40,6 +42,14 @@ class ChartHandlerTests(unittest.TestCase):
         self.handler = gui.calibration.charts.ChartHandler(self.system)
 
 
+    def testCreateCharts(self):
+        """Tests the :func:`createCharts` function."""
+        charts = createCharts(self.system)
+        self.assertEqual(len(charts), 3)
+        for c in charts:
+            self.assertTrue(isinstance(c, gui.charting.chart.Chart))
+
+
     def testWidgets(self):
         """Tests the widget properties."""
         for n in ('measurementsChart', 'temperatureChart', 'currentChart'):
@@ -47,12 +57,20 @@ class ChartHandlerTests(unittest.TestCase):
             self.assertRaises(AttributeError, setattr, self.handler, n, None)
 
 
-    def testEvents(self):
-        """Check that the class responds to events."""
+    def testCalibrationDataChangedEvents(self):
+        """Check that the class responds to CalibrationDataChanged events."""
         logger = wrapLogger(self.handler._updateGraphs)
         self.mediator.noteEvent(ops.calibration.event.CalibrationDataChanged(
             self.system, self.system.calibrationData))
         self.assertEqual(logger.log, [self.system.calibrationData])
+
+
+    def testSystemPropertiesChangedEvents(self):
+        """Check that the class responds to SystemPropertiesChanged events."""
+        logger = wrapLogger(self.handler._updateAxes)
+        self.mediator.noteEvent(ops.event.SystemPropertiesChanged(
+            self.system, 'dummy'))
+        self.assertEqual(logger.log, [self.system])
 
 
     def testEmptyCalibrationData(self):
