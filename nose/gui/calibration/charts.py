@@ -196,9 +196,8 @@ class ChartHandler(object):
 
     def _updateAxes(self, system):
         """
-        Queries the given :class:`~ops.system.ProductionSystem` for the new
-        maxValues of the charts' axes and calls the :meth:`set{Axis}` methods
-        of the charts.
+        Updates the max values of the charts' axes with values retrieved
+        from the given production system.
         """
         def doUpdate(chart, abscissaMax, ordinateMax, secondaryOrdinateMax):
             chart.abscissa.maxValue = abscissaMax
