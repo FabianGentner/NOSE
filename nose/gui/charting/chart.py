@@ -293,7 +293,7 @@ class Chart(gtk.DrawingArea):
         if len(self._graphs) > 0:
             self._drawGraphs()
         else:
-            self._drawNoDataText()
+            self._drawNoDataMessage()
 
 
     def _createGraphicsContexts(self):
@@ -351,7 +351,7 @@ class Chart(gtk.DrawingArea):
                 graph.draw(self, self.abscissa, ordinate)
 
 
-    def _drawNoDataText(self):
+    def _drawNoDataMessage(self):
         """
         Draws the no data message.
         """

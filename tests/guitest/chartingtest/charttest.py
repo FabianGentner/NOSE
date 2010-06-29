@@ -50,171 +50,259 @@ class ChartTests(unittest.TestCase):
         self.assertTrue(
             isinstance(self.chart.secondaryOrdinate, SecondaryOrdinate))
 
-        self.assertRaises(TypeError, setattr, self.chart, 'abscissa', None)
-        self.assertRaises(TypeError, setattr, self.chart, 'ordinate', None)
         self.assertRaises(
-            TypeError, setattr, self.chart, 'secondaryOrdinate', None)
+            AttributeError, setattr, self.chart, 'abscissa', None)
+        self.assertRaises(
+            AttributeError, setattr, self.chart, 'ordinate', None)
+        self.assertRaises(
+            AttributeError, setattr, self.chart, 'secondaryOrdinate', None)
 
 
-    def testAddFunction(self):
-        """Tests the :meth:`addFunction` method."""
-        self.assertEqual(len(self.chart.graphs), 0)
-        self._addFunctions(self.chart.addFunction)
-        self.assertEqual(len(self.chart.graphs), 2)
+    def testShowSecondaryOrdinate(self):
+        """Tests the :attr:`showSecondaryOrdinate` property."""
+        logger = replaceWithLogger(self.chart.queue_draw)
+        self.assertFalse(self.chart.showSecondaryOrdinate)
+        self.chart.showSecondaryOrdinate = True
+        self.assertTrue(self.chart.showSecondaryOrdinate)
+        self.assertEqual(len(logger.log), 1)
 
 
-    def testAddSecondaryFunction(self):
-        """Tests the :meth:`addSecondaryFunction` method."""
-        self.chart.setSecondaryOrdinate(10000, 'a / b')
-        self.assertEqual(len(self.chart.graphs), 0)
-        self._addFunctions(self.chart.addSecondaryFunction)
-        self.assertEqual(len(self.chart.graphs), 2)
-
-
-    def _addFunctions(self, method):
-        """Utility method that adds two functions to the chart."""
-        method(lambda x: x / 2, 'pale goldenrod')
-        method(lambda x: x**2, 'lavender blush')
-
-
-    def testAddPoints(self):
-        """Tests the :meth:`addPoints` method."""
-        self.assertEqual(len(self.chart.graphs), 0)
-        self._addPoints(self.chart.addPoints)
-        self.assertEqual(len(self.chart.graphs), 2)
-
-
-    def testAddSecondaryPoints(self):
-        """Tests the :meth:`addSecondaryPoints` method."""
-        self.chart.setSecondaryOrdinate(10000, 'a / b')
-        self.assertEqual(len(self.chart.graphs), 0)
-        self._addPoints(self.chart.addSecondaryPoints)
-        self.assertEqual(len(self.chart.graphs), 2)
-
-
-    def _addPoints(self, method):
-        """Utility function that adds two sets of points to the chart."""
-        method(((x, x / 2) for x in xrange(100)), 'powder blue')
-        method(((x, x**2) for x in xrange(100)), 'bisque')
-
-
-    def testAddSecondaryError(self):
+    def testGraphs(self):
         """
-        Tests the :meth:`addSecondary*` methods without a secondary ordinate.
+        Tests the :meth:`addGraph`, :meth:`addSecondaryGraph` and
+        :meth:`clearGraphs` methods.
         """
-        self.assertRaises(ApplicationError,
-            self._addFunctions, self.chart.addSecondaryFunction)
-        self.assertRaises(ApplicationError,
-            self._addPoints, self.chart.addSecondaryPoints)
+        s = Stub(None, draw=fun(None))
+        o1 = self.chart.ordinate
+        o2 = self.chart.secondaryOrdinate
 
+        logger = replaceWithLogger(self.chart.queue_draw)
 
-    def testClearGraphs(self):
-        """Tests the :meth:`clearGraphs` method."""
-        self.chart.setSecondaryOrdinate(100, 'a / b')
-        self._addFunctions(self.chart.addFunction)
-        self._addFunctions(self.chart.addSecondaryFunction)
-        self._addPoints(self.chart.addPoints)
-        self._addPoints(self.chart.addSecondaryPoints)
-        self.assertNotEqual(len(self.chart.graphs), 0)
+        self.assertEqual(self.chart._graphs, [])
+        self.chart.addGraph(s)
+        self.assertEqual(self.chart._graphs, [(s, o1)])
+        self.assertEqual(len(logger.log), 1)
+        self.chart.addGraph(s)
+        self.assertEqual(self.chart._graphs, [(s, o1), (s, o1)])
+        self.assertEqual(len(logger.log), 2)
+        self.chart.addSecondaryGraph(s)
+        self.assertEqual(self.chart._graphs, [(s, o1), (s, o1), (s, o2)])
+        self.assertEqual(len(logger.log), 3)
         self.chart.clearGraphs()
-        self.assertEqual(len(self.chart.graphs), 0)
+        self.assertEqual(self.chart._graphs, [])
+        self.assertEqual(len(logger.log), 4)
+        self.chart.addSecondaryGraph(s)
+        self.assertEqual(self.chart._graphs, [(s, o2)])
+        self.assertEqual(len(logger.log), 5)
+        self.chart.addGraph(s)
+        self.assertEqual(self.chart._graphs, [(s, o2), (s, o1)])
+        self.assertEqual(len(logger.log), 6)
 
 
     def testCaptionText(self):
         """Tests the :attr:`captionText` property."""
+        queueDrawLogger = replaceWithLogger(self.chart.queue_draw)
+        updateChartAreaLogger = replaceWithLogger(self.chart._updateChartArea)
+
         self.chart.captionText = 'This is a caption.'
         self.assertEqual(self.chart.captionText, 'This is a caption.')
+        self.assertEqual(len(queueDrawLogger.log), 1)
+        self.assertEqual(len(updateChartAreaLogger.log), 1)
+
         self.chart.captionText = ''
         self.assertEqual(self.chart.captionText, '')
+        self.assertEqual(len(queueDrawLogger.log), 2)
+        self.assertEqual(len(updateChartAreaLogger.log), 2)
+
         self.chart.captionText = None
         self.assertEqual(self.chart.captionText, None)
+        self.assertEqual(len(queueDrawLogger.log), 3)
+        self.assertEqual(len(updateChartAreaLogger.log), 3)
 
 
-    def testminCaptionLines(self):
+    def testMinCaptionLines(self):
         """Tests the :attr:`minCaptionLines` property."""
+        queueDrawLogger = replaceWithLogger(self.chart.queue_draw)
+        updateChartAreaLogger = replaceWithLogger(self.chart._updateChartArea)
+
         self.chart.minCaptionLines = 3
         self.assertEqual(self.chart.minCaptionLines, 3)
+        self.assertEqual(len(queueDrawLogger.log), 1)
+        self.assertEqual(len(updateChartAreaLogger.log), 1)
+
         self.chart.minCaptionLines = 0
         self.assertEqual(self.chart.minCaptionLines, 0)
+        self.assertEqual(len(queueDrawLogger.log), 2)
+        self.assertEqual(len(updateChartAreaLogger.log), 2)
+
         self.assertRaises(
-            ApplicationError, setattr, self.chart, 'minCaptionLines', -1)
+            ValueError, setattr, self.chart, 'minCaptionLines', -1)
+        self.assertEqual(len(queueDrawLogger.log), 2)
+        self.assertEqual(len(updateChartAreaLogger.log), 2)
 
 
-    def testExposeHandler(self):
-        """Tests the :meth:`_exposeHandler` method."""
-        logger = wrapLogger(self.chart._draw)
-        self.chart._exposeHandler()
-        self.assertEqual(logger.log, [()])
+    def testChartArea(self):
+        """Tests the :attr:`chartArea` property."""
+        self.chart._chartArea = 'dummy'
+        self.assertEqual(self.chart.chartArea, 'dummy')
+
+        self.assertRaises(AttributeError, setattr, self.chart, 'chartArea',
+            gui.charting.chart.Border(10, 10, 10, 10))
 
 
-    def testDrawEmpty(self):
-        """Tests the :meth:`_draw` method without graphs."""
-        self.chart.setAbscissa(100, 'a')
+    def testUpdateChartArea(self):
+        """Tests the :meth:`_updateChartArea` method."""
+        oldBorder = gui.charting.chart.BORDER
+        Border = gui.charting.chart.Border
+        try:
+            gui.charting.chart.BORDER = Border(10, 10, 10, 10)
+            self.chart._updateChartArea()
+            self.assertEqual(self.chart.chartArea, (10, 10, 980, 480))
+
+            gui.charting.chart.BORDER = Border(100, 100, 100, 100)
+            self.chart._updateChartArea()
+            self.assertEqual(self.chart.chartArea, (100, 100, 800, 300))
+
+            def fakeGetPixelSize():
+                return (
+                    1000,
+                    self.chart._captionLayout.get_text().count('\n') * 25 + 25)
+
+            self.chart._captionLayout.get_pixel_size = fakeGetPixelSize
+
+            self.chart.minCaptionLines = 2
+            self.chart._updateChartArea()
+            self.assertEqual(self.chart.chartArea, (100, 100, 800, 250))
+
+            self.chart.captionText = 'foo'
+            self.chart._updateChartArea()
+            self.assertEqual(self.chart.chartArea, (100, 100, 800, 250))
+
+            self.chart.minCaptionLines = 0
+            self.chart._updateChartArea()
+            self.assertEqual(self.chart.chartArea, (100, 100, 800, 275))
+
+            self.chart.captionText = 'foo\nbar\nbaz\nqux\nquux'
+            self.chart._updateChartArea()
+            self.assertEqual(self.chart.chartArea, (100, 100, 800, 175))
+
+            self.chart.minCaptionLines = 2
+            self.chart._updateChartArea()
+            self.assertEqual(self.chart.chartArea, (100, 100, 800, 175))
+
+            self.chart.minCaptionLines = 6
+            self.chart._updateChartArea()
+            self.assertEqual(self.chart.chartArea, (100, 100, 800, 150))
+        finally:
+            gui.charting.chart.BORDER = oldBorder
+
+
+    def testDraw(self):
+        """Tests the :meth:`_draw` method."""
+        createGCsLogger = wrapLogger(self.chart._createGraphicsContexts)
+        drawBackgroundLogger = wrapLogger(self.chart._drawBackground)
+        drawRectangleLogger = wrapLogger(self.chart._drawChartAreaRectangle)
+        drawCaptionLogger = wrapLogger(self.chart._drawCaption)
+        drawAxesLogger = wrapLogger(self.chart._drawAxes)
+        drawGraphsLogger = wrapLogger(self.chart._drawGraphs)
+        drawNoDataMessageLogger = wrapLogger(self.chart._drawNoDataMessage)
+
         self.chart._draw()
-        self.chart.setSecondaryOrdinate(1, 'a / b')
-        # Just check for errors.
+        self.assertEqual(len(createGCsLogger.log), 1)
+        self.assertEqual(len(drawGraphsLogger.log), 0)
+        self.assertEqual(len(drawNoDataMessageLogger.log), 1)
+
         self.chart._draw()
-        # And again, since drawing for the first time is a special case.
+        self.assertEqual(len(createGCsLogger.log), 1)
+        self.assertEqual(len(drawGraphsLogger.log), 0)
+        self.assertEqual(len(drawNoDataMessageLogger.log), 2)
+
+        self.chart.addGraph(Stub(None, draw=fun(None)))
         self.chart._draw()
+        self.assertEqual(len(createGCsLogger.log), 1)
+        self.assertEqual(len(drawGraphsLogger.log), 1)
+        self.assertEqual(len(drawNoDataMessageLogger.log), 2)
+
+        self.assertEqual(len(drawBackgroundLogger.log), 3)
+        self.assertEqual(len(drawRectangleLogger.log), 3)
+        self.assertEqual(len(drawCaptionLogger.log), 3)
+        self.assertEqual(len(drawAxesLogger.log), 3)
 
 
-    def testDrawNonempty(self):
-        """Tests the :meth:`_draw` method with graphs."""
-        self.chart.setSecondaryOrdinate(100, 'a / b')
-        self._addFunctions(self.chart.addFunction)
-        self._addFunctions(self.chart.addSecondaryFunction)
-        self._addPoints(self.chart.addPoints)
-        self._addPoints(self.chart.addSecondaryPoints)
-        # Just check for errors.
-        self.chart._draw()
-        # And again, since drawing for the first time is a special case.
-        self.chart._draw()
-
-
-    # _drawBackground is covered by testDrawEmpty and testDrawNonempty
+    # _createGraphicsContexts is covered by testDraw
+    # _drawBackground is covered by testDraw
+    # _drawChartAreaRectangle is covered by testDraw
 
 
     def testDrawCaption(self):
         """Tests the :meth:`_drawCaption` method."""
+        logger = replaceWithLogger(self.chart.window.draw_layout)
+
+        self.chart.captionText = 'foo'
         self.chart._drawCaption()
-        self.assertEqual(self.chart._captionHeight, 0)
+        self.assertEqual(len(logger.log), 0)
 
-        self.chart.minCaptionLines = 1
+        self.chart.addGraph(Stub(None, draw=fun(None)))
         self.chart._drawCaption()
-        captionHeightOneLine = self.chart._captionHeight
-        self.assertTrue(captionHeightOneLine > 0)
+        self.assertEqual(len(logger.log), 1)
 
-        self.chart.minCaptionLines = 0
-        self.chart.captionText = 'x'
+        self.chart.captionText = ''
         self.chart._drawCaption()
-        self.assertEqual(self.chart._captionHeight, captionHeightOneLine)
+        self.assertEqual(len(logger.log), 1)
 
-        self.chart.minCaptionLines = 3
+        self.chart.captionText = None
         self.chart._drawCaption()
-        captionHeightThreeLines = self.chart._captionHeight
-        self.assertTrue(captionHeightThreeLines > captionHeightOneLine)
-
-        self.chart.minCaptionLines = 0
-        self.chart.captionText = 'x\nx\nx'
-        self.chart._drawCaption()
-        self.assertEqual(self.chart._captionHeight, captionHeightThreeLines)
+        self.assertEqual(len(logger.log), 1)
 
 
-    # _drawFrame is covered by testDrawEmpty and testDrawNonempty
-    # _drawNoDataMessage is covered by testDrawEmpty
+    def testDrawAxes(self):
+        """Tests the :meth:`_drawAxes` method."""
+        aLogger = replaceWithLogger(self.chart.abscissa.draw)
+        oLogger = replaceWithLogger(self.chart.ordinate.draw)
+        o2Logger = replaceWithLogger(self.chart.secondaryOrdinate.draw)
+
+        self.chart._drawAxes()
+        self.assertEqual(len(aLogger.log), 1)
+        self.assertEqual(len(oLogger.log), 1)
+        self.assertEqual(len(o2Logger.log), 0)
+
+        self.chart.showSecondaryOrdinate = True
+        self.chart._drawAxes()
+        self.assertEqual(len(aLogger.log), 2)
+        self.assertEqual(len(oLogger.log), 2)
+        self.assertEqual(len(o2Logger.log), 1)
+
+        self.chart.showSecondaryOrdinate = False
+        self.chart._drawAxes()
+        self.assertEqual(len(aLogger.log), 3)
+        self.assertEqual(len(oLogger.log), 3)
+        self.assertEqual(len(o2Logger.log), 1)
 
 
-    def testGetChartArea(self):
-        """Tests the :meth:`getChartArea` method."""
-        oldBorderWidth = gui.charting.chart.BORDER_WIDTH
-        try:
-            gui.charting.chart.BORDER_WIDTH = (10, 10, 10, 10)
-            self.assertEqual(self.chart.getChartArea(), (10, 10, 980, 480))
-            gui.charting.chart.BORDER_WIDTH = (100, 100, 100, 100)
-            self.assertEqual(self.chart.getChartArea(), (100, 100, 800, 300))
-            self.chart._captionHeight = 50
-            self.assertEqual(self.chart.getChartArea(), (100, 100, 800, 250))
-        finally:
-            gui.charting.chart.BORDER_WIDTH = oldBorderWidth
+    def testDrawGraphs(self):
+        """Tests the :meth:`_drawGraphs` method."""
+        stub1 = Stub(None, draw=fun(None))
+        stub2 = Stub(None, draw=fun(None))
 
+        self.chart.addGraph(stub1)
+        self.chart.addSecondaryGraph(stub2)
+
+        self.chart._drawGraphs()
+
+        self.assertEqual(stub1.log,
+            [('draw',
+              (self.chart, self.chart.abscissa, self.chart.ordinate),
+              None)])
+        self.assertEqual(stub2.log, [])
+
+        self.chart.showSecondaryOrdinate = True
+        self.chart._drawGraphs()
+        self.assertEqual(len(stub1.log), 2)
+        self.assertEqual(stub2.log,
+            [('draw',
+             (self.chart, self.chart.abscissa, self.chart.secondaryOrdinate),
+             None)])
+
+
+    # _drawNoDataMessage is covered by testDraw
 

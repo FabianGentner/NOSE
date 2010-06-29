@@ -55,8 +55,7 @@ if __name__ == '__main__':
         'guitest.calibrationtest.progresstest',
         'guitest.calibrationtest.entrytest',
 
-        # FIXME
-        #'guitest.chartingtest.charttest',
+        'guitest.chartingtest.charttest',
         'guitest.chartingtest.axistest',
         'guitest.chartingtest.graphtest',
 
