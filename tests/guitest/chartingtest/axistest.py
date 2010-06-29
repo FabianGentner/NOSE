@@ -76,11 +76,14 @@ class AxisTests(unittest.TestCase):
 
     def testMaxValue(self):
         """Tests the :attr:`maxValue` property."""
-        for test in (100.0, 75, 0.5, 10.0):
-            for axis in self.axes:
+        logger = replaceWithLogger(self.chart.queue_draw)
+
+        for a, test in enumerate((100.0, 75, 0.5, 10.0)):
+            for b, axis in enumerate(self.axes, start=1):
                 axis.maxValue = test
                 self.assertEqual(axis.maxValue, test)
                 self.assertTrue(isinstance(axis.maxValue, float))
+                self.assertEqual(len(logger.log), 3 * a + b)
 
         for test in (0.0, 0.00001, -10, -23.0):
             for axis in self.axes:
@@ -89,10 +92,13 @@ class AxisTests(unittest.TestCase):
 
     def testdimensionLabelText(self):
         """Test the :attr:`dimensionLabelText` property."""
-        for text in ('a', 'a / b', 'a / b / c', '', None):
-            for axis in self.axes:
+        logger = replaceWithLogger(self.chart.queue_draw)
+
+        for a, text in enumerate(('a', 'a / b', 'a / b / c', '', None)):
+            for b, axis in enumerate(self.axes, start=1):
                 axis.dimensionLabelText = text
                 self.assertEqual(axis.dimensionLabelText, text)
+                self.assertEqual(len(logger.log), 3 * a + b)
 
 
     def testDraw(self):
