@@ -18,9 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with NOSE. If not, see <http://www.gnu.org/licenses/>.
 
-import gc
 import unittest
-import weakref
 
 from test import *
 from ops.calibration.data import CalibrationData
@@ -40,14 +38,6 @@ class ChartHandlerTests(unittest.TestCase):
         self.mediator = gui.mediator.Mediator()
         self.system = ops.system.ProductionSystem(self.mediator)
         self.handler = gui.calibration.charts.ChartHandler(self.system)
-
-
-    def testGC(self):
-        """Make sure the class is properly garbage-collected."""
-        wr = weakref.ref(self.handler)
-        self.handler = None
-        gc.collect()
-        self.assertEqual(wr(), None)
 
 
     def testWidgets(self):

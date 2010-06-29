@@ -164,20 +164,20 @@ class ChartHandler(object):
         """
         Creates the widgets this class is responsible for.
         """
-        def doCreate(name, abscissaText, ordinateText, secondaryOrdinateText):
+        def doCreate(abscissaText, ordinateText, secondaryOrdinateText):
             chart = Chart()
             chart.minCaptionLines = MIN_CAPTION_LINES
             chart.set_size_request(*CHART_SIZE)
             chart.abscissa.dimensionLabelText = abscissaText
             chart.ordinate.dimensionLabelText = ordinateText
             chart.secondaryOrdinate.dimensionLabelText = secondaryOrdinateText
-            setattr(self, name, chart)
+            return chart
 
         iText, tText, uText = DIMENSION_LABEL_TEXTS
 
-        doCreate('_measurementsChart', iText, tText, uText)
-        doCreate('_temperatureChart',  uText, tText, None)
-        doCreate('_currentChart',      tText, iText, None)
+        self._measurementsChart = doCreate(iText, tText, uText)
+        self._temperatureChart  = doCreate(uText, tText, None)
+        self._currentChart      = doCreate(tText, iText, None)
 
         self._measurementsChart.showSecondaryOrdinate = True
 
@@ -200,18 +200,18 @@ class ChartHandler(object):
         maxValues of the charts' axes and calls the :meth:`set{Axis}` methods
         of the charts.
         """
+        def doUpdate(chart, abscissaMax, ordinateMax, secondaryOrdinateMax):
+            chart.abscissa.maxValue = abscissaMax
+            chart.ordinate.maxValue = ordinateMax
+            if secondaryOrdinateMax != None:
+                chart.secondaryOrdinate.maxValue = secondaryOrdinateMax
+
         maxValues = (
             system.maxHeatingCurrent,
             system.maxSafeTemperature,
             system.maxSafeTemperatureSensorVoltage)
 
         maxI, maxT, maxU = maxValues
-
-        def doUpdate(chart, abscissaMax, ordinateMax, secondaryOrdinateMax):
-            chart.abscissa.maxValue = abscissaMax
-            chart.ordinate.maxValue = ordinateMax
-            if secondaryOrdinateMax != None:
-                chart.secondaryOrdinate.maxValue = secondaryOrdinateMax
 
         doUpdate(self.measurementsChart, maxI, maxT, maxU)
         doUpdate(self.temperatureChart,  maxU, maxT, None)
@@ -231,107 +231,67 @@ class ChartHandler(object):
         Unpacks the given :class:`CalibrationData` object, and calls
         :meth:`_updateChart` for each chart with the appropriate data.
         """
-        if cd.isComplete:
-            ift = cd.getCurrentFromTargetTemperature
-            tfi = cd.getFinalTemperatureFromCurrent
-            tfu = cd.getTemperatureFromVoltage
-        else:
-            ift = tfi = tfu = None
+        self.measurementsChart.clearGraphs()
+        self.temperatureChart.clearGraphs()
+        self.currentChart.clearGraphs()
 
-        itPoints = zip(cd.heatingCurrents, cd.temperatures)
-        iuPoints = zip(cd.heatingCurrents, cd.temperatureSensorVoltages)
-        utPoints = zip(cd.temperatureSensorVoltages, cd.temperatures)
-        tiPoints = zip(cd.temperatures, cd.heatingCurrents)
+        if cd.hasMeasurements:
+            itPoints = zip(cd.heatingCurrents, cd.temperatures)
+            iuPoints = zip(cd.heatingCurrents, cd.temperatureSensorVoltages)
+            utPoints = zip(cd.temperatureSensorVoltages, cd.temperatures)
+            tiPoints = zip(cd.temperatures, cd.heatingCurrents)
 
-        ic, tc, uc = COLORS
+            iColor, tColor, uColor = COLORS
 
-        parameters = (
-            ('measurementsChart', (tfi, tc), (itPoints, tc), (iuPoints, uc)),
-            ('temperatureChart',  (tfu, tc), (utPoints, tc), None),
-            ('currentChart',      (ift, ic), (tiPoints, ic), None))
+            self.measurementsChart.addGraph(PointGraph(itPoints, tColor))
+            self.temperatureChart.addGraph(PointGraph(utPoints, tColor))
+            self.currentChart.addGraph(PointGraph(tiPoints, iColor))
 
-        for p in parameters:
-            self._updateChart(*p)
+            self.measurementsChart.addSecondaryGraph(
+                PointGraph(iuPoints, uColor, style='diamonds'))
 
+            if cd.isComplete:
+                self.measurementsChart.addGraph(FunctionGraph(
+                    cd.getFinalTemperatureFromCurrent, tColor, False))
+                self.temperatureChart.addGraph(FunctionGraph(
+                    cd.getTemperatureFromVoltage, tColor, False))
+                self.currentChart.addGraph(FunctionGraph(
+                    cd.getCurrentFromTargetTemperature, iColor, False))
 
-    def _updateChart(self, name, function, points, secondaryPoints=None):
-        """
-        Removes all graphs from the named chart and replaces them with graphs
-        generated from the passed data. The parameters `function`, `points`,
-        and `secondaryPoints`, are tuples that are used as parameters for the
-        corresponding ``add`` methods of :class:`~gui.charting.chart.Chart`.
-        If a parameters is ``None``, the zeroth element of `function` is
-        ``None``, or the number of points is zero, the corresponing chart is
-        not added.
-        """
-        chart = getattr(self, name)
-        chart.clearGraphs()
+                captions = COMPLETE_CAPTIONS
+            else:
+                captions = INCOMPLETE_CAPTIONS
 
-        hasFunction = (function != None and function[0] != None)
-        hasPoints = (points != None and len(points[0]) > 0)
-        hasSecondaryPoints = (secondaryPoints != None and len(points[0]) > 0)
-
-        # If there is a function, there should be points as well; if there
-        # are secondary points, there should be primary points as well.
-        assert (not hasFunction) or hasPoints
-        assert (not hasSecondaryPoints) or hasPoints
-
-        # Add graphs.
-        if hasFunction:
-            chart.addGraph(FunctionGraph(*function, drawOnFrame=False))
-        if hasPoints:
-            chart.addGraph(PointGraph(*points))
-        if hasSecondaryPoints:
-            chart.addSecondaryGraph(
-                PointGraph(*secondaryPoints, style='diamonds'))
-
-        # Adjust caption.
-        captionName = name[:-5].upper() + '_' + name[-5:].upper()
-        captionName += '_POINTS_ONLY' if not hasFunction else ''
-        captionName += '_CAPTION'
-        chart.captionText = globals()[captionName]
+            self.measurementsChart.captionText = captions[0]
+            self.temperatureChart.captionText = captions[1]
+            self.currentChart.captionText = captions[2]
 
 
 ###############################################################################
 # CAPTIONS                                                                    #
 ###############################################################################
 
-#: The caption used for the measurements chart if the estimation function
-#: has been fitted.
-MEASUREMENTS_CHART_CAPTION = gettext(
-    'Shown are the final heating temperatures (red squares) and '
+#: A tuple of the captions used for the measurements chart, temperature chart,
+#: and current chart if the estimation function could be fitted.
+COMPLETE_CAPTIONS = (
+    gettext('Shown are the final heating temperatures (red squares) and '
     'temperature sensor voltages (blue diamonds) measured for the given '
-    'heating currents.')
-
-#: The caption used for the measurements chart if the estimation function
-#: has not been fitted.
-MEASUREMENTS_CHART_POINTS_ONLY_CAPTION = gettext(
-    'Shown are the final heating temperatures (red squares) and '
-    'temperature sensor voltages (blue squares) measured for the given '
-    'heating currents.')
-
-#: The caption used for the temperature chart if the estimation function
-#: has been fitted.
-TEMPERATURE_CHART_CAPTION = gettext(
-    'Shown are the heating temperatures measured for the given '
+    'heating currents, and the estimation functions for final heating '
+    'temperatures (red curve).'),
+    gettext('Shown are the heating temperatures measured for the given '
     'temperature sensor voltages (red squares) and the estimation '
-    'function for heating temperatures (red curve).')
+    'function for heating temperatures (red curve).'),
+    gettext('Shown are the heating currents used to reach the given '
+    'temperatures (orange squares) and the estimation function for the '
+    'heating current (orange curve).'))
 
-#: The caption used for the temperature chart if the estimation function
-#: has not been fitted.
-TEMPERATURE_CHART_POINTS_ONLY_CAPTION = gettext(
-    'Shown are the heating temperatures measured for the given '
-    'temperature sensor voltages.')
-
-#: The caption used for the current chart if the estimation function
-#: has been fitted.
-CURRENT_CHART_CAPTION = gettext(
-    'Shown are the heating currents used to reach the given temperatures '
-    '(orange squares) and the estimation function for the heating current '
-    '(orange curve).')
-
-#: The caption used for the current chart if the estimation function
-#: has not been fitted.
-CURRENT_CHART_POINTS_ONLY_CAPTION = gettext(
-    'Shown are the heating currents used to reach the given temperatures.')
-
+#: A tuple of the captions used for the measurements chart, temperature chart,
+#: and current chart if the estimation function could not be fitted.
+INCOMPLETE_CAPTIONS = (
+    gettext('Shown are the final heating temperatures (red squares) and '
+    'temperature sensor voltages (blue diamonds) measured for the given '
+    'heating currents.'),
+    gettext('Shown are the heating temperatures measured for the given '
+    'temperature sensor voltages (red squares).'),
+    gettext('Shown are the heating currents used to reach the given '
+    'temperatures (orange squares).'))
