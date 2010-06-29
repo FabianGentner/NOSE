@@ -22,10 +22,9 @@ import gtk
 import unittest
 
 from test import *
-from util import ApplicationError
+from gui.charting.axis import *
 
 import gui.charting.chart
-import gui.charting.axis
 
 
 class AxisTests(unittest.TestCase):
@@ -36,9 +35,10 @@ class AxisTests(unittest.TestCase):
 
     def setUp(self):
         self.chart = gui.charting.chart.Chart()
-        self.abscissa = gui.charting.axis.Abscissa(self.chart)
-        self.ordinate = gui.charting.axis.Ordinate(self.chart)
-        self.ordinate2 = gui.charting.axis.SecondaryOrdinate(self.chart)
+        self.abscissa = self.chart.abscissa
+        self.ordinate = self.chart.ordinate
+        self.ordinate2 = self.chart.secondaryOrdinate
+
         self.axes = (self.abscissa, self.ordinate, self.ordinate2)
 
         self.oldMinTickDistance = gui.charting.axis.MIN_TICK_DISTANCE
@@ -62,6 +62,13 @@ class AxisTests(unittest.TestCase):
             self.oldOrdinateMinTickLabelDistance
 
 
+    def testClasses(self):
+        """Checks that the correct classes are used for the axes."""
+        self.assertTrue(isinstance(self.abscissa, Abscissa))
+        self.assertTrue(isinstance(self.ordinate, Ordinate))
+        self.assertTrue(isinstance(self.ordinate2, SecondaryOrdinate))
+
+
     def testCreateAxis(self):
         """Tries creating an :class:`Axis`."""
         self.assertRaises(TypeError, gui.charting.axis.Axis, None)
@@ -77,8 +84,7 @@ class AxisTests(unittest.TestCase):
 
         for test in (0.0, 0.00001, -10, -23.0):
             for axis in self.axes:
-                self.assertRaises(ApplicationError,
-                    setattr, axis, 'maxValue', test)
+                self.assertRaises(ValueError, setattr, axis, 'maxValue', test)
 
 
     def testdimensionLabelText(self):
@@ -244,8 +250,8 @@ class AbscissaTests(unittest.TestCase):
 
     def setUp(self):
         self.chart = gui.charting.chart.Chart()
-        self.chart.getChartArea = lambda: (50, 50, 200, 100)
-        self.abscissa = gui.charting.axis.Abscissa(self.chart)
+        self.chart._chartArea = (50, 50, 200, 100)
+        self.abscissa = self.chart.abscissa
 
         self.oldLabelSpacing =  gui.charting.axis.ABSCISSA_TO_LABEL_SPACING
         self.oldDimensionLabelPosition = \
@@ -326,9 +332,9 @@ class OrdinateTests(unittest.TestCase):
 
     def setUp(self):
         self.chart = gui.charting.chart.Chart()
-        self.chart.getChartArea = lambda: (50, 50, 200, 100)
-        self.ordinate = gui.charting.axis.Ordinate(self.chart)
-        self.ordinate2 = gui.charting.axis.SecondaryOrdinate(self.chart)
+        self.chart._chartArea = (50, 50, 200, 100)
+        self.ordinate = self.chart.ordinate
+        self.ordinate2 = self.chart.secondaryOrdinate
 
         self.oldLabelSpacing =  gui.charting.axis.ORDINATE_TO_LABEL_SPACING
         self.oldDimensionLabelPosition = \
