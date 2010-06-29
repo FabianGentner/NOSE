@@ -228,8 +228,9 @@ class ChartHandler(object):
 
     def _updateGraphs(self, cd):
         """
-        Unpacks the given :class:`CalibrationData` object, and calls
-        :meth:`_updateChart` for each chart with the appropriate data.
+        Clears the charts' graphs, then creates new ones from the given
+        calibration data object. Also adjusts the charts' captions depending
+        on whether the calibration data is complete.
         """
         self.measurementsChart.clearGraphs()
         self.temperatureChart.clearGraphs()
