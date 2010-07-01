@@ -114,10 +114,6 @@ class ParameterWidgetHandler(object):
     # WIDGET CREATION                                                         #
     ###########################################################################
 
-    # FIXME: Almost certainly creates lots of superfluous alignments.
-    # In particular, unit boxes no longer expand.
-
-
     def _createWidgets(self):
         """
         Creates the widgets this class is responsible for.
@@ -154,9 +150,8 @@ class ParameterWidgetHandler(object):
             'key-press-event', self._handleSpecialKeyPresses, '_singleCurrent')
         box.set_sensitive(False)
 
-        table.attach(
-            alignLeftCenterFill(self._singleCurrentRadioButton), 0, 1, 0, 1)
-        table.attach(alignLeft(box), 1, 2, 0, 1)
+        table.attach(self._singleCurrentRadioButton, 0, 1, 0, 1)
+        table.attach(box, 1, 2, 0, 1)
 
         self._singleCurrentEntry = entry
         self._singleCurrentWidgets = [box]
@@ -171,8 +166,7 @@ class ParameterWidgetHandler(object):
         self._currentSeriesRadioButton.connect(
             'toggled', self._handleRadioToggle)
 
-        table.attach(
-            alignLeftCenterFill(self._currentSeriesRadioButton), 0, 2, 1, 2)
+        table.attach(self._currentSeriesRadioButton, 0, 2, 1, 2)
 
         self._currentSeriesWidgets = []
         data = (
@@ -181,15 +175,15 @@ class ParameterWidgetHandler(object):
             (4, '_maxCurrent',       gettext('_Maximum Current')))
 
         for row, name, text in data:
-            entry, la, ba = self._addEntyBoxLine(table, row, text)
+            entry, label, box = self._addEntyBoxLine(table, row, text)
             entry.set_text(str(getattr(self, name)))
             entry.connect(
                 'focus-out-event', self._handleParameterChange, name)
             entry.connect(
                 'key-press-event', self._handleSpecialKeyPresses, name)
             setattr(self, name + 'Entry', entry)
-            self._currentSeriesWidgets.append(la)
-            self._currentSeriesWidgets.append(ba)
+            self._currentSeriesWidgets.append(label)
+            self._currentSeriesWidgets.append(box)
 
         self._usedCurrentsComboBox = gtk.combo_box_new_text()
         self._usedCurrentsComboBox.append_text('Skip')
@@ -197,11 +191,9 @@ class ParameterWidgetHandler(object):
         self._usedCurrentsComboBox.set_active(0)
 
         usedCurrentsLabel = createMnemonicLabel(self._usedCurrentsComboBox,
-            gettext('_Previously Used Currents'))
-        usedCurrentsLabelAlign = alignLeftCenter(usedCurrentsLabel)
-        usedCurrentsLabelAlign.set_padding(0, 0, RADIO_DEPENDENT_INDENT, 0)
+            '\t' + gettext('_Previously Used Currents'))
 
-        table.attach(usedCurrentsLabelAlign,     0, 1, 5, 6)
+        table.attach(usedCurrentsLabel,          0, 1, 5, 6)
         table.attach(self._usedCurrentsComboBox, 1, 2, 5, 6)
 
         self._currentSeriesWidgets.append(usedCurrentsLabel)
@@ -212,16 +204,12 @@ class ParameterWidgetHandler(object):
 
     def _addEntyBoxLine(self, table, row, labelText):
         entry, box = createNumberEntryWithUnit(gettext('mA'))
-        boxAlign = alignLeft(box)
+        label = createMnemonicLabel(entry, '\t' + labelText)
 
-        label = createMnemonicLabel(entry, labelText)
-        labelAlign = alignLeftCenter(label)
-        labelAlign.set_padding(0, 0, RADIO_DEPENDENT_INDENT, 0)
+        table.attach(label, 0, 1, row, row + 1)
+        table.attach(box,   1, 2, row, row + 1)
 
-        table.attach(labelAlign, 0, 1, row, row + 1)
-        table.attach(boxAlign,   1, 2, row, row + 1)
-
-        return entry, labelAlign, boxAlign
+        return entry, label, box
 
 
     ###########################################################################
