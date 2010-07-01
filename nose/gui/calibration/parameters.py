@@ -155,7 +155,7 @@ class ParameterWidgetHandler(object):
             'key-press-event', self._handleSpecialKeyPresses, '_singleCurrent')
         box.set_sensitive(False)
 
-        table.attach(self._singleCurrentRadioButton, 0, 1, 0, 1)
+        table.attach(self._singleCurrentRadioButton, 0, 1, 0, 1, yoptions=0)
         table.attach(box, 1, 2, 0, 1)
 
         self._singleCurrentEntry = entry
