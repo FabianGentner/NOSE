@@ -32,6 +32,7 @@ the user has specified can be retrieved using its
 import gtk
 
 from gui.widgets import *
+from ops.event import SystemPropertiesChanged
 from util import gettext, ngettext
 
 
@@ -74,6 +75,9 @@ class ParameterWidgetHandler(object):
         self._startingCurrent = system.heatingCurrentInSafeMode
         self._currentIncrement = DEFAULT_CURRENT_INCREMENT
         self._maxCurrent = system.maxHeatingCurrent
+
+        system.mediator.addListener(
+            self._handleSystemPropertiesChange, SystemPropertiesChanged)
 
         self._createWidgets()
 
@@ -334,3 +338,20 @@ class ParameterWidgetHandler(object):
             widget.set_sensitive(not series)
         for widget in self._currentSeriesWidgets:
             widget.set_sensitive(series)
+
+
+    def _handleSystemPropertiesChange(self, event):
+        """
+        Called when a property of :attr:`_system` changes. If the changed
+        property is :attr:`~ops.system.ProductionSystem.maxHeatingCurrent`,
+        ensures that :attr:`_singleCurrent`, :attr:`_startingCurrent`, and
+        :attr:`_maxCurrent` are still legal.
+        """
+        if event.name == 'maxHeatingCurrent':
+            iMax = self._system.maxHeatingCurrent
+
+            for name in ('_singleCurrent', '_startingCurrent', '_maxCurrent'):
+                if getattr(self, name) > iMax:
+                    setattr(self, name, iMax)
+                    getattr(self, name + 'Entry').set_text(str(iMax))
+
