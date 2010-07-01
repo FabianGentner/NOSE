@@ -137,10 +137,15 @@ class ParameterWidgetHandler(object):
 
 
     def _createSingleCurrentWidgets(self, table):
+        """
+        Creates the radio button for single current mode and the entry for the
+        current and adds them to the given table.
+        """
         self._singleCurrentRadioButton = gtk.RadioButton(
             None,
             gettext('Use _a Single Heating Current'),
             use_underline=True)
+        # The signal handler is connected to the current series radio button.
 
         entry, box = createNumberEntryWithUnit(gettext('mA'))
         entry.set_text(str(self._singleCurrent))
@@ -158,6 +163,22 @@ class ParameterWidgetHandler(object):
 
 
     def _createCurrentSeriesWidgets(self, table):
+        """
+        Creates the radio button for current series mode and the various
+        widgets used to specify the current series, and adds them to the
+        given table.
+        """
+        self._currentSeriesWidgets = []
+        self._createCurrentSeriesRadioButton(table)
+        self._createCurrentSeriesEntries(table)
+        self._createUsedCurrentsComboBox(table)
+
+
+    def _createCurrentSeriesRadioButton(self, table):
+        """
+        Creates the radio button for current series mode and adds it to the
+        given table.
+        """
         self._currentSeriesRadioButton = gtk.RadioButton(
             self._singleCurrentRadioButton,
             gettext('Use a S_eries of Heating Currents'),
@@ -168,29 +189,49 @@ class ParameterWidgetHandler(object):
 
         table.attach(self._currentSeriesRadioButton, 0, 2, 1, 2)
 
-        self._currentSeriesWidgets = []
+
+    def _createCurrentSeriesEntries(self, table):
+        """
+        Creates the entry widgets used to specify the current series and the
+        associated labels, and adds them to the given table.
+        """
         data = (
             (2, '_startingCurrent',  gettext('_Starting Current')),
             (3, '_currentIncrement', gettext('Current _Increment')),
             (4, '_maxCurrent',       gettext('_Maximum Current')))
 
-        for row, name, text in data:
-            entry, label, box = self._addEntyBoxLine(table, row, text)
+        for row, name, labelText in data:
+            entry, box = createNumberEntryWithUnit(gettext('mA'))
+
             entry.set_text(str(getattr(self, name)))
             entry.connect(
                 'focus-out-event', self._handleParameterChange, name)
             entry.connect(
                 'key-press-event', self._handleSpecialKeyPresses, name)
             setattr(self, name + 'Entry', entry)
+
+            label = createMnemonicLabel(entry, '\t' + labelText)
+
+            table.attach(label, 0, 1, row, row + 1)
+            table.attach(box,   1, 2, row, row + 1)
+
             self._currentSeriesWidgets.append(label)
             self._currentSeriesWidgets.append(box)
 
+
+    def _createUsedCurrentsComboBox(self, table):
+        """
+        Creates the combo box used to specify whether currents with existing
+        measurements should be skipped and the associated label, and adds
+        them to the given table.
+        """
         self._usedCurrentsComboBox = gtk.combo_box_new_text()
         self._usedCurrentsComboBox.append_text('Skip')
         self._usedCurrentsComboBox.append_text('Replace Measurements')
         self._usedCurrentsComboBox.set_active(0)
 
-        usedCurrentsLabel = createMnemonicLabel(self._usedCurrentsComboBox,
+        usedCurrentsLabel = createMnemonicLabel(
+            self._usedCurrentsComboBox,
             '\t' + gettext('_Previously Used Currents'))
 
         table.attach(usedCurrentsLabel,          0, 1, 5, 6)
@@ -198,18 +239,6 @@ class ParameterWidgetHandler(object):
 
         self._currentSeriesWidgets.append(usedCurrentsLabel)
         self._currentSeriesWidgets.append(self._usedCurrentsComboBox)
-
-        return table
-
-
-    def _addEntyBoxLine(self, table, row, labelText):
-        entry, box = createNumberEntryWithUnit(gettext('mA'))
-        label = createMnemonicLabel(entry, '\t' + labelText)
-
-        table.attach(label, 0, 1, row, row + 1)
-        table.attach(box,   1, 2, row, row + 1)
-
-        return entry, label, box
 
 
     ###########################################################################
