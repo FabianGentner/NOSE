@@ -323,11 +323,14 @@ class ParameterWidgetHandler(object):
 
 
     def _handleRadioToggle(self, radioButton):
+        """
+        Called when :attr:`_currentSeriesRadioButton` is activated or
+        deactivated. Activates the current series widgets and deactivates
+        the single current widgets, or vice versa.
+        """
+        assert radioButton == self._currentSeriesRadioButton
         series = radioButton.get_active()
         for widget in self._singleCurrentWidgets:
             widget.set_sensitive(not series)
         for widget in self._currentSeriesWidgets:
             widget.set_sensitive(series)
-
-
-
