@@ -47,6 +47,7 @@ class SystemPropertiesChanged(Event):
 
     def __init__(self, system, name):
         self._system = system
+        self._name = name
 
     @property
     def system(self):
@@ -55,3 +56,10 @@ class SystemPropertiesChanged(Event):
         changed.
         """
         return self._system
+
+    @property
+    def name(self):
+        """
+        The name of the property that has been changed.
+        """
+        return self._name
