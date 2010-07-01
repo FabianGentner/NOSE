@@ -32,9 +32,6 @@ the user has specified can be retrieved using its
 import gtk
 
 from gui.widgets import *
-
-import util
-
 from util import gettext, ngettext
 
 
@@ -46,7 +43,6 @@ from util import gettext, ngettext
 #: the user enters an invalid value.
 BEEP = True
 
-
 #: The smallest legal input value for the single heating current and the
 #: starting current, in mA.
 MIN_CURRENT = 0.1
@@ -56,7 +52,6 @@ MIN_CURRENT_INCREMENT = 0.1
 
 #: The default current increment between heating stages, in mA.
 DEFAULT_CURRENT_INCREMENT = 2.0
-
 
 #: The maximum number of fractional digits parameters are allowed to have.
 MAX_FRACTIONAL_DIGITS = 2
@@ -103,15 +98,14 @@ class ParameterWidgetHandler(object):
             skipUsedCurrents = (self._usedCurrentsComboBox.get_active() == 0)
             usedCurrents = self._system.calibrationData.heatingCurrents
             currents = []
-            nextCurrent = self._startingCurrent
 
-            while True:   # FIXME: This is dangerous.
-                if nextCurrent <= self._maxCurrent:
-                    if not (skipUsedCurrents and nextCurrent in usedCurrents):
-                        currents.append(nextCurrent)
-                else:
-                    break
-                nextCurrent += self._currentIncrement
+            currentSpan = self._maxCurrent - self._startingCurrent
+            currentCount = int(currentSpan / self._currentIncrement) + 1
+
+            for n in xrange(currentCount):
+                current = self._startingCurrent + n * self._currentIncrement
+                if not (skipUsedCurrents and current in usedCurrents):
+                    currents.append(current)
 
             return tuple(currents)
 

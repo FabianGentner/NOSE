@@ -143,7 +143,7 @@ class SystemPropertiesDialogHandler(object):
             if name in ('heatingCurrentWhileIdle', 'heatingCurrentInSafeMode'):
                 maxValue = self.maxHeatingCurrent
             else:
-                maxValue = None
+                maxValue = 10000.0
 
             fixedValue = limit(value, minValue, maxValue)
 
