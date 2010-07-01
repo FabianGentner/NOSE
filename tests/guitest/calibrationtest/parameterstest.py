@@ -39,7 +39,7 @@ class ParameterWidgetHandlerTests(unittest.TestCase):
         gui.calibration.parameters.BEEP = False
         self.mediator = gui.mediator.Mediator()
         self.system = ops.system.ProductionSystem(self.mediator)
-        self.system.heatingCurrentInSafeMode = 2.0
+        self.system.heatingCurrentWhileIdle = 2.0
         self.system.maxHeatingCurrent = 36.0
         self.handler = ParameterWidgetHandler(self.system)
 

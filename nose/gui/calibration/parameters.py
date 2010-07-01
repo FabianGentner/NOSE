@@ -71,8 +71,8 @@ class ParameterWidgetHandler(object):
     def __init__(self, system):
         self._system = system
 
-        self._singleCurrent = system.heatingCurrentInSafeMode
-        self._startingCurrent = system.heatingCurrentInSafeMode
+        self._singleCurrent = system.heatingCurrentWhileIdle
+        self._startingCurrent = system.heatingCurrentWhileIdle
         self._currentIncrement = DEFAULT_CURRENT_INCREMENT
         self._maxCurrent = system.maxHeatingCurrent
 
