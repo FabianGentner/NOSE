@@ -154,7 +154,7 @@ class ParameterWidgetHandler(object):
         entry, box = createNumberEntryWithUnit(gettext('mA'))
         entry.set_text(str(self._singleCurrent))
         entry.connect(
-            'focus-out-event', self._handleParameterChange, '_singleCurrent')
+            'focus-out-event', self._handleFocusOutEvent, '_singleCurrent')
         entry.connect(
             'key-press-event', self._handleSpecialKeyPresses, '_singleCurrent')
         box.set_sensitive(False)
@@ -210,7 +210,7 @@ class ParameterWidgetHandler(object):
 
             entry.set_text(str(getattr(self, name)))
             entry.connect(
-                'focus-out-event', self._handleParameterChange, name)
+                'focus-out-event', self._handleFocusOutEvent, name)
             entry.connect(
                 'key-press-event', self._handleSpecialKeyPresses, name)
             setattr(self, name + 'Entry', entry)
@@ -260,7 +260,7 @@ class ParameterWidgetHandler(object):
         given entry.
         """
         if event.keyval == gtk.gdk.keyval_from_name('Return'):
-            self._handleParameterChange(entry, event, attributeName)
+            self._finalizeInput(entry, attributeName)
             entry.select_region(0, -1)   # selects the whole text
             return True
         elif event.keyval == gtk.gdk.keyval_from_name('Escape'):
@@ -271,25 +271,20 @@ class ParameterWidgetHandler(object):
             return False
 
 
-    def _handleParameterChange(self, entry, event, attributeName):
+    def _handleFocusOutEvent(self, entry, event, attributeName):
         """
-        Called when an edit of the value of a :class:`gtk.Entry`
-        is finalized (i.e., when it loses the focus or the user
-        presses return). The parameter `attributeName` is the
-        name of the attribute holding the last legal value of the
-        given entry.
+        Called when a :class:`gtk.Entry` loses the focus. Finalizes the input.
         """
-        self._checkEntryValue(entry, attributeName)
+        self._finalizeInput(entry, attributeName)
         return False
 
 
-    def _checkEntryValue(self, entry, attributeName):
+    def _finalizeInput(self, entry, attributeName):
         """
-        Checks whether the value of the given :class:`gtk.Entry` is valid. If
-        the value is out of range, it is are replaced with the closest valid
-        value. If it is non-numeric, it is replaced by the last legal value.
-        The parameter `attributeName` is the name of the attribute holding
-        the last legal value of the given entry.
+        Stores the value entered into the given :class:`gtk.Entry` in the
+        instance attribute with the given name. If the value is out of range,
+        it is replaced with the closest valid value first. If it isn't a
+        number, it is replaced with the value of the attribute instead.
         """
         ok = True
 
@@ -299,15 +294,12 @@ class ParameterWidgetHandler(object):
             fixedValue = getattr(self, attributeName)
             ok = False
         else:
+            iMaxSystem = self._system.maxHeatingCurrent
             limits = {
-                '_singleCurrent':
-                    (MIN_CURRENT, self._system.maxHeatingCurrent),
-                '_startingCurrent':
-                    (MIN_CURRENT, self._maxCurrent),
-                '_currentIncrement':
-                    (MIN_CURRENT_INCREMENT, None),
-                '_maxCurrent':
-                    (self._startingCurrent, self._system.maxHeatingCurrent)}
+                '_singleCurrent':    (MIN_CURRENT, iMaxSystem),
+                '_startingCurrent':  (MIN_CURRENT, self._maxCurrent),
+                '_currentIncrement': (MIN_CURRENT_INCREMENT, None),
+                '_maxCurrent':       (self._startingCurrent, iMaxSystem)}
 
             fixedValue = util.limit(value, *limits[attributeName])
 

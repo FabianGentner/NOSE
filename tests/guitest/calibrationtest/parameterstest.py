@@ -204,7 +204,7 @@ class ParameterWidgetHandlerTests(unittest.TestCase):
         """
         entry = getattr(self.handler, name + 'Entry')
         entry.set_text(text)
-        self.handler._handleParameterChange(entry, None, name)
+        self.handler._finalizeInput(entry, name)
         self.assertEqual(getattr(self.handler, name), expectedValue)
         self.assertEqual(entry.get_text(), str(expectedValue))
 
