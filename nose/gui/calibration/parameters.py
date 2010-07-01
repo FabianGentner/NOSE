@@ -148,10 +148,10 @@ class ParameterWidgetHandler(object):
 
         entry, box = createNumberEntryWithUnit(gettext('mA'))
         entry.set_text(str(self._singleCurrent))
-        entry.connect('focus-out-event',
-            util.WeakMethod(self._handleParameterChange), '_singleCurrent')
-        entry.connect('key-press-event',
-            util.WeakMethod(self._handleSpecialKeyPresses), '_singleCurrent')
+        entry.connect(
+            'focus-out-event', self._handleParameterChange, '_singleCurrent')
+        entry.connect(
+            'key-press-event', self._handleSpecialKeyPresses, '_singleCurrent')
         box.set_sensitive(False)
 
         table.attach(
@@ -168,8 +168,8 @@ class ParameterWidgetHandler(object):
             gettext('Use a S_eries of Heating Currents'),
             use_underline=True)
         self._currentSeriesRadioButton.set_active(True)
-        self._currentSeriesRadioButton.connect('toggled',
-            util.WeakMethod(self._handleRadioToggle))
+        self._currentSeriesRadioButton.connect(
+            'toggled', self._handleRadioToggle)
 
         table.attach(
             alignLeftCenterFill(self._currentSeriesRadioButton), 0, 2, 1, 2)
@@ -183,10 +183,10 @@ class ParameterWidgetHandler(object):
         for row, name, text in data:
             entry, la, ba = self._addEntyBoxLine(table, row, text)
             entry.set_text(str(getattr(self, name)))
-            entry.connect('focus-out-event',
-                util.WeakMethod(self._handleParameterChange), name)
-            entry.connect('key-press-event',
-                util.WeakMethod(self._handleSpecialKeyPresses), name)
+            entry.connect(
+                'focus-out-event', self._handleParameterChange, name)
+            entry.connect(
+                'key-press-event', self._handleSpecialKeyPresses, name)
             setattr(self, name + 'Entry', entry)
             self._currentSeriesWidgets.append(la)
             self._currentSeriesWidgets.append(ba)
