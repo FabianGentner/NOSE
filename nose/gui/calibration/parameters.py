@@ -155,7 +155,8 @@ class ParameterWidgetHandler(object):
             'key-press-event', self._handleSpecialKeyPresses, '_singleCurrent')
         box.set_sensitive(False)
 
-        table.attach(self._singleCurrentRadioButton, 0, 1, 0, 1, yoptions=0)
+        table.attach(
+            alignLeft(self._singleCurrentRadioButton), 0, 1, 0, 1, yoptions=0)
         table.attach(box, 1, 2, 0, 1)
 
         self._singleCurrentEntry = entry
@@ -187,7 +188,7 @@ class ParameterWidgetHandler(object):
         self._currentSeriesRadioButton.connect(
             'toggled', self._handleRadioToggle)
 
-        table.attach(self._currentSeriesRadioButton, 0, 2, 1, 2)
+        table.attach(alignLeft(self._currentSeriesRadioButton), 0, 2, 1, 2)
 
 
     def _createCurrentSeriesEntries(self, table):
